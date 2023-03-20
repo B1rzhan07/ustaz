@@ -122,6 +122,14 @@ const Profile = () => {
                       ? ' '
                       : userProfile?.pedagogicalExperience}
                   </p>
+                  <p className="fonts">
+                    {t('olympReg')}:{' '}
+                    {localStorage.getItem('register') ? (
+                      <b>{t('yes')}</b>
+                    ) : (
+                      <b>{t('no')}</b>
+                    )}
+                  </p>
                 </div>
                 <div className="buttons d-flex justify-content-around ml-5">
                   <button

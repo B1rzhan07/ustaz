@@ -10,7 +10,6 @@ const Footer: React.FC = () => {
   return (
     <div>
       <div className="footer">
-        <img src="https://almatyustazy.kz/img_almaty_ustaz/logo.svg" alt="" />
         <div>
           <b>
             <p>{t('contact')}</p>

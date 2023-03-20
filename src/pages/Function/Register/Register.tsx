@@ -104,7 +104,7 @@ const RegisterDoctor = () => {
       Number(all.pedagogicalExperienceCurrent),
       Number(all.pedagogicalExperience),
     )
-      .then((res: any) =>
+      .then((res: any) => {
         setAll({
           group: '',
           subject: '',
@@ -113,20 +113,18 @@ const RegisterDoctor = () => {
           englishProficiency: '',
           pedagogicalExperienceCurrent: '',
           pedagogicalExperience: '',
-        }),
-      )
+        })
+        setState((prevState) => ({ ...prevState, success: true }))
+        navigate('/profile')
+      })
       .then(() => {
         setState((prevState) => ({ ...prevState, success: false }))
-        const a = Number(localStorage.getItem('id')) + 10
-        localStorage.setItem('id', a.toString())
+        navigate('/profile')
       })
 
       .catch((err: AxiosError) => {
         setState((prevState) => ({ ...prevState, error: true }))
       })
-    if (state.error == false) {
-      navigate('/profile')
-    }
   }
   const { t, i18n } = useTranslation()
 
@@ -206,6 +204,7 @@ const RegisterDoctor = () => {
             required
             id="outlined-required"
             label={t('current')}
+            placeholder={t('san') + '...'}
             value={all.pedagogicalExperienceCurrent}
             onChange={(e) =>
               setAll({ ...all, pedagogicalExperienceCurrent: e.target.value })
@@ -216,6 +215,7 @@ const RegisterDoctor = () => {
             id="outlined-required"
             label={t('time')}
             value={all.pedagogicalExperience}
+            placeholder={t('san') + '...'}
             onChange={(e) =>
               setAll({ ...all, pedagogicalExperience: e.target.value })
             }

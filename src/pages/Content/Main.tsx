@@ -4,6 +4,7 @@ import CheckBox from '../../components/CheckBox/CheckBox.component'
 import Input from '../../components/Input/Input.component'
 import ModalRegister from '../../components/Modal/ModalRegister'
 import { useTranslation } from 'react-i18next'
+import img from '../../../public/Img/kaz.png'
 const main: React.FC = () => {
   const [open, setOpen] = React.useState(false)
 
@@ -21,11 +22,7 @@ const main: React.FC = () => {
         <CheckBox />
         {open && <ModalRegister handleClose={handleClose} open={open} />}
       </div>
-      <img
-        className="contentRight"
-        src="https://almatyustazy.kz/local/templates/ustaz/include_areas/kz/images/taglinemob-img.png"
-        alt="log"
-      />
+      <img className="contentRight" src={img} alt="log" />
     </div>
   )
 }

@@ -41,7 +41,7 @@ function HeaderComponent({ scrollTo }: Props) {
       style={{
         backgroundColor: 'white',
         padding: '12px 100px',
-        height: '90px',
+        height: '110px',
         alignItems: 'center',
         justifyContent: 'center',
         boxShadow: 'none',
@@ -66,10 +66,10 @@ function HeaderComponent({ scrollTo }: Props) {
           >
             <Link to="/" className="nav-link">
               <img
-                src="https://almatyustazy.kz/img_almaty_ustaz/logo.svg"
+                src="http://static.zakon.kz/uploads/posts/2016-08/1472123562_6fcf92f929d5f911f564d96b18ac0588.jpg"
                 alt="almaty"
-                height="60"
-                width="120"
+                height="80"
+                width="100"
               />
             </Link>
           </Typography>
@@ -83,10 +83,10 @@ function HeaderComponent({ scrollTo }: Props) {
                   outline: 'none',
                 }}
                 onClick={() => {
-                  handleClick('Спикерлер')
+                  navigate('/')
                 }}
               >
-                <b>{t('speakers')}</b>
+                <b>Басты бет</b>
               </button>
             </div>
             <div className="pages" style={{ color: 'black' }}>
@@ -103,20 +103,7 @@ function HeaderComponent({ scrollTo }: Props) {
                 <b>{t('stages')}</b>
               </button>
             </div>
-            <div className="pages" style={{ color: 'black' }}>
-              <button
-                style={{
-                  backgroundColor: 'white',
-                  border: 'none',
-                  outline: 'none',
-                }}
-                onClick={() => {
-                  handleClick('Жүлделер')
-                }}
-              >
-                <b>{t('prize')}</b>
-              </button>
-            </div>
+
             <div className="pages" style={{ color: 'black' }}>
               <button
                 style={{

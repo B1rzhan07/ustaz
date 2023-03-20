@@ -85,6 +85,7 @@ export default function ModalRegister({ handleClose, open }: Props) {
           } else if (i18n.language === 'ru') {
             alert('Принято')
           }
+          localStorage.setItem('register', 'yes')
           handleClose()
         })
         .catch((err: AxiosError) => {
@@ -96,6 +97,20 @@ export default function ModalRegister({ handleClose, open }: Props) {
       TournamentService.registerTournament(link).then((res) => {
         handleClose()
       })
+    }
+  }
+  const [errors, setErrors] = useState<string | null>(null)
+  const isValidLink = (link: string) => {
+    // Use a regular expression to check if the link is valid
+    return /^(ftp|http|https):\/\/[^ "]+$/.test(link)
+  }
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value
+    setLink(value)
+    if (value && !isValidLink(value)) {
+      setErrors('Please enter a valid link')
+    } else {
+      setErrors(null)
     }
   }
 
@@ -145,9 +160,12 @@ export default function ModalRegister({ handleClose, open }: Props) {
               >
                 <TextField
                   id="standard-basic"
-                  label={t('formLink')}
+                  label="Link"
                   variant="standard"
-                  onChange={(e) => setLink(e.target.value)}
+                  value={link}
+                  onChange={handleChange}
+                  error={!!error}
+                  helperText={error}
                 />
                 <div
                   style={{

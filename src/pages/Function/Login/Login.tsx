@@ -65,7 +65,11 @@ const Login = () => {
       email: '',
     })
   }
-
+  const isEmailValid = (email: string): boolean => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    return emailRegex.test(email)
+  }
+  const [isValidEmail, setIsValidEmail] = React.useState(false)
   function setFirstName(value: string): void {
     setAll((prevState) => ({ ...prevState, firstName: value }))
   }
@@ -75,8 +79,9 @@ const Login = () => {
   function setMiddleName(value: string): void {
     setAll((prevState) => ({ ...prevState, middleName: value }))
   }
-  function setEmail(value: string): void {
-    setAll((prevState) => ({ ...prevState, email: value }))
+  function setEmail(event: React.ChangeEvent<HTMLInputElement>): void {
+    setAll((prevState) => ({ ...prevState, email: event.target.value }))
+    setIsValidEmail(isEmailValid(event.target.value))
   }
   function setUserName(value: string): void {
     setAll((prevState) => ({ ...prevState, username: value }))
@@ -145,8 +150,9 @@ const Login = () => {
                         <input
                           className={classes.formControl}
                           required
-                          onChange={(e) => setEmail(e.target.value)}
+                          onChange={(value) => setEmail(value)}
                         />{' '}
+                        {!isValidEmail && <div>{t('che')}</div>}
                       </div>{' '}
                     </div>
                   )}{' '}
@@ -160,9 +166,7 @@ const Login = () => {
                       <input
                         className={classes.formControl}
                         required
-                        placeholder={
-                          t('writeNickname') + '...' // "Логин енгізіңіз"
-                        }
+                        placeholder={t('writeNickname') + '...'}
                         onChange={(e) => setUserName(e.target.value)}
                       />{' '}
                     </div>
