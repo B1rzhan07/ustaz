@@ -7,9 +7,8 @@ import HeaderComponent from '../../../components/Header/Header.component'
 import { AxiosResponse } from 'axios'
 import Button from '@mui/material/Button'
 import { useTranslation } from 'react-i18next'
-type Props = {
-  word: string
-}
+import img from '../../../../public/Img/kaz.png'
+
 const Login = () => {
   const [isLogin, setIsLogin] = React.useState(true)
   const [all, setAll] = React.useState({
@@ -30,8 +29,9 @@ const Login = () => {
     if (isLogin) {
       AuthService.login(all.username.toString(), all.password.toString())
         .then((response: AxiosResponse) => {
-          console.log(response.data)
-          navigate('/profile')
+          if (localStorage.getItem('user')) {
+            navigate('/profile')
+          }
           localStorage.setItem('id', '0')
         })
         .catch((err) => {
@@ -101,7 +101,7 @@ const Login = () => {
               <div className={'card p-3 ' + classes.card1}>
                 <div className="d-flex flex-column">
                   <img
-                    src="https://almatyustazy.kz/img_almaty_ustaz/logo.svg"
+                    src="http://static.zakon.kz/uploads/posts/2016-08/1472123562_6fcf92f929d5f911f564d96b18ac0588.jpg"
                     height="40"
                     width="70"
                   />
@@ -224,11 +224,7 @@ const Login = () => {
               <div className={'card p-3 ' + classes.card2}>
                 <div className="image">
                   <Link to="/">
-                    <img
-                      src="https://almatyustazy.kz/local/templates/ustaz/include_areas/kz/images/taglinemob-img.png"
-                      height="100%"
-                      width="100%"
-                    />
+                    <img src={img} height="100%" width="100%" />
                   </Link>{' '}
                 </div>{' '}
               </div>{' '}

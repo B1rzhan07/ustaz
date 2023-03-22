@@ -2,7 +2,7 @@ import axios from "axios";
 import { AxiosResponse } from "axios";
 import { AuthResponse } from "../models/response/AuthResponse";
 
-export const API_URL = "https://almatyustazy.akylgroup.com.kz";
+export const API_URL = "https://api.almatyustazy-2023.kz";
 
 export type userType = {
   username: string;

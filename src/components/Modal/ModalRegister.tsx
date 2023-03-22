@@ -11,6 +11,7 @@ import Alert from '@mui/material/Alert'
 import { useState } from 'react'
 import dayjs, { Dayjs } from 'dayjs'
 import TournamentService from '../../services/TournamentService'
+import CircularProgress from '@mui/material/CircularProgress'
 import { schools, subjects } from '../../models/data'
 import TextField from '@mui/material/TextField'
 import '../../index.scss'
@@ -195,8 +196,18 @@ export default function ModalRegister({ handleClose, open }: Props) {
                   >
                     {t('work')}
                   </Button>
-                  {formState === 'pending' && <p>Жіберілуде</p>}
                 </FormControl>
+                {formState === 'pending' && (
+                  <div
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <CircularProgress />
+                  </div>
+                )}
                 {error && (
                   <Alert
                     style={{
@@ -229,8 +240,18 @@ export default function ModalRegister({ handleClose, open }: Props) {
                 >
                   {t('send')}
                 </Button>
-                {formState === 'pending' && <p>Жіберілуде</p>}
               </FormControl>
+              {formState === 'pending' && (
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}
+                >
+                  <CircularProgress />
+                </div>
+              )}
               {error && (
                 <Alert
                   style={{
