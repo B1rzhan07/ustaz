@@ -63,14 +63,21 @@ class AuthService {
     lastName: string,
     firstName: string
   ): Promise<AxiosResponse<any>> {
-    return axios.post(API_URL + "/auth/signup", {
-      username,
-      password,
-      email,
-      middleName,
-      firstName,
-      lastName,
-    });
+    return axios
+      .post(API_URL + "/auth/signup", {
+        username,
+        password,
+        email,
+        middleName,
+        firstName,
+        lastName,
+      })
+      .then((response) => {
+        if (response.data.authenticationToken) {
+          localStorage.setItem("user", JSON.stringify(response.data));
+        }
+        return response.data;
+      });
   }
 
   async getCurrentUser(): Promise<AxiosResponse<userType>> {
