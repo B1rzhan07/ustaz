@@ -122,5 +122,14 @@ class TournamentService {
       },
     });
   }
+  async getRegister(): Promise<AxiosResponse<any>> {
+    return axios.get(API_URL + "/student/team", {
+      headers: {
+        Authorization:
+          "Bearer " +
+          JSON.parse(localStorage.getItem("user") || "{}").authenticationToken,
+      },
+    });
+  }
 }
 export default new TournamentService();

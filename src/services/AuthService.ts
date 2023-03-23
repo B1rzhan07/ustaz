@@ -2,7 +2,7 @@ import axios from "axios";
 import { AxiosResponse } from "axios";
 import { AuthResponse } from "../models/response/AuthResponse";
 
-export const API_URL = "https://api.almatyustazy-2023.kz";
+export const API_URL = "https://almatyustazy.akylgroup.com.kz";
 
 export type userType = {
   username: string;
@@ -63,21 +63,14 @@ class AuthService {
     lastName: string,
     firstName: string
   ): Promise<AxiosResponse<any>> {
-    return axios
-      .post(API_URL + "/auth/signup", {
-        username,
-        password,
-        email,
-        middleName,
-        firstName,
-        lastName,
-      })
-      .then((response) => {
-        if (response.data.authenticationToken) {
-          localStorage.setItem("user", JSON.stringify(response.data));
-        }
-        return response.data;
-      });
+    return axios.post(API_URL + "/auth/signup", {
+      username,
+      password,
+      email,
+      middleName,
+      firstName,
+      lastName,
+    });
   }
 
   async getCurrentUser(): Promise<AxiosResponse<userType>> {

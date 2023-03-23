@@ -141,6 +141,7 @@ function HeaderComponent({ scrollTo }: Props) {
                 onClick={() => {
                   localStorage.removeItem('user')
                   localStorage.removeItem('data')
+                  localStorage.removeItem('register')
                   navigate('/')
                 }}
               />

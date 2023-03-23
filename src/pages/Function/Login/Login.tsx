@@ -103,16 +103,21 @@ const Login = () => {
           all.firstName.toString(),
           all.lastName.toString(),
           all.middleName.toString(),
-        )
-          .then((response: AxiosResponse) => {
-            if (response) {
-              localStorage.setItem('user', JSON.stringify(response.data))
-              navigate('/profile')
-            }
-          })
-          .catch((error) => {
-            console.log(error)
-          })
+        ).then((response: AxiosResponse) => {
+          console.log(response.status)
+
+          if (Number(response.status) == 200) {
+            AuthService.login(all.username.toString(), all.password.toString())
+              .then((response: AxiosResponse) => {
+                if (localStorage.getItem('user')) {
+                  navigate('/profile')
+                }
+              })
+              .catch((err: AxiosError) => {
+                console.log(err)
+              })
+          }
+        })
       }
       setAll({
         username: '',
@@ -205,7 +210,7 @@ const Login = () => {
                           id="outlined-basic"
                           variant="outlined"
                           required
-                          onChange={(e) => setEmail(e)}
+                          onChange={setEmail}
                         />
                       </div>{' '}
                     </div>
@@ -310,7 +315,7 @@ const Login = () => {
               <div className={'card p-3 ' + classes.card2}>
                 <div className="image">
                   <Link to="/">
-                    <img src={img} height="100%" width="100%" />
+                    <img src={img} height={500} width="100%" />
                   </Link>{' '}
                 </div>{' '}
               </div>{' '}

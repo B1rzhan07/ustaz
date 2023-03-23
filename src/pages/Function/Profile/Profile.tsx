@@ -3,16 +3,21 @@ import AuthService from '../../../services/AuthService'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import React from 'react'
+import TournamentService from '../../../services/TournamentService'
 
 const Profile = () => {
   const { t, i18n } = useTranslation()
   const [userProfile, setUserProfile] = React.useState<any>()
+  const [register, setRegister] = React.useState<any>()
   var birthDateFormated = 'Енгізілмеген'
   React.useEffect(() => {
     const user = AuthService.getCurrentUser()
     user.then((res) => {
       setUserProfile(res)
       localStorage.setItem('data', JSON.stringify(res))
+    })
+    TournamentService.getRegister().then((res) => {
+      setRegister(res.data)
     })
   }, [])
 
@@ -124,7 +129,7 @@ const Profile = () => {
                   </p>
                   <p className="fonts">
                     {t('olympReg')}:{' '}
-                    {localStorage.getItem('register') ? (
+                    {register?.team?.applicationFormURL ? (
                       <b>{t('yes')}</b>
                     ) : (
                       <b>{t('no')}</b>
