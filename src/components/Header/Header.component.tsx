@@ -81,7 +81,7 @@ function HeaderComponent({ scrollTo }: Props) {
                   navigate('/')
                 }}
               >
-                <b>Басты бет</b>
+                <b>{t('main')}</b>
               </button>
             </div>
             <div className="pages" style={{ color: 'black' }}>

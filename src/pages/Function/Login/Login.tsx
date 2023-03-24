@@ -9,14 +9,12 @@ import Button from '@mui/material/Button'
 import { useTranslation } from 'react-i18next'
 import img from '../../../../public/Img/kaz.png'
 import TextField from '@mui/material/TextField'
-import img2 from '../../../../public/Img/index.png'
 const Login = () => {
   const { t } = useTranslation()
   const navigate = useNavigate()
-
+  const [correctReg, setCorrectReg] = React.useState(false)
   const [isLogin, setIsLogin] = React.useState(true)
   const [isValidEmail, setIsValidEmail] = React.useState(false)
-
   const [all, setAll] = React.useState({
     username: '',
     password: '',
@@ -25,7 +23,6 @@ const Login = () => {
     middleName: '',
     email: '',
   })
-
   const isEmailValid = React.useCallback((email: string): boolean => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     return emailRegex.test(email)
@@ -40,41 +37,25 @@ const Login = () => {
       all.lastName &&
       all.middleName
     ) {
-      setCorrect(true)
+      setCorrectReg(true)
     } else if (isLogin && all.username && all.password) {
       setCorrect(true)
     }
   }, [isValidEmail, isLogin, all])
 
-  const setFirstName = React.useCallback((value: string): void => {
-    setAll((prevState) => ({ ...prevState, firstName: value }))
-  }, [])
-
-  const setLastName = React.useCallback((value: string): void => {
-    setAll((prevState) => ({ ...prevState, lastName: value }))
-  }, [])
-
-  const setMiddleName = React.useCallback((value: string): void => {
-    setAll((prevState) => ({ ...prevState, middleName: value }))
-  }, [])
-
   const setEmail = React.useCallback(
     (event: React.ChangeEvent<HTMLInputElement>): void => {
-      setAll((prevState) => ({ ...prevState, email: event.target.value }))
       if (isEmailValid(event.target.value)) {
         setIsValidEmail(true)
+      }
+      const regex = /^[a-zA-Z\s]*$/ // regular expression to match English letters and spaces
+      const input = event.target.value
+      if (!/\s/g.test(input)) {
+        setAll((prevState) => ({ ...prevState, email: event.target.value }))
       }
     },
     [isEmailValid],
   )
-
-  const setUserName = React.useCallback((value: string): void => {
-    setAll((prevState) => ({ ...prevState, username: value }))
-  }, [])
-
-  const setPassword = React.useCallback((value: string): void => {
-    setAll((prevState: any) => ({ ...prevState, password: value }))
-  }, [])
 
   const [correct, setCorrect] = React.useState(false)
 
@@ -95,20 +76,22 @@ const Login = () => {
     (event: React.FormEvent) => {
       event.preventDefault()
       if (isLogin) {
-        AuthService.login(all.username.toString(), all.password.toString())
+        AuthService.login(
+          all.username.toString().toLowerCase(),
+          all.password.toString().toLowerCase(),
+        )
           .then((response: AxiosResponse) => {
             if (localStorage.getItem('user')) {
               navigate('/profile')
             }
           })
           .catch((err: any) => {
-            setError(err)
-            console.log(err)
+            setError('Қайтадан кіріп көріңіз')
           })
       } else {
         AuthService.register(
-          all.username.toString(),
-          all.password.toString(),
+          all.username.toString().toLowerCase(),
+          all.password.toString().toLowerCase(),
           all.email.toString(),
           all.middleName.toString(),
           all.lastName.toString(),
@@ -124,7 +107,7 @@ const Login = () => {
                 }
               })
               .catch((err: AxiosError) => {
-                setError(err)
+                setError('Қайтадан кіріп көріңіз')
               })
           }
         })
@@ -141,18 +124,24 @@ const Login = () => {
     },
     [all, isLogin, navigate],
   )
+  const scrollTo = () => {}
   return (
     <>
-      <HeaderComponent scrollTo={setPassword} />
+      <HeaderComponent scrollTo={scrollTo} />
       <form onSubmit={submitHandler}>
-        <div className="container mt-5 mb-5">
+        <div className="container mb-5">
           <div className="d-flex flex row g-0">
             <div className="col-md-6 mt-3">
               <div className={'card p-3 ' + classes.card1}>
                 <div className="d-flex justify-content-around">
-                  <span className={classes.login + ' mt-3'}>
+                  <h1
+                    style={{
+                      fontSize: '30px',
+                    }}
+                    className={classes.login + ' mt-3'}
+                  >
                     {isLogin ? t('login') : t('register')}
-                  </span>{' '}
+                  </h1>{' '}
                 </div>{' '}
                 <div
                   className={classes.inputField + ' d-flex flex-column mt-3'}
@@ -169,13 +158,25 @@ const Login = () => {
                         }}
                         className={classes.signInCard}
                       >
-                        <span> {t('name')}: </span>{' '}
+                        <h5> {t('name')}: </h5>{' '}
                         <TextField
+                          sx={{ width: '50%' }}
                           id="outlined-basic"
                           variant="outlined"
                           required
+                          placeholder={t('kaz') + ''}
                           value={all.firstName}
-                          onChange={(e) => setFirstName(e.target.value)}
+                          onChange={(e) => {
+                            const input = e.target.value
+                            const regex = /^[a-zA-Z\s]*$/
+                            const regex1 = /^[а-яА-ЯәғқңөұүһҢҒҚӨҮ\s]*$/
+                            if (!/\s/g.test(input) && regex1.test(input)) {
+                              setAll((prevState) => ({
+                                ...prevState,
+                                firstName: e.target.value,
+                              }))
+                            }
+                          }}
                         />
                       </div>{' '}
                       <div
@@ -184,13 +185,25 @@ const Login = () => {
                         }}
                         className={classes.signInCard}
                       >
-                        <span> {t('surname')}: </span>{' '}
+                        <h5> {t('surname')}: </h5>{' '}
                         <TextField
+                          sx={{ width: '50%' }}
                           id="outlined-basic"
                           variant="outlined"
+                          placeholder={t('kaz') + ''}
                           value={all.lastName}
                           required
-                          onChange={(e) => setLastName(e.target.value)}
+                          onChange={(e) => {
+                            const input = e.target.value
+                            const regex = /^[a-zA-Z\s]*$/
+                            const regex1 = /^[а-яА-ЯәғқңөұүһҢҒҚӨҮ\s]*$/
+                            if (!/\s/g.test(input) && regex1.test(input)) {
+                              setAll((prevState) => ({
+                                ...prevState,
+                                lastName: e.target.value,
+                              }))
+                            }
+                          }}
                         />
                       </div>
                       <div
@@ -199,13 +212,26 @@ const Login = () => {
                         }}
                         className={classes.signInCard}
                       >
-                        <span> {t('middle')}: </span>{' '}
+                        <h5> {t('middle')}: </h5>{' '}
                         <TextField
+                          sx={{ width: '50%' }}
                           id="outlined-basic"
                           variant="outlined"
                           value={all.middleName}
+                          placeholder={t('kaz') + ''}
                           required
-                          onChange={(e) => setMiddleName(e.target.value)}
+                          onChange={(e) => {
+                            const input = e.target.value
+                            const regex = /^[a-zA-Z\s]*$/
+                            const regex1 = /^[а-яА-ЯәғқңөұүһҢҒҚӨҮ\s]*$/
+                            if (!/\s/g.test(input) && regex1.test(input)) {
+                              setAll((prevState) => ({
+                                ...prevState,
+                                middleName: e.target.value,
+                              }))
+                            }
+                          }}
+                          lang="kz"
                         />
                       </div>{' '}
                       <div
@@ -214,11 +240,13 @@ const Login = () => {
                         }}
                         className={classes.signInCard}
                       >
-                        <span> Email: </span>{' '}
+                        <h5> Email: </h5>{' '}
                         <TextField
+                          sx={{ width: '50%' }}
                           id="outlined-basic"
                           variant="outlined"
                           required
+                          placeholder={t('latin') + ' '}
                           value={all.email}
                           onChange={setEmail}
                         />
@@ -238,24 +266,41 @@ const Login = () => {
                         isLogin ? 'd-flex flex-column mt-3' : classes.signInCard
                       }
                     >
-                      <span
+                      <h4
                         style={{
                           marginTop: '10px',
                         }}
                       >
                         {' '}
-                        Никнейм:{' '}
-                      </span>{' '}
+                        Логин:{' '}
+                      </h4>{' '}
                       <TextField
                         style={{
                           marginTop: '10px',
                         }}
                         id="outlined-basic"
                         variant="outlined"
-                        placeholder={t('writeNickname') + '...'}
                         required
+                        placeholder={t('latin') + ' '}
                         value={all.username}
-                        onChange={(e) => setUserName(e.target.value)}
+                        sx={!isLogin ? { width: '50%' } : undefined}
+                        onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
+                          const lang = e.currentTarget.lang
+                          if (lang && lang !== 'en') {
+                            e.preventDefault()
+                          }
+                        }}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                          const regex = /^[a-zA-Z\s]*$/ // regular expression to match English letters and spaces
+                          const input = e.target.value
+                          if (regex.test(input) && !/\s/g.test(input)) {
+                            setAll((prevState) => ({
+                              ...prevState,
+                              username: input,
+                            }))
+                          }
+                        }}
+                        lang="en"
                       />
                     </div>
                     <div
@@ -266,14 +311,25 @@ const Login = () => {
                         isLogin ? 'd-flex flex-column mt-3' : classes.signInCard
                       }
                     >
-                      <span className="mt-3"> {t('password')} </span>{' '}
+                      <h4 className="mt-3"> {t('password')}: </h4>{' '}
                       <TextField
                         id="outlined-basic"
                         variant="outlined"
                         required
+                        sx={!isLogin ? { width: '50%' } : undefined}
                         value={all.password}
                         placeholder={t('writePassword') + '...'}
-                        onChange={(e) => setPassword(e.target.value)}
+                        onChange={(e) => {
+                          const regex = /^[0-9a-zA-Z]*$/ // regular expression to match English letters and spaces
+                          const input = e.target.value
+                          if (regex.test(input) && !/\s/g.test(input)) {
+                            setAll((prevState) => ({
+                              ...prevState,
+                              password: input,
+                            }))
+                          }
+                        }}
+                        lang="en"
                       />
                     </div>{' '}
                   </div>
@@ -292,7 +348,7 @@ const Login = () => {
                     </Button>
                   ) : (
                     <Button
-                      disabled={!correct}
+                      disabled={!correctReg}
                       variant="contained"
                       type="submit"
                       className={
@@ -309,7 +365,7 @@ const Login = () => {
                       classes.text2 + ' mt-4 d-flex flex-row align-items-center'
                     }
                   >
-                    <span>
+                    <h3>
                       <Link
                         className={classes.register}
                         onClick={switchAuthModeHandler}
@@ -318,7 +374,7 @@ const Login = () => {
                         {' '}
                         {isLogin ? t('register') : t('login')}{' '}
                       </Link>{' '}
-                    </span>{' '}
+                    </h3>{' '}
                   </div>{' '}
                   {error && (
                     <div className="alert alert-danger" role="alert">

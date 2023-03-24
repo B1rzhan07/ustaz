@@ -6,7 +6,6 @@ import { useTranslation } from 'react-i18next'
 import img from '../../../public/Img/alma.jpg'
 const Now: React.FC = () => {
   const { t } = useTranslation()
-  console.log(img)
 
   return (
     <>

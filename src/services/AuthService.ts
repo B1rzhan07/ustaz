@@ -2,7 +2,7 @@ import axios from "axios";
 import { AxiosResponse } from "axios";
 import { AuthResponse } from "../models/response/AuthResponse";
 
-export const API_URL = "https://api.almatyustazy-2023.kz";
+export const API_URL = "https://almatyustazy.akylgroup.com.kz";
 
 export type userType = {
   username: string;
@@ -42,6 +42,7 @@ class AuthService {
       .post(API_URL + "/auth/login", {
         username,
         password,
+        origin: "https://localhost:3000",
       })
       .then((response) => {
         if (response.data.authenticationToken) {

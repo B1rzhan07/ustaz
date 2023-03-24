@@ -25,8 +25,8 @@ const All: React.FC = () => {
       <BrowserView>
         <HeaderComponent scrollTo={scrollTo} />
         <Main />
-        <Stages refStage={refStage} />
-        <Come refParticipant={refParticipants} />
+        <Stages refStage={refStage} refParticipant={refParticipants} />
+        <Come />
         <Now />
         <Footer />
       </BrowserView>

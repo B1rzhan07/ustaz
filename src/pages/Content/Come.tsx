@@ -3,15 +3,11 @@ import '../../index.scss'
 import ButtonComponent from '../../components/Button/Button.component'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
-const Come = ({
-  refParticipant,
-}: {
-  refParticipant: React.RefObject<HTMLInputElement>
-}) => {
+const Come = () => {
   const { t } = useTranslation()
   const navigate = useNavigate()
   return (
-    <div ref={refParticipant}>
+    <div>
       <h1
         style={{
           display: 'flex',
@@ -21,7 +17,12 @@ const Come = ({
       >
         {t('come')}
       </h1>
-      <div className="come">
+      <div
+        className="come"
+        style={{
+          marginTop: '50px',
+        }}
+      >
         <div className="comeLeft">
           <b>
             <p>{t('age')}</p>
@@ -33,16 +34,6 @@ const Come = ({
             />
             <b>
               <p>{t('wifi')}</p>
-            </b>
-          </div>
-
-          <div className="insidePaper">
-            <img
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGLLp_E5gOL-XvxGcZQSPvFobbZaWNvill7g&usqp=CAU"
-              alt=""
-            />
-            <b>
-              <p>{t('down')}</p>
             </b>
           </div>
 

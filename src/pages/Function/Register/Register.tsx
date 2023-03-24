@@ -15,6 +15,7 @@ import TournamentService from '../../../services/TournamentService'
 import { useNavigate } from 'react-router-dom'
 import Alert from '@mui/material/Alert'
 import { useTranslation } from 'react-i18next'
+import Autocomplete from '@mui/material/Autocomplete'
 
 const languages = [
   {
@@ -50,10 +51,28 @@ const englishProficiencyInRussian = [
 ]
 
 const RegisterDoctor = () => {
+  const { t, i18n } = useTranslation()
+  const navigate = useNavigate()
   const [group, setGroup] = React.useState<any>([])
   const [subject, setSubject] = React.useState<any>([])
   const [categories, setCategories] = React.useState<any>([])
   const [userProfile, setUserProfile] = React.useState<any>([])
+  const [value, setValue] = React.useState<Dayjs>(dayjs(''))
+  const data = JSON.parse(localStorage.getItem('data')?.toString() || '')
+  console.log(data)
+
+  const [all, setAll] = React.useState({
+    group: data?.group || '',
+
+    subject: data?.subject?.id || '',
+    category: data?.category?.id || '',
+
+    isKazakhProficient: data?.isKazakhProficient == true ? 1 : 0 || '',
+    englishProficiency: data?.englishProficiency == true ? 1 : 0 || '',
+    pedagogicalExperienceCurrent: data?.pedagogicalExperienceCurrent || '',
+    pedagogicalExperience: data?.pedagogicalExperience || '',
+  })
+  const [open, setOpen] = React.useState(false)
   React.useEffect(() => {
     const group = TournamentService.getGroups().then((res: any) =>
       setGroup(res.data),
@@ -64,39 +83,39 @@ const RegisterDoctor = () => {
     const categories = TournamentService.getCategories().then((res: any) =>
       setCategories(res.data),
     )
-    const user = AuthService.getCurrentUser()
-    user.then((res) => setUserProfile(res))
+
+    if (userProfile?.birthDate) {
+      setValue(dayjs(userProfile.birthDate))
+    }
+  }, [userProfile])
+
+  React.useEffect(() => {
+    async function fetchUserProfile() {
+      try {
+        const user = await AuthService.getCurrentUser()
+        setUserProfile(user)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
+    fetchUserProfile()
   }, [])
-  console.log(group)
-  console.log(subject)
-  console.log(categories)
 
-  const navigate = useNavigate()
-
-  const [value, setValue] = React.useState<Dayjs>(dayjs(''))
-  const [all, setAll] = React.useState({
-    group: '',
-    subject: '',
-    category: '',
-    isKazakhProficient: '',
-    englishProficiency: '',
-    pedagogicalExperienceCurrent: '',
-    pedagogicalExperience: '',
-  })
-  console.log(all)
   const [state, setState] = React.useState<{
     success: null | boolean
     error: null | boolean
   }>({ success: null, error: null })
 
-  const scrollTo = (name: string) => {}
+  const scrollTo = () => {}
+
   const send = () => {
     TournamentService.updateProfile(
       userProfile.firstName,
       userProfile.lastName,
       userProfile.middleName,
-      value,
-      all.group,
+      value.add(1, 'day'),
+      all.group.id,
       all.subject,
       Number(all.category),
       Boolean(all.isKazakhProficient),
@@ -105,15 +124,6 @@ const RegisterDoctor = () => {
       Number(all.pedagogicalExperience),
     )
       .then((res: any) => {
-        setAll({
-          group: '',
-          subject: '',
-          category: '',
-          isKazakhProficient: '',
-          englishProficiency: '',
-          pedagogicalExperienceCurrent: '',
-          pedagogicalExperience: '',
-        })
         setState((prevState) => ({ ...prevState, success: true }))
         navigate('/profile')
       })
@@ -126,7 +136,7 @@ const RegisterDoctor = () => {
         setState((prevState) => ({ ...prevState, error: true }))
       })
   }
-  const { t, i18n } = useTranslation()
+  console.log(group?.filter((item: any) => item.id === all.group))
 
   return (
     <>
@@ -165,7 +175,7 @@ const RegisterDoctor = () => {
                 </Select>
               </FormControl>
               <FormControl sx={{ m: 1, minWidth: 180 }}>
-                <InputLabel>{t('school')}</InputLabel>
+                {/* <InputLabel>{t('school')}</InputLabel>
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
@@ -180,7 +190,58 @@ const RegisterDoctor = () => {
                       </MenuItem>
                     )
                   })}
-                </Select>
+
+                </Select> */}
+                {/* <TextField
+                  required
+                  id="outlined-required"
+                  label="Department ID"
+                  value={all.group}
+                  onChange={(e) => setAll({ ...all, group: e.target.value })}
+                >
+                  {group?.map((item: any) => {
+                    return (
+                      <MenuItem value={item.id} key={item.id}>
+                        {i18n.language === 'kz' ? item.nameKaz : item.nameRus}
+                      </MenuItem>
+                    )
+                  })} */}
+                {/* <Autocomplete
+                  id="school-select"
+                  options={group}
+                  getOptionLabel={(option) =>
+                    i18n.language === 'kz' ? option.nameKaz : option.nameRus
+                  }
+                  onChange={(event, newValue) => {
+                    setAll({ ...all, group: newValue?.id })
+                  }}
+                  defaultValue={group?.filter(
+                    (item: any) => item.id === all.group,
+                  )}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label={t('school')}
+                      variant="outlined"
+                    />
+                  )}
+                /> */}
+                <Autocomplete
+                  id="demo-autocomplete"
+                  options={group}
+                  getOptionLabel={(item: any) =>
+                    i18n.language === 'kz' ? item.nameKaz : item.nameRus
+                  }
+                  value={all.group || null}
+                  onChange={(e: any, newValue: any) => {
+                    setAll({ ...all, group: newValue })
+                  }}
+                  renderInput={(params: any) => (
+                    <TextField {...params} label="School" variant="outlined" />
+                  )}
+                />
+
+                {/* </TextField> */}
               </FormControl>
               <FormControl sx={{ m: 1, minWidth: 250 }}>
                 <InputLabel id="demo-simple-select-label">
@@ -235,7 +296,10 @@ const RegisterDoctor = () => {
                   value={all.isKazakhProficient}
                   label="Subject"
                   onChange={(e) =>
-                    setAll({ ...all, isKazakhProficient: e.target.value })
+                    setAll({
+                      ...all,
+                      isKazakhProficient: Number(e.target.value),
+                    })
                   }
                 >
                   {languages.map((item) => {
@@ -253,12 +317,16 @@ const RegisterDoctor = () => {
                   {t('english')}
                 </InputLabel>
                 <Select
+                  required
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
                   value={all.englishProficiency}
                   label="Subject"
                   onChange={(e) =>
-                    setAll({ ...all, englishProficiency: e.target.value })
+                    setAll({
+                      ...all,
+                      englishProficiency: Number(e.target.value),
+                    })
                   }
                 >
                   {i18n.language == 'kz'
@@ -271,6 +339,14 @@ const RegisterDoctor = () => {
                 </Select>
               </FormControl>
               <Button
+                disabled={
+                  all.group == '' ||
+                  all.subject == '' ||
+                  all.pedagogicalExperienceCurrent == '' ||
+                  all.pedagogicalExperience == '' ||
+                  all.isKazakhProficient == '' ||
+                  all.englishProficiency == ''
+                }
                 variant="contained"
                 style={{
                   margin: '15px',

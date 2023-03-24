@@ -5,6 +5,9 @@ import YouTubeIcon from '@mui/icons-material/YouTube'
 import InstagramIcon from '@mui/icons-material/Instagram'
 import Divider from '@mui/material/Divider'
 import { useTranslation } from 'react-i18next'
+import { Link } from 'react-router-dom'
+import Button from '@mui/material/Button'
+import '../../index.scss'
 const Footer: React.FC = () => {
   const { t } = useTranslation()
   return (
@@ -12,15 +15,53 @@ const Footer: React.FC = () => {
       <div className="footer">
         <div>
           <b>
-            <p>{t('contact')}</p>
-            <p></p>
+            <h2>{t('contact')}</h2>
+            <p
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+                fontSize: 20,
+              }}
+            >
+              {t('readMore')}
+              <button
+                onClick={() => {
+                  window.open('https://t.me/almaty_ustazy_support')
+                }}
+                style={{
+                  backgroundColor: 'transparent',
+                  border: 'none',
+                  outline: 'none',
+                  textDecoration: 'underline',
+                }}
+              >
+                https://t.me/almaty_ustazy_support
+              </button>
+            </p>
           </b>
         </div>
-        <div>
-          <TelegramIcon />
-          <FacebookIcon />
-          <YouTubeIcon />
-          <InstagramIcon />
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-around',
+          }}
+        >
+          <TelegramIcon
+            fontSize="large"
+            className="telegram"
+            onClick={() => {
+              window.open('https://t.me/almaty_ustazy_support')
+            }}
+          />
+          <YouTubeIcon
+            className="telegram"
+            fontSize="large"
+            onClick={() => {
+              window.open('https://www.youtube.com/@almatyustazy594')
+            }}
+          />
         </div>
       </div>
       <Divider light />

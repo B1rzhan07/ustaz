@@ -25,9 +25,7 @@ const Profile = () => {
   const birthDate = new Date(userProfile?.birthDate)
 
   if (userProfile?.birthDate) {
-    birthDateFormated = `${birthDate.getDate() + 1}.${
-      birthDate.getMonth() + 1
-    }.${birthDate.getFullYear()}`
+    birthDateFormated = `${birthDate.getDate()}.${birthDate.getMonth()}.${birthDate.getFullYear()}`
   }
   const scrollTo = () => {}
   if (userProfile?.isKazakhProficient == false) {
@@ -41,18 +39,6 @@ const Profile = () => {
   }
   if (userProfile?.isKazakhProficient == true) {
     userProfile.isKazakhProficient = 'Казахский'
-  }
-  if (userProfile?.englishProficiency == false) {
-    userProfile.englishProficiency = 'Нет'
-  }
-  if (userProfile?.englishProficiency == true) {
-    userProfile.englishProficiency = 'Да'
-  }
-  if (userProfile?.englishProficiency == false) {
-    userProfile.englishProficiency = 'Жоқ'
-  }
-  if (userProfile?.englishProficiency == true) {
-    userProfile.englishProficiency = 'Иә'
   }
 
   return (
@@ -78,11 +64,11 @@ const Profile = () => {
 
                   <div className="text-center mt-3">
                     <span className="bg-secondary p-1 px-4 rounded text-white">
-                      {userProfile?.username}
+                      Login: {userProfile?.username}
                     </span>
                     <h5 className="mt-2 mb-0">
-                      {t('full')}: {userProfile?.firstName}{' '}
-                      {userProfile?.lastName} {userProfile?.middleName}
+                      {t('full')}: {userProfile?.lastName}{' '}
+                      {userProfile?.firstName} {userProfile?.middleName}
                     </h5>
                     <div className="px-4 mt-1">
                       <p className="fonts">
@@ -108,16 +94,15 @@ const Profile = () => {
                       </p>
 
                       <p className="fonts">
-                        {t('language')}:{' '}
-                        {userProfile?.isKazakhProficient === 1
-                          ? 'Қазақша'
-                          : 'Русский'}
+                        {t('language')}: {userProfile?.isKazakhProficient}
                       </p>
                       <p className="fonts">
                         {t('english')}:{' '}
-                        {userProfile?.englishProficiency === 1
-                          ? t('no')
-                          : t('yes')}
+                        {userProfile?.englishProficiency === null
+                          ? ' '
+                          : userProfile?.englishProficiency == true
+                          ? t('yes')
+                          : t('no')}
                       </p>
                       <p className="fonts">
                         {t('current')}:{' '}

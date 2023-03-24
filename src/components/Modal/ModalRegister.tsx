@@ -15,7 +15,7 @@ import CircularProgress from '@mui/material/CircularProgress'
 import { schools, subjects } from '../../models/data'
 import TextField from '@mui/material/TextField'
 import '../../index.scss'
-import { AxiosError } from 'axios'
+import axios, { AxiosError } from 'axios'
 import { useTranslation } from 'react-i18next'
 import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
@@ -66,6 +66,13 @@ export default function ModalRegister({ handleClose, open }: Props) {
     TournamentService.sendForm(formData1)
       .then((response) => {
         setFormState('submitted')
+        if (i18n.language === 'kz') {
+          alert('Қабылданды')
+        } else if (i18n.language === 'ru') {
+          alert('Принято')
+        }
+        localStorage.setItem('register', 'yes')
+        handleClose()
       })
       .finally(() => {
         setSuccess(true)
@@ -118,6 +125,10 @@ export default function ModalRegister({ handleClose, open }: Props) {
       setErrors(null)
     }
   }
+  const dataApp = axios.get(
+    'https://storage.googleapis.com/almatyustazy-profile-bucket/%D0%A4%D0%BE%D1%80%D0%BC%D0%B0%20%D0%B7%D0%B0%D1%8F%D0%B2%D0%BA%D0%B8%20%D0%BD%D0%B0%20%D0%BA%D0%BE%D0%BD%D0%BA%D1%83%D1%80%D1%81.DOCX',
+  )
+  console.log(dataApp)
 
   return (
     <div>
@@ -144,7 +155,7 @@ export default function ModalRegister({ handleClose, open }: Props) {
             <h3>{t('olymp')}</h3>
           </Typography>
 
-          {success ? (
+          {/* {success ? (
             <>
               <h5>{t('link')} </h5>
               <Box
@@ -225,63 +236,64 @@ export default function ModalRegister({ handleClose, open }: Props) {
                 )}
               </Box>
             </>
-          ) : (
-            <>
-              <FormControl fullWidth>
-                <h5>{t('form')}</h5>
-                <Button variant="contained">
-                  <Link
-                    style={{
-                      textDecoration: 'none',
-                      color: 'white',
-                    }}
-                    to="https://storage.googleapis.com/almatyustazy-profile-bucket/%D0%A4%D0%BE%D1%80%D0%BC%D0%B0%20%D0%B7%D0%B0%D1%8F%D0%B2%D0%BA%D0%B8%20%D0%BD%D0%B0%20%D0%BA%D0%BE%D0%BD%D0%BA%D1%83%D1%80%D1%81.DOCX"
-                  >
-                    {t('click')}
-                  </Link>
-                </Button>
-                <h5 style={{ marginTop: 10 }}>{t('form1')}</h5>
-                <Button variant="outlined">
-                  <input
-                    type="file"
-                    id="upload"
-                    onChange={(e) => setSelectedFile(e.target.files)}
-                  />
-                </Button>
+          ) : ( */}
+          {/* <> */}
+          <FormControl fullWidth>
+            <h5 style={{ marginTop: 40 }}>{t('form')}</h5>
+            <Button
+              variant="contained"
+              style={{ marginTop: 20, textDecoration: 'none', color: 'white' }}
+              onClick={() => {
+                window.open(
+                  'https://storage.googleapis.com/almatyustazy-profile-bucket/%D0%A4%D0%BE%D1%80%D0%BC%D0%B0%20%D0%B7%D0%B0%D1%8F%D0%B2%D0%BA%D0%B8%20%D0%BD%D0%B0%20%D0%BA%D0%BE%D0%BD%D0%BA%D1%83%D1%80%D1%81.DOCX',
+                )
+              }}
+            >
+              {t('click')}
+            </Button>
+            <h5 style={{ marginTop: 40 }}>{t('form1')}</h5>
+            <Button variant="outlined" style={{ marginTop: 10 }}>
+              <input
+                type="file"
+                id="upload"
+                onChange={(e) => setSelectedFile(e.target.files)}
+              />
+            </Button>
 
-                <Button
-                  style={{
-                    marginTop: 10,
-                  }}
-                  variant="contained"
-                  onClick={sendFirst}
-                >
-                  {t('send')}
-                </Button>
-              </FormControl>
-              {formState === 'pending' && (
-                <div
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}
-                >
-                  <CircularProgress />
-                </div>
-              )}
-              {error && (
-                <Alert
-                  style={{
-                    marginTop: 10,
-                  }}
-                  severity="error"
-                >
-                  {t('errorSend')}
-                </Alert>
-              )}
-            </>
+            <Button
+              style={{
+                marginTop: 20,
+              }}
+              variant="contained"
+              onClick={sendFirst}
+            >
+              {t('send')}
+            </Button>
+          </FormControl>
+          {formState === 'pending' && (
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginTop: 15,
+              }}
+            >
+              <CircularProgress />
+            </div>
           )}
+          {error && (
+            <Alert
+              style={{
+                marginTop: 15,
+              }}
+              severity="error"
+            >
+              {t('errorSend')}
+            </Alert>
+          )}
+
+          {/* )} */}
         </Box>
       </Modal>
     </div>
