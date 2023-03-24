@@ -129,168 +129,177 @@ const RegisterDoctor = () => {
   const { t, i18n } = useTranslation()
 
   return (
-    <div className={classes.main}>
-      <HeaderComponent scrollTo={scrollTo} />
-      <Box
-        component="form"
-        sx={{
-          '& .MuiTextField-root': { m: 1, width: '25ch' },
-        }}
-        noValidate
-        autoComplete="off"
-        className={classes.form}
-      >
-        <div>
-          <UploadButtons userProfile={userProfile} />
-          <DatePickerValue value={value} setValue={setValue} />
+    <>
+      {localStorage.getItem('user') ? (
+        <div className={classes.main}>
+          <HeaderComponent scrollTo={scrollTo} />
+          <Box
+            component="form"
+            sx={{
+              '& .MuiTextField-root': { m: 1, width: '25ch' },
+            }}
+            noValidate
+            autoComplete="off"
+            className={classes.form}
+          >
+            <div>
+              <UploadButtons userProfile={userProfile} />
+              <DatePickerValue value={value} setValue={setValue} />
 
-          <FormControl sx={{ m: 1, minWidth: 300 }}>
-            <InputLabel>{t('degree')}</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={all.category}
-              label="School"
-              onChange={(e) => setAll({ ...all, category: e.target.value })}
-            >
-              {categories?.map((item: any) => {
-                return (
-                  <MenuItem value={item.id} key={item.id}>
-                    {i18n.language === 'kz' ? item.nameRus : item.nameKaz}
-                  </MenuItem>
-                )
-              })}
-            </Select>
-          </FormControl>
-          <FormControl sx={{ m: 1, minWidth: 180 }}>
-            <InputLabel>{t('school')}</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={all.group}
-              label="School"
-              onChange={(e) => setAll({ ...all, group: e.target.value })}
-            >
-              {group?.map((item: any) => {
-                return (
-                  <MenuItem value={item.id} key={item.id}>
-                    {i18n.language === 'kz' ? item.nameKaz : item.nameRus}
-                  </MenuItem>
-                )
-              })}
-            </Select>
-          </FormControl>
-          <FormControl sx={{ m: 1, minWidth: 250 }}>
-            <InputLabel id="demo-simple-select-label">
-              {t('subject')}
-            </InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={all.subject}
-              label="Subject"
-              onChange={(e) => setAll({ ...all, subject: e.target.value })}
-            >
-              {subject?.map((item: any) => {
-                return (
-                  <MenuItem value={item.id} key={item.id}>
-                    {i18n.language === 'kz' ? item.nameKaz : item.nameRus}
-                  </MenuItem>
-                )
-              })}
-            </Select>
-          </FormControl>
-          <TextField
-            required
-            id="outlined-required"
-            label={t('current')}
-            placeholder={t('san') + '...'}
-            value={all.pedagogicalExperienceCurrent}
-            onChange={(e) =>
-              setAll({ ...all, pedagogicalExperienceCurrent: e.target.value })
-            }
-          />
-          <TextField
-            required
-            id="outlined-required"
-            label={t('time')}
-            value={all.pedagogicalExperience}
-            placeholder={t('san') + '...'}
-            onChange={(e) =>
-              setAll({ ...all, pedagogicalExperience: e.target.value })
-            }
-          />
-          <FormControl sx={{ m: 1, minWidth: 180 }}>
-            <InputLabel id="demo-simple-select-label">
-              {t('language')}
-            </InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={all.isKazakhProficient}
-              label="Subject"
-              onChange={(e) =>
-                setAll({ ...all, isKazakhProficient: e.target.value })
-              }
-            >
-              {languages.map((item) => {
-                return (
-                  <MenuItem value={item.id} key={item.id}>
-                    {item.name}
-                  </MenuItem>
-                )
-              })}
-            </Select>
-          </FormControl>
-
-          <FormControl sx={{ m: 1, minWidth: 270 }}>
-            <InputLabel id="demo-simple-select-label">
-              {t('english')}
-            </InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={all.englishProficiency}
-              label="Subject"
-              onChange={(e) =>
-                setAll({ ...all, englishProficiency: e.target.value })
-              }
-            >
-              {i18n.language == 'kz'
-                ? englishProficiencyInKazakh.map((item) => {
-                    return <MenuItem value={item.id}>{item.name}</MenuItem>
-                  })
-                : englishProficiencyInRussian.map((item) => {
-                    return <MenuItem value={item.id}>{item.name}</MenuItem>
+              <FormControl sx={{ m: 1, minWidth: 300 }}>
+                <InputLabel>{t('degree')}</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={all.category}
+                  label="School"
+                  onChange={(e) => setAll({ ...all, category: e.target.value })}
+                >
+                  {categories?.map((item: any) => {
+                    return (
+                      <MenuItem value={item.id} key={item.id}>
+                        {i18n.language === 'kz' ? item.nameRus : item.nameKaz}
+                      </MenuItem>
+                    )
                   })}
-            </Select>
-          </FormControl>
-          <Button
-            variant="contained"
-            style={{
-              margin: '15px',
-            }}
-            onClick={send}
-          >
-            {t('send')}
-          </Button>
-          <Button
-            variant="contained"
-            style={{
-              margin: '15px',
-            }}
-            onClick={() => navigate('/')}
-          >
-            {t('mainPage')}
-          </Button>
-          {state.error == true && (
-            <Alert severity="error">
-              This is an error alert — check it out!
-            </Alert>
-          )}
+                </Select>
+              </FormControl>
+              <FormControl sx={{ m: 1, minWidth: 180 }}>
+                <InputLabel>{t('school')}</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={all.group}
+                  label="School"
+                  onChange={(e) => setAll({ ...all, group: e.target.value })}
+                >
+                  {group?.map((item: any) => {
+                    return (
+                      <MenuItem value={item.id} key={item.id}>
+                        {i18n.language === 'kz' ? item.nameKaz : item.nameRus}
+                      </MenuItem>
+                    )
+                  })}
+                </Select>
+              </FormControl>
+              <FormControl sx={{ m: 1, minWidth: 250 }}>
+                <InputLabel id="demo-simple-select-label">
+                  {t('subject')}
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={all.subject}
+                  label="Subject"
+                  onChange={(e) => setAll({ ...all, subject: e.target.value })}
+                >
+                  {subject?.map((item: any) => {
+                    return (
+                      <MenuItem value={item.id} key={item.id}>
+                        {i18n.language === 'kz' ? item.nameKaz : item.nameRus}
+                      </MenuItem>
+                    )
+                  })}
+                </Select>
+              </FormControl>
+              <TextField
+                required
+                id="outlined-required"
+                label={t('current')}
+                placeholder={t('san') + '...'}
+                value={all.pedagogicalExperienceCurrent}
+                onChange={(e) =>
+                  setAll({
+                    ...all,
+                    pedagogicalExperienceCurrent: e.target.value,
+                  })
+                }
+              />
+              <TextField
+                required
+                id="outlined-required"
+                label={t('time')}
+                value={all.pedagogicalExperience}
+                placeholder={t('san') + '...'}
+                onChange={(e) =>
+                  setAll({ ...all, pedagogicalExperience: e.target.value })
+                }
+              />
+              <FormControl sx={{ m: 1, minWidth: 180 }}>
+                <InputLabel id="demo-simple-select-label">
+                  {t('language')}
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={all.isKazakhProficient}
+                  label="Subject"
+                  onChange={(e) =>
+                    setAll({ ...all, isKazakhProficient: e.target.value })
+                  }
+                >
+                  {languages.map((item) => {
+                    return (
+                      <MenuItem value={item.id} key={item.id}>
+                        {item.name}
+                      </MenuItem>
+                    )
+                  })}
+                </Select>
+              </FormControl>
+
+              <FormControl sx={{ m: 1, minWidth: 270 }}>
+                <InputLabel id="demo-simple-select-label">
+                  {t('english')}
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={all.englishProficiency}
+                  label="Subject"
+                  onChange={(e) =>
+                    setAll({ ...all, englishProficiency: e.target.value })
+                  }
+                >
+                  {i18n.language == 'kz'
+                    ? englishProficiencyInKazakh.map((item) => {
+                        return <MenuItem value={item.id}>{item.name}</MenuItem>
+                      })
+                    : englishProficiencyInRussian.map((item) => {
+                        return <MenuItem value={item.id}>{item.name}</MenuItem>
+                      })}
+                </Select>
+              </FormControl>
+              <Button
+                variant="contained"
+                style={{
+                  margin: '15px',
+                }}
+                onClick={send}
+              >
+                {t('send')}
+              </Button>
+              <Button
+                variant="contained"
+                style={{
+                  margin: '15px',
+                }}
+                onClick={() => navigate('/')}
+              >
+                {t('mainPage')}
+              </Button>
+              {state.error == true && (
+                <Alert severity="error">
+                  This is an error alert — check it out!
+                </Alert>
+              )}
+            </div>
+          </Box>
         </div>
-      </Box>
-    </div>
+      ) : (
+        <div className={classes.main}>{(window.location.href = '/')}</div>
+      )}
+    </>
   )
 }
 export default RegisterDoctor
