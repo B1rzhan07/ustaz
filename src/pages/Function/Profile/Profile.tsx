@@ -24,7 +24,7 @@ const Profile = () => {
   const navigate = useNavigate()
   const birthDate = new Date(userProfile?.birthDate)
 
-  if (userProfile?.birthDate !== null) {
+  if (userProfile?.birthDate) {
     birthDateFormated = `${birthDate.getDate() + 1}.${
       birthDate.getMonth() + 1
     }.${birthDate.getFullYear()}`

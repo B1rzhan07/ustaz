@@ -17,6 +17,8 @@ import TextField from '@mui/material/TextField'
 import '../../index.scss'
 import { AxiosError } from 'axios'
 import { useTranslation } from 'react-i18next'
+import { useEffect } from 'react'
+import { Link } from 'react-router-dom'
 const style = {
   position: 'absolute' as 'absolute',
   top: '50%',
@@ -54,6 +56,8 @@ export default function ModalRegister({ handleClose, open }: Props) {
   const choices = 0
   const name = 'file'
   const url = ''
+
+  const [fileUrl, setFileUrl] = useState<string>('')
 
   const sent = () => {}
 
@@ -139,6 +143,7 @@ export default function ModalRegister({ handleClose, open }: Props) {
           >
             <h3>{t('olymp')}</h3>
           </Typography>
+
           {success ? (
             <>
               <h5>{t('link')} </h5>
@@ -222,8 +227,20 @@ export default function ModalRegister({ handleClose, open }: Props) {
             </>
           ) : (
             <>
-              <h5>{t('form')}</h5>
               <FormControl fullWidth>
+                <h5>{t('form')}</h5>
+                <Button variant="contained">
+                  <Link
+                    style={{
+                      textDecoration: 'none',
+                      color: 'white',
+                    }}
+                    to="https://storage.googleapis.com/almatyustazy-profile-bucket/%D0%A4%D0%BE%D1%80%D0%BC%D0%B0%20%D0%B7%D0%B0%D1%8F%D0%B2%D0%BA%D0%B8%20%D0%BD%D0%B0%20%D0%BA%D0%BE%D0%BD%D0%BA%D1%83%D1%80%D1%81.DOCX"
+                  >
+                    {t('click')}
+                  </Link>
+                </Button>
+                <h5 style={{ marginTop: 10 }}>{t('form1')}</h5>
                 <Button variant="outlined">
                   <input
                     type="file"
@@ -231,6 +248,7 @@ export default function ModalRegister({ handleClose, open }: Props) {
                     onChange={(e) => setSelectedFile(e.target.files)}
                   />
                 </Button>
+
                 <Button
                   style={{
                     marginTop: 10,
