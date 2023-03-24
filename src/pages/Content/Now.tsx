@@ -13,7 +13,7 @@ const Now: React.FC = () => {
           <p>{t('fast')}</p>
         </div>
       </div>
-      <h1 style={{ marginLeft: 300, marginTop: 80 }}>{t('create')}</h1>
+      <h1 style={{ marginLeft: 300, marginTop: 20 }}>{t('create')}</h1>
       <div className="almaty">
         <img
           style={{

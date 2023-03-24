@@ -65,7 +65,15 @@ const Come = ({
           </div>
         </div>
         <img
-          src="https://almatyustazy.kz/img_almaty_ustaz/join_img.png"
+          style={{
+            borderRadius: 50,
+            marginLeft: 90,
+            borderBlockColor: 'red',
+            boxShadow: '0 0 10px rgba(0,0,0,0.5)',
+          }}
+          width={450}
+          height={500}
+          src="https://media.istockphoto.com/id/1359951115/photo/successful-young-business-people-talking-working-together-in-front-of-modern-business-building.jpg?b=1&s=170667a&w=0&k=20&c=Z_AcX8kbPfaW1d_I09Q0ByJgH2gQc_THI8bD5IQYBRc="
           alt="almatyustazy"
         />
       </div>
