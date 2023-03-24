@@ -80,8 +80,17 @@ const Login = () => {
 
   const switchAuthModeHandler = React.useCallback(() => {
     setIsLogin((prevState: any) => !prevState)
+    setAll({
+      username: '',
+      password: '',
+      firstName: '',
+      lastName: '',
+      middleName: '',
+      email: '',
+    })
+    setError('')
   }, [])
-
+  const [error, setError] = React.useState<any>(null)
   const submitHandler = React.useCallback(
     (event: React.FormEvent) => {
       event.preventDefault()
@@ -92,7 +101,8 @@ const Login = () => {
               navigate('/profile')
             }
           })
-          .catch((err: AxiosError) => {
+          .catch((err: any) => {
+            setError(err)
             console.log(err)
           })
       } else {
@@ -114,7 +124,7 @@ const Login = () => {
                 }
               })
               .catch((err: AxiosError) => {
-                console.log(err)
+                setError(err)
               })
           }
         })
@@ -127,6 +137,7 @@ const Login = () => {
         middleName: '',
         email: '',
       })
+      setError('Қайтадан кіріп көріңіз')
     },
     [all, isLogin, navigate],
   )
@@ -163,6 +174,7 @@ const Login = () => {
                           id="outlined-basic"
                           variant="outlined"
                           required
+                          value={all.firstName}
                           onChange={(e) => setFirstName(e.target.value)}
                         />
                       </div>{' '}
@@ -176,6 +188,7 @@ const Login = () => {
                         <TextField
                           id="outlined-basic"
                           variant="outlined"
+                          value={all.lastName}
                           required
                           onChange={(e) => setLastName(e.target.value)}
                         />
@@ -190,6 +203,7 @@ const Login = () => {
                         <TextField
                           id="outlined-basic"
                           variant="outlined"
+                          value={all.middleName}
                           required
                           onChange={(e) => setMiddleName(e.target.value)}
                         />
@@ -205,6 +219,7 @@ const Login = () => {
                           id="outlined-basic"
                           variant="outlined"
                           required
+                          value={all.email}
                           onChange={setEmail}
                         />
                       </div>{' '}
@@ -239,6 +254,7 @@ const Login = () => {
                         variant="outlined"
                         placeholder={t('writeNickname') + '...'}
                         required
+                        value={all.username}
                         onChange={(e) => setUserName(e.target.value)}
                       />
                     </div>
@@ -255,6 +271,7 @@ const Login = () => {
                         id="outlined-basic"
                         variant="outlined"
                         required
+                        value={all.password}
                         placeholder={t('writePassword') + '...'}
                         onChange={(e) => setPassword(e.target.value)}
                       />
@@ -303,6 +320,11 @@ const Login = () => {
                       </Link>{' '}
                     </span>{' '}
                   </div>{' '}
+                  {error && (
+                    <div className="alert alert-danger" role="alert">
+                      {error}
+                    </div>
+                  )}
                 </div>
               </div>{' '}
             </div>
