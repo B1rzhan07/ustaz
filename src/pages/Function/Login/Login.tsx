@@ -76,10 +76,7 @@ const Login = () => {
     (event: React.FormEvent) => {
       event.preventDefault()
       if (isLogin) {
-        AuthService.login(
-          all.username.toString().toLowerCase(),
-          all.password.toString().toLowerCase(),
-        )
+        AuthService.login(all.username.toString(), all.password.toString())
           .then((response: AxiosResponse) => {
             if (localStorage.getItem('user')) {
               navigate('/profile')
