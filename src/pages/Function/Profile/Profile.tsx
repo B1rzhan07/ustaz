@@ -28,18 +28,6 @@ const Profile = () => {
     birthDateFormated = `${birthDate.getDate()}.${birthDate.getMonth()}.${birthDate.getFullYear()}`
   }
   const scrollTo = () => {}
-  if (userProfile?.isKazakhProficient == false) {
-    userProfile.isKazakhProficient = 'Орысша'
-  }
-  if (userProfile?.isKazakhProficient == true) {
-    userProfile.isKazakhProficient = 'Қазақша'
-  }
-  if (userProfile?.isKazakhProficient == false) {
-    userProfile.isKazakhProficient = 'Русский'
-  }
-  if (userProfile?.isKazakhProficient == true) {
-    userProfile.isKazakhProficient = 'Казахский'
-  }
 
   return (
     <>
@@ -94,7 +82,12 @@ const Profile = () => {
                       </p>
 
                       <p className="fonts">
-                        {t('language')}: {userProfile?.isKazakhProficient}
+                        {t('language')}:{' '}
+                        {userProfile?.isKazakhProficient === null
+                          ? ' '
+                          : userProfile?.isKazakhProficient == true
+                          ? t('kz')
+                          : t('ru')}
                       </p>
                       <p className="fonts">
                         {t('english')}:{' '}

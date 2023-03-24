@@ -108,6 +108,7 @@ const RegisterDoctor = () => {
   }>({ success: null, error: null })
 
   const scrollTo = () => {}
+  console.log(all)
 
   const send = () => {
     TournamentService.updateProfile(
@@ -175,57 +176,6 @@ const RegisterDoctor = () => {
                 </Select>
               </FormControl>
               <FormControl sx={{ m: 1, minWidth: 180 }}>
-                {/* <InputLabel>{t('school')}</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={all.group}
-                  label="School"
-                  onChange={(e) => setAll({ ...all, group: e.target.value })}
-                >
-                  {group?.map((item: any) => {
-                    return (
-                      <MenuItem value={item.id} key={item.id}>
-                        {i18n.language === 'kz' ? item.nameKaz : item.nameRus}
-                      </MenuItem>
-                    )
-                  })}
-
-                </Select> */}
-                {/* <TextField
-                  required
-                  id="outlined-required"
-                  label="Department ID"
-                  value={all.group}
-                  onChange={(e) => setAll({ ...all, group: e.target.value })}
-                >
-                  {group?.map((item: any) => {
-                    return (
-                      <MenuItem value={item.id} key={item.id}>
-                        {i18n.language === 'kz' ? item.nameKaz : item.nameRus}
-                      </MenuItem>
-                    )
-                  })} */}
-                {/* <Autocomplete
-                  id="school-select"
-                  options={group}
-                  getOptionLabel={(option) =>
-                    i18n.language === 'kz' ? option.nameKaz : option.nameRus
-                  }
-                  onChange={(event, newValue) => {
-                    setAll({ ...all, group: newValue?.id })
-                  }}
-                  defaultValue={group?.filter(
-                    (item: any) => item.id === all.group,
-                  )}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      label={t('school')}
-                      variant="outlined"
-                    />
-                  )}
-                /> */}
                 <Autocomplete
                   id="demo-autocomplete"
                   options={group}
@@ -237,7 +187,11 @@ const RegisterDoctor = () => {
                     setAll({ ...all, group: newValue })
                   }}
                   renderInput={(params: any) => (
-                    <TextField {...params} label="School" variant="outlined" />
+                    <TextField
+                      {...params}
+                      label={t('school')}
+                      variant="outlined"
+                    />
                   )}
                 />
 
@@ -344,8 +298,8 @@ const RegisterDoctor = () => {
                   all.subject == '' ||
                   all.pedagogicalExperienceCurrent == '' ||
                   all.pedagogicalExperience == '' ||
-                  all.isKazakhProficient == '' ||
-                  all.englishProficiency == ''
+                  all.isKazakhProficient == null ||
+                  all.englishProficiency == null
                 }
                 variant="contained"
                 style={{
