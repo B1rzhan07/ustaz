@@ -3,8 +3,11 @@ import '../../index.scss'
 import Input from '../../components/Input/Input.component'
 import CheckBox from '../../components/CheckBox/CheckBox.component'
 import { useTranslation } from 'react-i18next'
+import img from '../../../public/Img/alma.jpg'
 const Now: React.FC = () => {
   const { t } = useTranslation()
+  console.log(img)
+
   return (
     <>
       <div className="now">
@@ -20,7 +23,7 @@ const Now: React.FC = () => {
             borderRadius: 50,
             marginLeft: 90,
           }}
-          src="https://almatyustazy.kz/upload/iblock/68e/f61m7w5tp2yats1a3mozn0tvgpj6xnmy/1.png"
+          src={img}
           alt=""
           height={100}
           width={100}
