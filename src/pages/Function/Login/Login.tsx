@@ -284,23 +284,15 @@ const Login = () => {
                         placeholder={t('latin') + ' '}
                         value={all.username}
                         sx={!isLogin ? { width: '50%' } : undefined}
-                        onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
-                          const lang = e.currentTarget.lang
-                          if (lang && lang !== 'en') {
-                            e.preventDefault()
-                          }
-                        }}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                          const regex = /^[a-zA-Z\s]*$/ // regular expression to match English letters and spaces
                           const input = e.target.value
-                          if (regex.test(input) && !/\s/g.test(input)) {
+                          if (!/\s/g.test(input)) {
                             setAll((prevState) => ({
                               ...prevState,
                               username: input,
                             }))
                           }
                         }}
-                        lang="en"
                       />
                     </div>
                     <div
@@ -320,16 +312,14 @@ const Login = () => {
                         value={all.password}
                         placeholder={t('writePassword') + '...'}
                         onChange={(e) => {
-                          const regex = /^[0-9a-zA-Z]*$/ // regular expression to match English letters and spaces
                           const input = e.target.value
-                          if (regex.test(input) && !/\s/g.test(input)) {
+                          if (!/\s/g.test(input)) {
                             setAll((prevState) => ({
                               ...prevState,
-                              password: input,
+                              password: e.target.value,
                             }))
                           }
                         }}
-                        lang="en"
                       />
                     </div>{' '}
                   </div>
