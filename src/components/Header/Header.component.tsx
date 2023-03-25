@@ -123,30 +123,32 @@ function HeaderComponent({ scrollTo }: Props) {
           <Box sx={{ flexGrow: 2 }} className="bet">
             {localStorage.getItem('user') && (
               <ButtonComponent
-                word={t('personal')}
+                word={'профиль'}
                 onClick={() => {
                   navigate('/profile')
                 }}
               />
             )}
-            {!localStorage.getItem('user') ? (
-              <ButtonComponent
-                word={t('login')}
-                onClick={() => {
-                  window.location.href = '/login'
-                }}
-              />
-            ) : (
-              <ButtonComponent
-                word={t('logout')}
-                onClick={() => {
-                  localStorage.removeItem('user')
-                  localStorage.removeItem('data')
-                  localStorage.removeItem('register')
-                  navigate('/')
-                }}
-              />
-            )}
+            <div className="betRight">
+              {!localStorage.getItem('user') ? (
+                <ButtonComponent
+                  word={t('login')}
+                  onClick={() => {
+                    window.location.href = '/login'
+                  }}
+                />
+              ) : (
+                <ButtonComponent
+                  word={t('logout')}
+                  onClick={() => {
+                    localStorage.removeItem('user')
+                    localStorage.removeItem('data')
+                    localStorage.removeItem('register')
+                    navigate('/')
+                  }}
+                />
+              )}
+            </div>
 
             <TabsComponent />
           </Box>

@@ -57,9 +57,8 @@ const RegisterDoctor = () => {
   const [subject, setSubject] = React.useState<any>([])
   const [categories, setCategories] = React.useState<any>([])
   const [userProfile, setUserProfile] = React.useState<any>([])
-  const [value, setValue] = React.useState<Dayjs>(dayjs(''))
+  const [value, setValue] = React.useState<Dayjs>(dayjs('').tz('Asia/Almaty'))
   const data = JSON.parse(localStorage.getItem('data')?.toString() || '')
-  console.log(data)
 
   const [all, setAll] = React.useState({
     group: data?.group || '',

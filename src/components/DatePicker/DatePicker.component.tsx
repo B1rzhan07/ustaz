@@ -3,13 +3,20 @@ import { DemoContainer } from '@mui/x-date-pickers/internals/demo'
 import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
-import dayjs, { Dayjs } from 'dayjs'
+import dayjs from 'dayjs'
+import utc from 'dayjs/plugin/utc'
+import timezone from 'dayjs/plugin/timezone'
+import 'dayjs/locale/en' // Optional: import any desired locales
 import { useTranslation } from 'react-i18next'
 
+dayjs.extend(utc)
+dayjs.extend(timezone)
+
 type DatePickerValueProps = {
-  value: Dayjs | null
-  setValue: (value: Dayjs) => void
+  value: dayjs.Dayjs | null
+  setValue: (value: dayjs.Dayjs) => void
 }
+
 export default function DatePickerValue({
   value,
   setValue,
@@ -22,7 +29,7 @@ export default function DatePickerValue({
           label={t('birth')}
           value={value}
           onChange={(newValue: any) => {
-            setValue(newValue)
+            setValue(dayjs.utc(newValue).tz('Asia/Almaty'))
           }}
         />
       </DemoContainer>

@@ -8,14 +8,14 @@ class Announcements {
     text: string
   ): Promise<AxiosResponse<any>> {
     return axios.post(
-      API_URL + "/secretary/announcements/create",
+      API_URL + "/secretary/announcement/create",
       {
         title,
         content,
         text,
-        id: null,
-        filename: null,
-        creator: null,
+        id: 0,
+        filename: text,
+        creator: 0,
       },
       {
         headers: {

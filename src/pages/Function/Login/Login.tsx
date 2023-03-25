@@ -48,9 +48,9 @@ const Login = () => {
       if (isEmailValid(event.target.value)) {
         setIsValidEmail(true)
       }
-      const regex = /^[a-zA-Z\s]*$/ // regular expression to match English letters and spaces
+      const regex = /^[a-zA-Z!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]*$/
       const input = event.target.value
-      if (!/\s/g.test(input)) {
+      if (!/\s/g.test(input) && regex.test(input)) {
         setAll((prevState) => ({ ...prevState, email: event.target.value }))
       }
     },
@@ -165,8 +165,7 @@ const Login = () => {
                           value={all.firstName}
                           onChange={(e) => {
                             const input = e.target.value
-                            const regex = /^[a-zA-Z\s]*$/
-                            const regex1 = /^[а-яА-ЯәғқңөұүһҢҒҚӨҮ\s]*$/
+                            const regex1 = /^[А-ЯҢңӘӨҮа-яңғіқұһәөү\s]*$/
                             if (!/\s/g.test(input) && regex1.test(input)) {
                               setAll((prevState) => ({
                                 ...prevState,
@@ -193,7 +192,7 @@ const Login = () => {
                           onChange={(e) => {
                             const input = e.target.value
                             const regex = /^[a-zA-Z\s]*$/
-                            const regex1 = /^[а-яА-ЯәғқңөұүһҢҒҚӨҮ\s]*$/
+                            const regex1 = /^[А-ЯҢңӘӨҮа-яңғіқұһәөү\s]*$/
                             if (!/\s/g.test(input) && regex1.test(input)) {
                               setAll((prevState) => ({
                                 ...prevState,
@@ -219,8 +218,7 @@ const Login = () => {
                           required
                           onChange={(e) => {
                             const input = e.target.value
-                            const regex = /^[a-zA-Z\s]*$/
-                            const regex1 = /^[а-яА-ЯәғқңөұүһҢҒҚӨҮ\s]*$/
+                            const regex1 = /^[А-ЯҢңӘӨҮа-яңғіқұһәөү\s]*$/
                             if (!/\s/g.test(input) && regex1.test(input)) {
                               setAll((prevState) => ({
                                 ...prevState,
