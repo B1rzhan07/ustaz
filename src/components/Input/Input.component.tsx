@@ -17,7 +17,7 @@ export default function Input({ handleOpen }: Props) {
   return (
     <>
       <ButtonComponent
-        word={t('register')}
+        word={t('nysan')}
         onClick={() => {
           if (localStorage.getItem('user') && data.category) {
             handleOpen()

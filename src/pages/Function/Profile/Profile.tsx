@@ -1,6 +1,6 @@
 import HeaderComponent from '../../../components/Header/Header.component'
 import AuthService from '../../../services/AuthService'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import React from 'react'
 import TournamentService from '../../../services/TournamentService'
@@ -115,6 +115,18 @@ const Profile = () => {
                           <b>{t('yes')}</b>
                         ) : (
                           <b>{t('no')}</b>
+                        )}
+                        {register?.team?.applicationFormURL ? (
+                          ' '
+                        ) : (
+                          <Link
+                            style={{
+                              textDecoration: 'none',
+                            }}
+                            to="/"
+                          >
+                            {t('sss')}
+                          </Link>
                         )}
                       </p>
                     </div>
