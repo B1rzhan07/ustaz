@@ -25,7 +25,9 @@ const Profile = () => {
   const birthDate = new Date(userProfile?.birthDate)
 
   if (userProfile?.birthDate) {
-    birthDateFormated = `${birthDate.getDate()}.${birthDate.getMonth()}.${birthDate.getFullYear()}`
+    birthDateFormated = `${
+      birthDate.getMonth() + 1
+    }.${birthDate.getDate()}.${birthDate.getFullYear()}`
   }
   const scrollTo = () => {}
 

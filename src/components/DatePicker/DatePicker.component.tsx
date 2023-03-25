@@ -41,6 +41,7 @@ export default function DatePickerValue({
           label={t('birth')}
           value={value}
           onChange={handleDateChange}
+          // only display the day picker
         />
       </DemoContainer>
     </LocalizationProvider>
