@@ -114,7 +114,7 @@ const RegisterDoctor = () => {
       userProfile.firstName,
       userProfile.lastName,
       userProfile.middleName,
-      value.add(1, 'day'),
+      value.add(1, 'month'),
       all.group.id,
       all.subject,
       Number(all.category),
@@ -222,12 +222,15 @@ const RegisterDoctor = () => {
                 label={t('current')}
                 placeholder={t('san') + '...'}
                 value={all.pedagogicalExperienceCurrent}
-                onChange={(e) =>
-                  setAll({
-                    ...all,
-                    pedagogicalExperienceCurrent: e.target.value,
-                  })
-                }
+                onChange={(e) => {
+                  const pattern = /^[0-9]*$/
+                  if (pattern.test(e.target.value)) {
+                    setAll({
+                      ...all,
+                      pedagogicalExperienceCurrent: e.target.value,
+                    })
+                  }
+                }}
               />
               <TextField
                 required
@@ -235,9 +238,12 @@ const RegisterDoctor = () => {
                 label={t('time')}
                 value={all.pedagogicalExperience}
                 placeholder={t('san') + '...'}
-                onChange={(e) =>
-                  setAll({ ...all, pedagogicalExperience: e.target.value })
-                }
+                onChange={(e) => {
+                  const pattern = /^[0-9]*$/
+                  if (pattern.test(e.target.value)) {
+                    setAll({ ...all, pedagogicalExperience: e.target.value })
+                  }
+                }}
               />
               <FormControl sx={{ m: 1, minWidth: 180 }}>
                 <InputLabel id="demo-simple-select-label">

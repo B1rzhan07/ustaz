@@ -10,6 +10,7 @@ import Button from '@mui/material/Button'
 import { style } from './styles'
 import { ColorButton } from './styles'
 import { BootstrapButton } from './styles'
+import Announcements from '../../../services/Announcements'
 
 const News = () => {
   const [open, setOpen] = React.useState(false)
@@ -27,6 +28,13 @@ const News = () => {
     link.download = 'document.pdf'
     link.click()
   }
+  const [announcement, setAnnouncement] = useState<any>([])
+  React.useEffect(() => {
+    Announcements.getAnnouncementsById(7).then((response) => {
+      setAnnouncement(response.data)
+    })
+  }, [])
+  console.log(announcement)
 
   return (
     <div className={classes.container}>
@@ -59,9 +67,10 @@ const News = () => {
           </>
         )}
         <div className={classes.news__item}>
-          <h5>{t('plan1')}</h5>
-          <p>some</p>
+          {announcement?.title}
+          <p>{announcement?.text}</p>
           <div className={classes.news__inside}>
+            {announcement?.content}
             <BootstrapButton
               className={classes.btn}
               variant="contained"

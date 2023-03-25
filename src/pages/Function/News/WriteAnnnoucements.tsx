@@ -22,7 +22,7 @@ const AnnouncementsForm = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     Announcements.sendAnnouncements(title, text, content).then((response) => {
-      console.log(response)
+      console.log(response.data.announcementId)
     })
   }
 

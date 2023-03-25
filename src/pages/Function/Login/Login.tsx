@@ -48,8 +48,9 @@ const Login = () => {
       if (isEmailValid(event.target.value)) {
         setIsValidEmail(true)
       }
-      const regex = /^[a-zA-Z!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]*$/
+      const regex = /^[a-zA-Z0-9\s!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~]*$/
       const input = event.target.value
+
       if (!/\s/g.test(input) && regex.test(input)) {
         setAll((prevState) => ({ ...prevState, email: event.target.value }))
       }
@@ -165,7 +166,7 @@ const Login = () => {
                           value={all.firstName}
                           onChange={(e) => {
                             const input = e.target.value
-                            const regex1 = /^[А-ЯҢңӘӨҮа-яңғіқұһәөү\s]*$/
+                            const regex1 = /^[А-ЯҢңӘӨҮа-яңғіқҚӨҰҺІҒұһәөү\s]*$/
                             if (!/\s/g.test(input) && regex1.test(input)) {
                               setAll((prevState) => ({
                                 ...prevState,
@@ -192,7 +193,7 @@ const Login = () => {
                           onChange={(e) => {
                             const input = e.target.value
                             const regex = /^[a-zA-Z\s]*$/
-                            const regex1 = /^[А-ЯҢңӘӨҮа-яңғіқұһәөү\s]*$/
+                            const regex1 = /^[А-ЯҢңӘӨҮа-яңғіқҚӨҰҺІҒұһәөү\s]*$/
                             if (!/\s/g.test(input) && regex1.test(input)) {
                               setAll((prevState) => ({
                                 ...prevState,
@@ -218,7 +219,7 @@ const Login = () => {
                           required
                           onChange={(e) => {
                             const input = e.target.value
-                            const regex1 = /^[А-ЯҢңӘӨҮа-яңғіқұһәөү\s]*$/
+                            const regex1 = /^[А-ЯҢңӘӨҮа-яңғіқҚӨҰҺІҒұһәөү\s]*$/
                             if (!/\s/g.test(input) && regex1.test(input)) {
                               setAll((prevState) => ({
                                 ...prevState,

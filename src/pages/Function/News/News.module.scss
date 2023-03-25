@@ -4,12 +4,13 @@
         animation-duration: 0.3s;
         animation-name: slideIn;
         display: flex;
-        margin-top: 20px;
+        margin-top: 10px;
+        padding: 40px;
         flex-direction: column;
         justify-content: center;
         border-radius: 20px;
         align-items: center;
-        height: 240px;
+        height: 200px;
         background-color: rgba(31, 172, 228, 0.825);
         border: 1px solid black;
     }

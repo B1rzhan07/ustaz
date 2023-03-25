@@ -113,13 +113,23 @@ function HeaderComponent({ scrollTo }: Props) {
                 <b>{t('participate')}</b>
               </button>
             </div>
+            <div className="pages" style={{ color: 'black' }}>
+              <button
+                disabled
+                style={{
+                  backgroundColor: 'white',
+                  border: 'none',
+                  outline: 'none',
+                }}
+                onClick={() => {
+                  navigate('/news')
+                }}
+              >
+                <b>{t('news')}</b>
+              </button>
+            </div>
           </Box>
-          {/* <ButtonComponent
-            word={t('news')}
-            onClick={() => {
-              navigate('/news')
-            }}
-          /> */}
+
           <Box sx={{ flexGrow: 2 }} className="bet">
             {localStorage.getItem('user') && (
               <ButtonComponent
