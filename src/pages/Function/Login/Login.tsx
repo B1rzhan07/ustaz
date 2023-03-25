@@ -87,8 +87,8 @@ const Login = () => {
           })
       } else {
         AuthService.register(
-          all.username.toString().toLowerCase(),
-          all.password.toString().toLowerCase(),
+          all.username.toString(),
+          all.password.toString(),
           all.email.toString(),
           all.middleName.toString(),
           all.lastName.toString(),
