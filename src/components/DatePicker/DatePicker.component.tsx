@@ -22,15 +22,25 @@ export default function DatePickerValue({
   setValue,
 }: DatePickerValueProps) {
   const { t } = useTranslation()
+  const timeZone = 'Asia/Almaty' // or use a user-selected time zone
+
+  const handleDateChange = (newValue: any) => {
+    // Get the local time in the selected time zone
+    const localTime = dayjs.tz(newValue, timeZone)
+    // Convert the local time to UTC for storage
+    const utcTime = localTime.utc()
+    setValue(utcTime)
+  }
+
+  console.log('Initial value:', value)
+
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DemoContainer components={['DatePicker', 'DatePicker']}>
         <DatePicker
           label={t('birth')}
           value={value}
-          onChange={(newValue: any) => {
-            setValue(dayjs.utc(newValue).tz('Asia/Almaty'))
-          }}
+          onChange={handleDateChange}
         />
       </DemoContainer>
     </LocalizationProvider>

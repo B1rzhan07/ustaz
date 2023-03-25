@@ -114,7 +114,7 @@ const RegisterDoctor = () => {
       userProfile.firstName,
       userProfile.lastName,
       userProfile.middleName,
-      value.add(1, 'month'),
+      value.add(1, 'day'),
       all.group.id,
       all.subject,
       Number(all.category),
