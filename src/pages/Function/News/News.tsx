@@ -70,6 +70,11 @@ const News = () => {
             </Modal>
           </>
         )}
+        {currentPosts?.length === 0 && (
+          <h1 style={{ textAlign: 'center', color: '#0063cc' }}>
+            {t('noNews')}
+          </h1>
+        )}
         {currentPosts?.reverse().map((announcement: any) => (
           <div className={classes.news__item}>
             <b>{announcement?.title}</b>

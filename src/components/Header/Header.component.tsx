@@ -17,6 +17,8 @@ type Props = {
   scrollTo: (name: string) => void
 }
 function HeaderComponent({ scrollTo }: Props) {
+  const location = window.location.pathname
+  console.log(location)
   const navigate = useNavigate()
   const handleClick = (name: string) => {
     scrollTo(name)
@@ -74,35 +76,40 @@ function HeaderComponent({ scrollTo }: Props) {
                 <b>{t('main')}</b>
               </button>
             </div>
-            <div className="pages headerY" style={{ color: 'black' }}>
-              <button
-                style={{
-                  backgroundColor: 'white',
-                  border: 'none',
-                  outline: 'none',
-                }}
-                onClick={() => {
-                  handleClick('Байқау кезеңдері')
-                }}
-              >
-                <b>{t('stages')}</b>
-              </button>
-            </div>
+            {location === '/' && (
+              <>
+                <div className="pages headerY" style={{ color: 'black' }}>
+                  <button
+                    style={{
+                      backgroundColor: 'white',
+                      border: 'none',
+                      outline: 'none',
+                    }}
+                    onClick={() => {
+                      handleClick('Байқау кезеңдері')
+                    }}
+                  >
+                    <b>{t('stages')}</b>
+                  </button>
+                </div>
 
-            <div className="pages headerY" style={{ color: 'black' }}>
-              <button
-                style={{
-                  backgroundColor: 'white',
-                  border: 'none',
-                  outline: 'none',
-                }}
-                onClick={() => {
-                  handleClick('Қатысушы болу')
-                }}
-              >
-                <b>{t('participate')}</b>
-              </button>
-            </div>
+                <div className="pages headerY" style={{ color: 'black' }}>
+                  <button
+                    style={{
+                      backgroundColor: 'white',
+                      border: 'none',
+                      outline: 'none',
+                    }}
+                    onClick={() => {
+                      handleClick('Қатысушы болу')
+                    }}
+                  >
+                    <b>{t('participate')}</b>
+                  </button>
+                </div>
+              </>
+            )}
+
             <div className="pages headerY" style={{ color: 'black' }}>
               <button
                 style={{
