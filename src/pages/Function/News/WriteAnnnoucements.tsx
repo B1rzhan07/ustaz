@@ -6,25 +6,45 @@ import Announcements from '../../../services/Announcements'
 const UploadInput = styled('input')({
   display: 'none',
 })
+type AnnouncementsFormProps = {
+  onClose: () => void
+  setAnnouncements: (announcements: any) => void
+}
 
-const AnnouncementsForm = () => {
+const AnnouncementsForm = ({
+  onClose,
+  setAnnouncements,
+}: AnnouncementsFormProps) => {
   const [title, setTitle] = useState('')
   const [text, setText] = useState('')
-  const [content, setContent] = useState('')
-  const [file, setFile] = useState<File | null>(null)
+
+  const [file, setFile] = useState<FileList | null>(null)
+  const formData = new FormData()
+
+  formData.append('file', file?.item(0) as File)
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files.length > 0) {
-      setFile(event.target.files[0])
+      setFile(event.target.files)
     }
   }
-
+  var announcementId = 0
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    Announcements.sendAnnouncements(title, text, content).then((response) => {
-      console.log(response.data.announcementId)
-    })
+    Announcements.sendAnnouncements(title, text)
+      .then((response) => {
+        console.log(response.data)
+        announcementId = response.data.announcementId
+        Announcements.sendPresentationAnnouncement(formData, announcementId)
+      })
+      .then(() => {
+        onClose()
+        Announcements.getAnnouncements().then((response) => {
+          setAnnouncements(response.data)
+        })
+      })
   }
+  console.log(file?.item(0)?.name)
 
   return (
     <Container maxWidth="sm">
@@ -39,6 +59,8 @@ const AnnouncementsForm = () => {
               fullWidth
               value={title}
               onChange={(event) => setTitle(event.target.value)}
+              multiline
+              rows={3}
             />
           </Grid>
           <Grid item xs={12}>
@@ -48,22 +70,12 @@ const AnnouncementsForm = () => {
               value={text}
               onChange={(event) => setText(event.target.value)}
               multiline
-              rows={4}
+              rows={7}
             />
           </Grid>
-          <Grid item xs={12}>
-            <TextField
-              label="Контент"
-              fullWidth
-              value={content}
-              onChange={(event) => setContent(event.target.value)}
-              multiline
-              rows={8}
-            />
-          </Grid>
+
           <Grid item xs={12}>
             <input
-              accept="image/*,application/pdf"
               id="upload-file"
               type="file"
               onChange={handleFileChange}
@@ -74,7 +86,7 @@ const AnnouncementsForm = () => {
                 Загрузить файл
               </Button>
             </label>
-            {file && <span>{file.name}</span>}
+            {file && <span>{file?.item(0)?.name}</span>}
           </Grid>
           <Grid item xs={12}>
             <Button type="submit" variant="contained" color="primary">

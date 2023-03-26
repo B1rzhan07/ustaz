@@ -11,6 +11,8 @@ import { style } from './styles'
 import { ColorButton } from './styles'
 import { BootstrapButton } from './styles'
 import Announcements from '../../../services/Announcements'
+import DeleteIcon from '@mui/icons-material/Delete'
+import Pagination from './Pagination'
 
 const News = () => {
   const [open, setOpen] = React.useState(false)
@@ -18,23 +20,24 @@ const News = () => {
   const handleClose = () => setOpen(false)
   const scrollTo = () => {}
   const { t } = useTranslation()
-  const handleClick = () => {
-    window.open('', '_blank')
-  }
-  const handleDownload = () => {
-    const link = document.createElement('a')
-    link.href =
-      'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf'
-    link.download = 'document.pdf'
-    link.click()
-  }
-  const [announcement, setAnnouncement] = useState<any>([])
+
+  const [announcements, setAnnouncements] = useState<any>([])
   React.useEffect(() => {
-    Announcements.getAnnouncementsById(7).then((response) => {
-      setAnnouncement(response.data)
+    Announcements.getAnnouncements().then((response) => {
+      setAnnouncements(response.data)
     })
   }, [])
-  console.log(announcement)
+
+  const [curPage, setCurPage] = React.useState(1)
+  const [postPerPage] = React.useState(5)
+  const indexOfLastPost = curPage * postPerPage
+  const indexOfFirstPost = indexOfLastPost - postPerPage
+  const currentPosts = announcements.slice(indexOfFirstPost, indexOfLastPost)
+  const paginationCount = Math.ceil(announcements.length / postPerPage)
+  function handlePage(pageNum: number) {
+    setCurPage(pageNum)
+  }
+  const type = JSON.parse(localStorage.getItem('user') || '{}').role
 
   return (
     <div className={classes.container}>
@@ -46,10 +49,8 @@ const News = () => {
             textAlign: 'center',
             color: '#0063cc',
           }}
-        >
-          {t('plan')}
-        </h1>
-        {true && (
+        ></h1>
+        {type === 'ROLE_SECRETARY' && (
           <>
             <Button variant="contained" onClick={handleOpen}>
               Создать новость
@@ -61,29 +62,73 @@ const News = () => {
               aria-describedby="modal-modal-description"
             >
               <Box sx={style}>
-                <AnnouncementsForm />
+                <AnnouncementsForm
+                  onClose={handleClose}
+                  setAnnouncements={setAnnouncements}
+                />
               </Box>
             </Modal>
           </>
         )}
-        <div className={classes.news__item}>
-          {announcement?.title}
-          <p>{announcement?.text}</p>
-          <div className={classes.news__inside}>
-            {announcement?.content}
-            <BootstrapButton
-              className={classes.btn}
-              variant="contained"
-              onClick={handleClick}
-            >
-              {t('read')}
-            </BootstrapButton>
-            <ColorButton className={classes.btn} variant="outlined">
-              <DownloadIcon onClick={handleDownload} />
-            </ColorButton>
+        {currentPosts?.reverse().map((announcement: any) => (
+          <div className={classes.news__item}>
+            <b>{announcement?.title}</b>
+            <div className={classes.news__item__text}>
+              <p>{announcement?.text}</p>
+            </div>
+            <div className={classes.news__inside}>
+              <p className={classes.news__inside__date}>
+                {new Date(announcement?.date).toLocaleDateString('ru-RU', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                })}
+              </p>
+              <div className={classes.news__inside__btn}>
+                {/* <BootstrapButton
+                  className={classes.btn}
+                  variant="contained"
+                  onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
+                    if (announcement?.filename) {
+                      window.open(announcement?.filename, '_blank')
+                    }
+                  }}
+                >
+                  {t('read')}
+                </BootstrapButton> */}
+                <ColorButton className={classes.btn} variant="outlined">
+                  <DownloadIcon
+                    onClick={() => {
+                      const link = document.createElement('a')
+                      link.href = announcement?.filename
+                      link.click()
+                    }}
+                  />
+                </ColorButton>
+                {type === 'ROLE_SECRETARY' && (
+                  <DeleteIcon
+                    style={{
+                      color: 'red',
+                      cursor: 'pointer',
+                      fontSize: '30px',
+                    }}
+                    className={classes.btn}
+                    onClick={() => {
+                      Announcements.deleteAnnouncement(announcement?.id)
+                      setAnnouncements(
+                        announcements.filter(
+                          (item: any) => item.id !== announcement?.id,
+                        ),
+                      )
+                    }}
+                  />
+                )}
+              </div>
+            </div>
           </div>
-        </div>
+        ))}
       </div>
+      <Pagination paginationCount={paginationCount} handlePage={handlePage} />
     </div>
   )
 }

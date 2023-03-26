@@ -12,7 +12,10 @@ function TabsComponent() {
   }
 
   return (
-    <Box sx={{ borderBottom: 5 }}>
+    <Box
+      sx={{ borderBottom: 5 }}
+      style={{ backgroundColor: 'white', marginLeft: 15 }}
+    >
       <Tabs
         value={value}
         onChange={handleChange}

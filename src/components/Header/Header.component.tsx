@@ -18,29 +18,19 @@ type Props = {
 }
 function HeaderComponent({ scrollTo }: Props) {
   const navigate = useNavigate()
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null)
-
   const handleClick = (name: string) => {
     scrollTo(name)
   }
-  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElNav(event.currentTarget)
-  }
-  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElUser(event.currentTarget)
-  }
 
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null)
-  }
   const { t, i18n } = useTranslation()
 
   return (
     <AppBar
       position="sticky"
       style={{
+        width: '100%',
         backgroundColor: 'white',
-        padding: '12px 100px',
+        padding: '12px',
         height: '110px',
         alignItems: 'center',
         justifyContent: 'center',
@@ -58,7 +48,7 @@ function HeaderComponent({ scrollTo }: Props) {
               mr: 2,
               display: { xs: 'none', md: 'flex' },
               fontFamily: 'monospace',
-              fontWeight: 700,
+              fontWeight: 900,
               letterSpacing: '.3rem',
               color: 'inherit',
               textDecoration: 'none',
@@ -70,7 +60,7 @@ function HeaderComponent({ scrollTo }: Props) {
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            <div className="pages" style={{ color: 'black' }}>
+            <div className="pages headerY" style={{ color: 'black' }}>
               <button
                 style={{
                   backgroundColor: 'white',
@@ -84,7 +74,7 @@ function HeaderComponent({ scrollTo }: Props) {
                 <b>{t('main')}</b>
               </button>
             </div>
-            <div className="pages" style={{ color: 'black' }}>
+            <div className="pages headerY" style={{ color: 'black' }}>
               <button
                 style={{
                   backgroundColor: 'white',
@@ -99,7 +89,7 @@ function HeaderComponent({ scrollTo }: Props) {
               </button>
             </div>
 
-            <div className="pages" style={{ color: 'black' }}>
+            <div className="pages headerY" style={{ color: 'black' }}>
               <button
                 style={{
                   backgroundColor: 'white',
@@ -113,9 +103,8 @@ function HeaderComponent({ scrollTo }: Props) {
                 <b>{t('participate')}</b>
               </button>
             </div>
-            <div className="pages" style={{ color: 'black' }}>
+            <div className="pages headerY" style={{ color: 'black' }}>
               <button
-                disabled
                 style={{
                   backgroundColor: 'white',
                   border: 'none',
@@ -130,7 +119,7 @@ function HeaderComponent({ scrollTo }: Props) {
             </div>
           </Box>
 
-          <Box sx={{ flexGrow: 2 }} className="bet">
+          <Box className="bet headerY">
             {localStorage.getItem('user') && (
               <ButtonComponent
                 word={'профиль'}
@@ -139,7 +128,7 @@ function HeaderComponent({ scrollTo }: Props) {
                 }}
               />
             )}
-            <div className="betRight">
+            <div className="betRight headerY">
               {!localStorage.getItem('user') ? (
                 <ButtonComponent
                   word={t('login')}
@@ -168,6 +157,3 @@ function HeaderComponent({ scrollTo }: Props) {
   )
 }
 export default HeaderComponent
-function setAnchorElUser(currentTarget: EventTarget & HTMLElement) {
-  throw new Error('Function not implemented.')
-}

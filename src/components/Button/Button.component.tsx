@@ -47,7 +47,7 @@ const ColorButton = styled(Button)<ButtonProps>(({ theme }) => ({
   backgroundColor: blue[800],
   borderRadius: 50,
   padding: '10px 12px',
-
+  marginLeft: '20px',
   '&:hover': {
     backgroundColor: blue[900],
   },

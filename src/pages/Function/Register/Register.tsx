@@ -136,7 +136,6 @@ const RegisterDoctor = () => {
         setState((prevState) => ({ ...prevState, error: true }))
       })
   }
-  console.log(group?.filter((item: any) => item.id === all.group))
 
   return (
     <>

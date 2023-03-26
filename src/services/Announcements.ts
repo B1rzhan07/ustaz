@@ -4,7 +4,6 @@ import { API_URL } from "./AuthService";
 class Announcements {
   async sendAnnouncements(
     title: string,
-    content: string,
     text: string
   ): Promise<AxiosResponse<any>> {
     return axios
@@ -12,8 +11,8 @@ class Announcements {
         API_URL + "/secretary/announcement/create",
         {
           title,
-          content,
           text,
+          content: null,
           id: null,
           filename: null,
           creator: 2,
@@ -40,21 +39,49 @@ class Announcements {
       },
     });
   }
-  async getAnnouncementsById(
+
+  async sendPresentationAnnouncement(
+    formdata: FormData,
     announcementId: number
   ): Promise<AxiosResponse<any>> {
-    return axios.get(
-      API_URL +
-        `/secretary/announcement${announcementId ? `/${announcementId}` : ""}`,
-      {
-        headers: {
-          Authorization:
-            "Bearer " +
-            JSON.parse(localStorage.getItem("user") || "{}")
-              .authenticationToken,
-        },
-      }
-    );
+    return axios
+      .post(
+        API_URL +
+          `/secretary/announcement/${announcementId}/uploadAnnouncementFile`,
+        formdata,
+        {
+          headers: {
+            Authorization:
+              "Bearer " +
+              JSON.parse(localStorage.getItem("user") || "{}")
+                .authenticationToken,
+          },
+        }
+      )
+      .then((response) => {
+        return response;
+      });
+  }
+  async deleteAnnouncement(
+    announcementId: number
+  ): Promise<AxiosResponse<any>> {
+    return axios.delete(API_URL + `/secretary/announcement/${announcementId}`, {
+      headers: {
+        Authorization:
+          "Bearer " +
+          JSON.parse(localStorage.getItem("user") || "{}").authenticationToken,
+      },
+    });
+  }
+
+  async getAnnouncements(): Promise<AxiosResponse<any>> {
+    return axios.get(API_URL + "/profile/announcements", {
+      headers: {
+        Authorization:
+          "Bearer " +
+          JSON.parse(localStorage.getItem("user") || "{}").authenticationToken,
+      },
+    });
   }
 }
 export default new Announcements();

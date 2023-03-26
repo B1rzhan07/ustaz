@@ -258,3 +258,8 @@ body {
 .telegram:hover {
     transform: translate( calc(-50% + 20px), calc(-50% + 20px));
 }
+
+.headerY:hover {
+    transform: translateY(-1px);
+    font-size: 18px;
+}
