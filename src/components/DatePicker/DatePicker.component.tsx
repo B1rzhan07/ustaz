@@ -27,9 +27,9 @@ export default function DatePickerValue({
   const handleDateChange = (newValue: any) => {
     // Get the local time in the selected time zone
     const localTime = dayjs.tz(newValue, timeZone)
-    // Convert the local time to UTC for storage
-    const utcTime = localTime.utc()
-    setValue(utcTime)
+    // Convert the local time to server time
+    const serverTime = localTime.local().toDate()
+    setValue(dayjs(serverTime))
   }
 
   console.log('Initial value:', value)
