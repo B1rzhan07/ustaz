@@ -7,7 +7,6 @@ import { decrement, increment } from './store/Slices/profileSlice'
 function App() {
   const count = useAppSelector((state) => state.counter.value)
   const dispatch = useAppDispatch()
-  console.log(count)
 
   return (
     <div className="wrapper">
