@@ -131,5 +131,14 @@ class TournamentService {
       },
     });
   }
+  async getNumber(): Promise<AxiosResponse<any>> {
+    return axios.get(API_URL + "/secretary/getUsersNumber", {
+      headers: {
+        Authorization:
+          "Bearer " +
+          JSON.parse(localStorage.getItem("user") || "{}").authenticationToken,
+      },
+    });
+  }
 }
 export default new TournamentService();

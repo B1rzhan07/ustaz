@@ -249,7 +249,18 @@ export default function ModalRegister({ handleClose, open }: Props) {
                 )
               }}
             >
-              {t('click')}
+              {t('clickKaz')}
+            </Button>
+            <Button
+              variant="contained"
+              style={{ marginTop: 20, textDecoration: 'none', color: 'white' }}
+              onClick={() => {
+                window.open(
+                  'https://storage.googleapis.com/almatyustazy-profile-bucket/Форма%20РУС.docx',
+                )
+              }}
+            >
+              {t('clickRus')}
             </Button>
             <h5 style={{ marginTop: 40 }}>{t('form1')}</h5>
             <Button variant="outlined" style={{ marginTop: 10 }}>

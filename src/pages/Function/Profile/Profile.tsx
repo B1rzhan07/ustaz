@@ -10,6 +10,7 @@ const Profile = () => {
   const [userProfile, setUserProfile] = React.useState<any>()
   const [register, setRegister] = React.useState<any>()
   var birthDateFormated = 'Енгізілмеген'
+  const [number, setNumber] = React.useState<any>()
   React.useEffect(() => {
     const user = AuthService.getCurrentUser()
     user.then((res) => {
@@ -18,6 +19,10 @@ const Profile = () => {
     })
     TournamentService.getRegister().then((res) => {
       setRegister(res.data)
+    })
+    TournamentService.getNumber().then((res) => {
+      setNumber(res.data)
+      console.log(number)
     })
   }, [])
 
@@ -30,6 +35,8 @@ const Profile = () => {
     }.${birthDate.getDate()}.${birthDate.getFullYear()}`
   }
   const scrollTo = () => {}
+  const type = JSON.parse(localStorage.getItem('user') || '').role
+  console.log(type)
 
   return (
     <>
@@ -131,6 +138,11 @@ const Profile = () => {
                           </Link>
                         )}
                       </p>
+                      {(type === 'ROLE_SECRETARY' || type === 'ROLE_ADMIN') && (
+                        <p className="fonts">
+                          Количество людей: {number?.number}
+                        </p>
+                      )}
                     </div>
                     <div className="buttons d-flex justify-content-around ml-5">
                       <button
