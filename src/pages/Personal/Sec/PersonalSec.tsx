@@ -47,7 +47,7 @@ const PersonalSec = () => {
   }
   const handleClose = () => setOpen(false)
   const [curPage, setCurPage] = React.useState(1)
-  const [postPerPage] = React.useState(7)
+  const [postPerPage] = React.useState(12)
   const indexOfLastPost = curPage * postPerPage
   const indexOfFirstPost = indexOfLastPost - postPerPage
   const currentPosts = teams.slice(indexOfFirstPost, indexOfLastPost)

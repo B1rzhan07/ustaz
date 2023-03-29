@@ -13,6 +13,7 @@ import {
   User,
 } from './styless'
 import Defences from '../../../../services/Defences'
+import ClearIcon from '@mui/icons-material/Clear'
 
 export default function BasicModal({
   open,
@@ -32,8 +33,13 @@ export default function BasicModal({
       selectedCommissions.length < 3
     ) {
       setSelectedCommissions([...selectedCommissions, newCommission])
+    } else if (selectedCommissions.includes(newCommission)) {
+      setSelectedCommissions(
+        selectedCommissions.filter((id) => id !== newCommission),
+      )
     }
   }
+
   const show = []
   for (let i = 0; i < selectedCommissions.length; i++) {
     for (let j = 0; j < commissions.length; j++) {
@@ -46,11 +52,14 @@ export default function BasicModal({
   console.log(show)
   console.log(id)
   console.log(selectedCommissions)
+
   const setDefence = () => {
     Defences.createDefence(selectedCommissions, id).then((res) => {
       console.log(res)
+      setSelectedCommissions([])
     })
     handleClose()
+    setSelectedCommissions([])
   }
 
   return (
@@ -86,20 +95,35 @@ export default function BasicModal({
                         value={commission.id}
                         disabled
                       >
-                        {commission.first_name} {commission.last_name}
+                        {commission.first_name} {commission.last_name}{' '}
                       </option>
                     ) : (
                       <option key={commission.id} value={commission.id}>
-                        {commission.first_name} {commission.last_name}
+                        {commission.first_name} {commission.last_name}{' '}
                       </option>
                     )}
                   </>
                 ))}
             </Select>
             {show?.map((commission) => (
-              <SelectedCommission>
-                {commission.first_name} {commission.last_name}
-              </SelectedCommission>
+              <>
+                <SelectedCommission>
+                  {commission.first_name} {commission.last_name}{' '}
+                  <ClearIcon
+                    sx={{
+                      color: 'red',
+                      cursor: 'pointer',
+                    }}
+                    onClick={() =>
+                      setSelectedCommissions(
+                        selectedCommissions.filter(
+                          (id) => id !== commission.id,
+                        ),
+                      )
+                    }
+                  />
+                </SelectedCommission>
+              </>
             ))}
             <Button onClick={setDefence}>Set Defence</Button>
           </Container>

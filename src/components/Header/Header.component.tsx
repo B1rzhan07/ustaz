@@ -125,6 +125,7 @@ function HeaderComponent({ scrollTo }: Props) {
             {(type === 'ROLE_SECRETARY' || type === 'ROLE_ADMIN') && (
               <div className="pages headerY" style={{ color: 'black' }}>
                 <button
+                  disabled
                   style={{
                     backgroundColor: 'white',
                     border: 'none',
@@ -141,6 +142,7 @@ function HeaderComponent({ scrollTo }: Props) {
             {(type === 'ROLE_ADMIN' || type === 'ROLE_COMMISSION') && (
               <div className="pages headerY" style={{ color: 'black' }}>
                 <button
+                  disabled
                   style={{
                     backgroundColor: 'white',
                     border: 'none',
