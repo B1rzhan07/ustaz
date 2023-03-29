@@ -4,39 +4,39 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import React from 'react'
 import TournamentService from '../../../services/TournamentService'
-import { formatISO } from 'date-fns'
 const Profile = () => {
   const { t, i18n } = useTranslation()
   const [userProfile, setUserProfile] = React.useState<any>()
   const [register, setRegister] = React.useState<any>()
   var birthDateFormated = 'Енгізілмеген'
   const [number, setNumber] = React.useState<any>()
+  const type = JSON.parse(localStorage.getItem('user') || '').role
+  console.log(type)
   React.useEffect(() => {
     const user = AuthService.getCurrentUser()
     user.then((res) => {
       setUserProfile(res)
       localStorage.setItem('data', JSON.stringify(res))
     })
-    TournamentService.getRegister().then((res) => {
-      setRegister(res.data)
-    })
-    TournamentService.getNumber().then((res) => {
-      setNumber(res.data)
-      console.log(number)
-    })
+    if (type === 'ROLE_STUDENT') {
+      TournamentService.getRegister().then((res) => {
+        setRegister(res.data)
+      })
+    }
+    if (type === 'ROLE_ADMIN' || type === 'ROLE_SECRETARY') {
+      TournamentService.getNumber().then((res) => {
+        setNumber(res.data)
+      })
+    }
   }, [])
 
   const navigate = useNavigate()
-  const birthDate = new Date(userProfile?.birthDate)
 
   if (userProfile?.birthDate) {
-    birthDateFormated = `${
-      birthDate.getMonth() + 1
-    }.${birthDate.getDate()}.${birthDate.getFullYear()}`
+    birthDateFormated = `${userProfile?.birthDate[0]}-${userProfile?.birthDate[1]}-${userProfile?.birthDate[2]}`
   }
+
   const scrollTo = () => {}
-  const type = JSON.parse(localStorage.getItem('user') || '').role
-  console.log(type)
 
   return (
     <>
@@ -81,7 +81,7 @@ const Profile = () => {
                           : userProfile?.subject?.nameKaz}
                       </p>
                       <p className="fonts">
-                        {t('birthday')}: <b>{birthDateFormated}</b>
+                        {/* {t('birthday')}: <b>{birthDateFormated}</b> */}
                       </p>
                       <p className="fonts">
                         {t('degree')}:{' '}

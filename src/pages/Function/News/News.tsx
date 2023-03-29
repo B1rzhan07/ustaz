@@ -38,6 +38,7 @@ const News = () => {
     setCurPage(pageNum)
   }
   const type = JSON.parse(localStorage.getItem('user') || '{}').role
+  console.log(announcements)
 
   return (
     <div className={classes.container}>
@@ -90,26 +91,17 @@ const News = () => {
                 })}
               </p>
               <div className={classes.news__inside__btn}>
-                {/* <BootstrapButton
-                  className={classes.btn}
-                  variant="contained"
-                  onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
-                    if (announcement?.filename) {
-                      window.open(announcement?.filename, '_blank')
-                    }
-                  }}
-                >
-                  {t('read')}
-                </BootstrapButton> */}
-                <ColorButton className={classes.btn} variant="outlined">
-                  <DownloadIcon
-                    onClick={() => {
-                      const link = document.createElement('a')
-                      link.href = announcement?.filename
-                      link.click()
-                    }}
-                  />
-                </ColorButton>
+                {announcement?.filename && (
+                  <ColorButton className={classes.btn} variant="outlined">
+                    <DownloadIcon
+                      onClick={() => {
+                        const link = document.createElement('a')
+                        link.href = announcement?.filename
+                        link.click()
+                      }}
+                    />
+                  </ColorButton>
+                )}
                 {type === 'ROLE_SECRETARY' && (
                   <DeleteIcon
                     style={{

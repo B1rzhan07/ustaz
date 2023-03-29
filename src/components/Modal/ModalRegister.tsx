@@ -303,8 +303,6 @@ export default function ModalRegister({ handleClose, open }: Props) {
               {t('errorSend')}
             </Alert>
           )}
-
-          {/* )} */}
         </Box>
       </Modal>
     </div>

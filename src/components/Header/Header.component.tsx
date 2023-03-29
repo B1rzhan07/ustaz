@@ -7,7 +7,6 @@ import Typography from '@mui/material/Typography'
 import Menu from '@mui/material/Menu'
 import MenuIcon from '@mui/icons-material/Menu'
 import Container from '@mui/material/Container'
-import MenuItem from '@mui/material/MenuItem'
 import { Link, useNavigate } from 'react-router-dom'
 import ButtonComponent from '../Button/Button.component'
 import TabsComponent from '../Tabs/Tabs.component'
@@ -18,12 +17,11 @@ type Props = {
 }
 function HeaderComponent({ scrollTo }: Props) {
   const location = window.location.pathname
-  console.log(location)
   const navigate = useNavigate()
   const handleClick = (name: string) => {
     scrollTo(name)
   }
-
+  const type = JSON.parse(localStorage.getItem('user') || '{}').role
   const { t, i18n } = useTranslation()
 
   return (
@@ -124,6 +122,38 @@ function HeaderComponent({ scrollTo }: Props) {
                 <b>{t('news')}</b>
               </button>
             </div>
+            {(type === 'ROLE_SECRETARY' || type === 'ROLE_ADMIN') && (
+              <div className="pages headerY" style={{ color: 'black' }}>
+                <button
+                  style={{
+                    backgroundColor: 'white',
+                    border: 'none',
+                    outline: 'none',
+                  }}
+                  onClick={() => {
+                    navigate('/sec')
+                  }}
+                >
+                  <b>Сделать Defence</b>
+                </button>
+              </div>
+            )}
+            {(type === 'ROLE_ADMIN' || type === 'ROLE_COMMISSION') && (
+              <div className="pages headerY" style={{ color: 'black' }}>
+                <button
+                  style={{
+                    backgroundColor: 'white',
+                    border: 'none',
+                    outline: 'none',
+                  }}
+                  onClick={() => {
+                    navigate('/com')
+                  }}
+                >
+                  <b>My defences</b>
+                </button>
+              </div>
+            )}
           </Box>
 
           <Box className="bet headerY">

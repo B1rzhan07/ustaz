@@ -9,7 +9,11 @@ import Button from '@mui/material/Button'
 import { useTranslation } from 'react-i18next'
 import img from '../../../../public/Img/kaz.png'
 import TextField from '@mui/material/TextField'
+import CircularProgress from '@mui/material/CircularProgress'
 const Login = () => {
+  const [formState, setFormState] = React.useState<
+    'pending' | 'submitted' | 'error'
+  >('submitted')
   const { t } = useTranslation()
   const navigate = useNavigate()
   const [correctReg, setCorrectReg] = React.useState(false)
@@ -70,22 +74,24 @@ const Login = () => {
       middleName: '',
       email: '',
     })
-    setError('')
+    setError(null as any)
   }, [])
   const [error, setError] = React.useState<any>(null)
   const submitHandler = React.useCallback(
     (event: React.FormEvent) => {
+      setFormState('pending')
       event.preventDefault()
       if (isLogin) {
         AuthService.login(all.username.toString(), all.password.toString())
           .then((response: AxiosResponse) => {
+            setFormState('submitted')
             if (localStorage.getItem('user')) {
               navigate('/profile')
+            } else {
+              setError('Қайтадан кіріп көріңіз')
             }
           })
-          .catch((err: any) => {
-            setError('Қайтадан кіріп көріңіз')
-          })
+          .catch((err: any) => {})
       } else {
         AuthService.register(
           all.username.toString(),
@@ -96,12 +102,14 @@ const Login = () => {
           all.firstName.toString(),
         ).then((response: AxiosResponse) => {
           console.log(response.status)
-
+          setFormState('submitted')
           if (Number(response.status) == 200) {
             AuthService.login(all.username.toString(), all.password.toString())
               .then((response: AxiosResponse) => {
                 if (localStorage.getItem('user')) {
                   navigate('/profile')
+                } else {
+                  setError('Қайтадан кіріп көріңіз')
                 }
               })
               .catch((err: AxiosError) => {
@@ -118,7 +126,6 @@ const Login = () => {
         middleName: '',
         email: '',
       })
-      setError('Қайтадан кіріп көріңіз')
     },
     [all, isLogin, navigate],
   )
@@ -362,6 +369,18 @@ const Login = () => {
                       </Link>{' '}
                     </h3>{' '}
                   </div>{' '}
+                  {formState === 'pending' && (
+                    <div
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        marginTop: 15,
+                      }}
+                    >
+                      <CircularProgress />
+                    </div>
+                  )}
                   {error && (
                     <div className="alert alert-danger" role="alert">
                       {error}

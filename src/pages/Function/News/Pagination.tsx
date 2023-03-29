@@ -20,7 +20,7 @@ export default function BasicPagination({
 }: BasicPaginationProps) {
   const classes = useStyles()
   return (
-    <div style={{ display: 'flex', justifyContent: 'center' }}>
+    <div style={{ display: 'flex', justifyContent: 'center', marginTop: 10 }}>
       <Stack spacing={2} direction="row">
         <Pagination
           count={paginationCount}

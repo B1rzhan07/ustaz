@@ -7,7 +7,8 @@ import Profile from '../pages/Function/Profile/Profile'
 import Register from '../pages/Function/Register/Register'
 
 import News from '../pages/Function/News/News'
-import PersonalSec from '../pages/Personal/PersonalSec'
+import PersonalSec from '../pages/Personal/Sec/PersonalSec'
+import PersonalCom from '../pages/Personal/Com/PersonalCom'
 
 function RoutesComponent() {
   return (
@@ -19,6 +20,7 @@ function RoutesComponent() {
         <Route path="/register" element={<Register />} />
         <Route path="/news" element={<News />} />
         <Route path="/sec" element={<PersonalSec />} />
+        <Route path="/com" element={<PersonalCom />} />
       </Routes>
     </div>
   )

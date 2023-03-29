@@ -60,7 +60,7 @@ const AnnouncementsForm = ({
               value={title}
               onChange={(event) => setTitle(event.target.value)}
               multiline
-              rows={3}
+              rows={4}
             />
           </Grid>
           <Grid item xs={12}>
