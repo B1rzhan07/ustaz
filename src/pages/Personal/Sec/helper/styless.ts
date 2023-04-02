@@ -65,8 +65,8 @@ export const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 500,
-  height: 500,
+  width: 800,
+  height: 700,
   bgcolor: "background.paper",
   border: "2px solid #000",
   boxShadow: 24,
@@ -75,6 +75,22 @@ export const style = {
 export type Props = {
   open: boolean;
   handleClose: () => void;
-  commissions: User[];
-  id: number;
+  id: number | null;
+  formState: string;
+  moreInfo: any;
+  setTeams: any;
 };
+export const stages = [
+  {
+    id: 1,
+    name: "stage-1",
+  },
+  {
+    id: 2,
+    name: "stage-2",
+  },
+  {
+    id: 3,
+    name: "stage-3",
+  },
+];

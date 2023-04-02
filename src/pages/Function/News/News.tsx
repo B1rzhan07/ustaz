@@ -18,7 +18,6 @@ const News = () => {
   const [open, setOpen] = React.useState(false)
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
-  const scrollTo = () => {}
   const { t } = useTranslation()
 
   const [announcements, setAnnouncements] = useState<any>([])
@@ -42,7 +41,7 @@ const News = () => {
 
   return (
     <div className={classes.container}>
-      <HeaderComponent scrollTo={scrollTo} />
+      <HeaderComponent />
 
       <div className={classes.news}>
         <h1
@@ -91,7 +90,7 @@ const News = () => {
                 })}
               </p>
               <div className={classes.news__inside__btn}>
-                {announcement?.filename && (
+                {announcement?.filename != '' && (
                   <ColorButton className={classes.btn} variant="outlined">
                     <DownloadIcon
                       onClick={() => {

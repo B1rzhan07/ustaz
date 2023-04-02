@@ -44,10 +44,9 @@ export default function CustomizedTables() {
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
   const [id, setId] = React.useState(0)
-  const scrollTo = () => {}
   return (
     <>
-      <HeaderComponent scrollTo={scrollTo} />
+      <HeaderComponent />
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead>

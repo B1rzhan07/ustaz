@@ -8,12 +8,14 @@ import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
-import { Link } from 'react-router-dom'
 import '../../../index.scss'
 import BasicModal from './helper/Modal'
 import Pagination from '../../Function/News/Pagination'
-
+import Defences from '../../../services/Defences'
+import { fetchDefenceData } from '../../../store/Slices/defenceSlice'
+import { useAppDispatch } from '../../../store/hook'
 interface Team {
+  creator: any
   map(arg0: (row: Team) => JSX.Element): React.ReactNode
   id: number
   name: string
@@ -24,30 +26,27 @@ interface Team {
 }
 
 const PersonalSec = () => {
-  const scrollTo = () => {}
   const [teams, setTeams] = React.useState<Team[]>([])
-  const [commissions, setCommissions] = React.useState([])
   React.useEffect(() => {
     const fetchData = async () => {
       Defense.getTeams().then((res) => {
         setTeams(res.data)
       })
-      Defense.getCommissions().then((res) => {
-        setCommissions(res.data)
-      })
     }
     fetchData()
   }, [])
-  console.log(teams)
-  console.log(commissions)
   const [open, setOpen] = React.useState(false)
-  const handleOpen = () => {
-    setOpen(true)
-    return
+
+  const [stateToChange, setStateToChange] = React.useState('initial state')
+  const handleClose = () => {
+    setOpen(false)
+    setStateToChange('new state')
   }
-  const handleClose = () => setOpen(false)
   const [curPage, setCurPage] = React.useState(1)
   const [postPerPage] = React.useState(12)
+  const [formState, setFormState] = React.useState<
+    'pending' | 'submitted' | 'error'
+  >('submitted')
   const indexOfLastPost = curPage * postPerPage
   const indexOfFirstPost = indexOfLastPost - postPerPage
   const currentPosts = teams.slice(indexOfFirstPost, indexOfLastPost)
@@ -55,40 +54,42 @@ const PersonalSec = () => {
   function handlePage(pageNum: number) {
     setCurPage(pageNum)
   }
-  const [id, setId] = React.useState(0)
+  const [id, setId] = React.useState<number | null>(null)
+  const [moreInfo, setMoreInfo] = React.useState([])
+  React.useEffect(() => {
+    if (id !== null) {
+      Defences.getMoreInfoSecretary(id).then((res) => {
+        setMoreInfo(res.data)
+        console.log(res.data)
+      })
+    }
+  }, [id])
+  const dispatch = useAppDispatch()
+  React.useEffect(() => {
+    dispatch(fetchDefenceData(id))
+  }, [dispatch, id])
 
   return (
     <div>
-      <HeaderComponent scrollTo={scrollTo} />
+      <HeaderComponent />
       <TableContainer component={Paper} className="table">
-        <Table sx={{ maxWidth: 1100 }}>
+        <Table sx={{ maxWidth: 1000 }}>
           <TableHead>
             <TableRow>
-              <TableCell>name</TableCell>
-              <TableCell>ApplicationFormURL</TableCell>
+              <TableCell>ФИО</TableCell>
               <TableCell>Confirmed</TableCell>
-              <TableCell>presentationURL</TableCell>
               <TableCell>Defense</TableCell>
+              <TableCell>Больше информаций</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {currentPosts.map((row: Team, index: number) => (
-              <TableRow
-                key={row.id}
-                sx={{ '&:last-child th, &:last-child td': { border: 0 } }}
-              >
+              <TableRow key={row.id}>
                 <TableCell>
-                  {index + 1}. {row.name}
-                </TableCell>
-                <TableCell>
-                  {row.applicationFormURL ? (
-                    <Link to={row?.applicationFormURL}>here</Link>
-                  ) : (
-                    'null'
-                  )}
+                  {row.id}. {row.creator.first_name} {row.creator.last_name}{' '}
+                  {row.creator.middle_name}
                 </TableCell>
                 <TableCell>{row.confirmed ? 'true' : 'false'}</TableCell>
-                <TableCell>{row.presentationURL ? 'true' : 'false'}</TableCell>
                 <TableCell>
                   <button
                     style={{
@@ -101,9 +102,28 @@ const PersonalSec = () => {
                     onClick={() => {
                       setOpen(true)
                       setId(row.id)
+                      setFormState('pending')
                     }}
                   >
                     Set Defense
+                  </button>
+                </TableCell>
+                <TableCell>
+                  <button
+                    style={{
+                      backgroundColor: 'green',
+                      color: 'white',
+                      border: 'none',
+                      borderRadius: '5px',
+                      padding: '5px 10px',
+                    }}
+                    onClick={() => {
+                      setOpen(true)
+                      setId(row.id)
+                      setFormState('submitted')
+                    }}
+                  >
+                    более
                   </button>
                 </TableCell>
               </TableRow>
@@ -114,8 +134,10 @@ const PersonalSec = () => {
         <BasicModal
           open={open}
           handleClose={handleClose}
-          commissions={commissions}
-          id={id}
+          id={id || null}
+          formState={formState}
+          moreInfo={moreInfo}
+          setTeams={setTeams}
         />
       </TableContainer>
     </div>

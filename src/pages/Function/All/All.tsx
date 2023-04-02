@@ -6,26 +6,14 @@ import Main from '../../Content/Main'
 import Now from '../../Content/Now'
 import Stages from '../../Content/Stages'
 import { BrowserView, MobileView } from 'react-device-detect'
-const All: React.FC = () => {
-  const refStage = React.useRef<HTMLInputElement>(null)
-  const refParticipants = React.useRef<HTMLInputElement>(null)
-  const scrollTo = (name: string) => {
-    if (name === 'Байқау кезеңдері')
-      refStage.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
 
-    if (name === 'Қатысушы болу')
-      refParticipants.current?.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start',
-      })
-  }
-
+const All = () => {
   return (
     <div>
       <BrowserView>
-        <HeaderComponent scrollTo={scrollTo} />
+        <HeaderComponent />
         <Main />
-        <Stages refStage={refStage} refParticipant={refParticipants} />
+        <Stages />
         <Come />
         <Now />
         <Footer />

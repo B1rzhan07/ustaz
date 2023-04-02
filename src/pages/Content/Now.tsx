@@ -9,12 +9,6 @@ const Now: React.FC = () => {
 
   return (
     <>
-      <div className="now">
-        <div className="nowLeft">
-          <h1>{t('now')}</h1>
-          <p>{t('fast')}</p>
-        </div>
-      </div>
       <h1 style={{ marginLeft: 300, marginTop: 20 }}>{t('create')}</h1>
       <div className="almaty">
         <img

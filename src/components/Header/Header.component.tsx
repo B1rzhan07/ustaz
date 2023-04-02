@@ -12,15 +12,11 @@ import ButtonComponent from '../Button/Button.component'
 import TabsComponent from '../Tabs/Tabs.component'
 import { useTranslation } from 'react-i18next'
 import img2 from '../../../public/Img/index.png'
-type Props = {
-  scrollTo: (name: string) => void
-}
-function HeaderComponent({ scrollTo }: Props) {
+
+function HeaderComponent() {
   const location = window.location.pathname
   const navigate = useNavigate()
-  const handleClick = (name: string) => {
-    scrollTo(name)
-  }
+
   const type = JSON.parse(localStorage.getItem('user') || '{}').role
   const { t, i18n } = useTranslation()
 
@@ -55,7 +51,7 @@ function HeaderComponent({ scrollTo }: Props) {
             }}
           >
             <Link to="/" className="nav-link">
-              <img src={img2} alt="almaty" height="80" width="100" />
+              <img src={img2} alt="almaty" height="70" width="90" />
             </Link>
           </Typography>
 
@@ -74,39 +70,6 @@ function HeaderComponent({ scrollTo }: Props) {
                 <b>{t('main')}</b>
               </button>
             </div>
-            {location === '/' && (
-              <>
-                <div className="pages headerY" style={{ color: 'black' }}>
-                  <button
-                    style={{
-                      backgroundColor: 'white',
-                      border: 'none',
-                      outline: 'none',
-                    }}
-                    onClick={() => {
-                      handleClick('Байқау кезеңдері')
-                    }}
-                  >
-                    <b>{t('stages')}</b>
-                  </button>
-                </div>
-
-                <div className="pages headerY" style={{ color: 'black' }}>
-                  <button
-                    style={{
-                      backgroundColor: 'white',
-                      border: 'none',
-                      outline: 'none',
-                    }}
-                    onClick={() => {
-                      handleClick('Қатысушы болу')
-                    }}
-                  >
-                    <b>{t('participate')}</b>
-                  </button>
-                </div>
-              </>
-            )}
 
             <div className="pages headerY" style={{ color: 'black' }}>
               <button
@@ -125,7 +88,6 @@ function HeaderComponent({ scrollTo }: Props) {
             {(type === 'ROLE_SECRETARY' || type === 'ROLE_ADMIN') && (
               <div className="pages headerY" style={{ color: 'black' }}>
                 <button
-                  disabled
                   style={{
                     backgroundColor: 'white',
                     border: 'none',
@@ -142,7 +104,6 @@ function HeaderComponent({ scrollTo }: Props) {
             {(type === 'ROLE_ADMIN' || type === 'ROLE_COMMISSION') && (
               <div className="pages headerY" style={{ color: 'black' }}>
                 <button
-                  disabled
                   style={{
                     backgroundColor: 'white',
                     border: 'none',
@@ -159,23 +120,14 @@ function HeaderComponent({ scrollTo }: Props) {
           </Box>
 
           <Box className="bet headerY">
-            {localStorage.getItem('user') && (
-              <ButtonComponent
-                word={'профиль'}
-                onClick={() => {
-                  navigate('/profile')
-                }}
-              />
-            )}
-            <div className="betRight headerY">
-              {!localStorage.getItem('user') ? (
+            {localStorage.getItem('user') ? (
+              <>
                 <ButtonComponent
-                  word={t('login')}
+                  word={'профиль'}
                   onClick={() => {
-                    window.location.href = '/login'
+                    navigate('/profile')
                   }}
                 />
-              ) : (
                 <ButtonComponent
                   word={t('logout')}
                   onClick={() => {
@@ -185,8 +137,15 @@ function HeaderComponent({ scrollTo }: Props) {
                     navigate('/')
                   }}
                 />
-              )}
-            </div>
+              </>
+            ) : (
+              <ButtonComponent
+                word={t('login')}
+                onClick={() => {
+                  window.location.href = '/login'
+                }}
+              />
+            )}
 
             <TabsComponent />
           </Box>

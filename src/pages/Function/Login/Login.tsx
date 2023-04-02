@@ -129,10 +129,9 @@ const Login = () => {
     },
     [all, isLogin, navigate],
   )
-  const scrollTo = () => {}
   return (
     <>
-      <HeaderComponent scrollTo={scrollTo} />
+      <HeaderComponent />
       <form onSubmit={submitHandler}>
         <div className="container mb-5">
           <div className="d-flex flex row g-0">

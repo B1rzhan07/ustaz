@@ -75,13 +75,7 @@ class Announcements {
   }
 
   async getAnnouncements(): Promise<AxiosResponse<any>> {
-    return axios.get(API_URL + "/profile/announcements", {
-      headers: {
-        Authorization:
-          "Bearer " +
-          JSON.parse(localStorage.getItem("user") || "{}").authenticationToken,
-      },
-    });
+    return axios.get(API_URL + "/profile/announcements");
   }
 }
 export default new Announcements();

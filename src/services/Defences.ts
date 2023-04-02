@@ -48,15 +48,16 @@ class Defense {
   }
   async createDefence(
     commissions: any,
-    teamId: number
+    teamId: number | null,
+    stageId: number
   ): Promise<AxiosResponse<any>> {
     return axios
       .post(
-        API_URL + `/admin/team/${teamId}/defence/create`,
+        API_URL + `/secretary/team/${teamId}/defence/create`,
         {
           commissions: commissions,
           defenceDate: null,
-          stageId: 1,
+          stageId: stageId,
         },
         {
           headers: {
@@ -113,6 +114,38 @@ class Defense {
       .then((response) => {
         return response;
       });
+  }
+  async getMoreInfoSecretary(teamId: number): Promise<AxiosResponse<any>> {
+    return axios.get(API_URL + `/secretary/team/${teamId}`, {
+      headers: {
+        Authorization:
+          "Bearer " +
+          JSON.parse(localStorage.getItem("user") || "{}").authenticationToken,
+      },
+    });
+  }
+
+  async updateTeamConfirmation(
+    teamId: number | null
+  ): Promise<AxiosResponse<any>> {
+    return axios({
+      method: "put",
+      url: API_URL + `/secretary/team/${teamId}?confirmed=true`,
+      headers: {
+        Authorization:
+          "Bearer " +
+          JSON.parse(localStorage.getItem("user") || "{}").authenticationToken,
+      },
+    });
+  }
+  async deleteTeam(teamId: number | null): Promise<AxiosResponse<any>> {
+    return axios.delete(API_URL + `/secretary/team/${teamId}`, {
+      headers: {
+        Authorization:
+          "Bearer " +
+          JSON.parse(localStorage.getItem("user") || "{}").authenticationToken,
+      },
+    });
   }
 }
 

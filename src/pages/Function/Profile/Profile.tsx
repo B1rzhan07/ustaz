@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import React from 'react'
 import TournamentService from '../../../services/TournamentService'
+import { useAppSelector } from '../../../store/hook'
 const Profile = () => {
   const { t, i18n } = useTranslation()
   const [userProfile, setUserProfile] = React.useState<any>()
@@ -11,7 +12,6 @@ const Profile = () => {
   var birthDateFormated = 'Енгізілмеген'
   const [number, setNumber] = React.useState<any>()
   const type = JSON.parse(localStorage.getItem('user') || '').role
-  console.log(type)
   React.useEffect(() => {
     const user = AuthService.getCurrentUser()
     user.then((res) => {
@@ -36,13 +36,11 @@ const Profile = () => {
     birthDateFormated = `${userProfile?.birthDate[0]}-${userProfile?.birthDate[1]}-${userProfile?.birthDate[2]}`
   }
 
-  const scrollTo = () => {}
-
   return (
     <>
       {localStorage.getItem('user') ? (
         <div>
-          <HeaderComponent scrollTo={scrollTo} />
+          <HeaderComponent />
           <div className="container mt-5">
             <div className="row d-flex justify-content-center">
               <div className="col-md-7">
