@@ -14,7 +14,7 @@ const Login = () => {
   const [formState, setFormState] = React.useState<
     'pending' | 'submitted' | 'error'
   >('submitted')
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const navigate = useNavigate()
   const [correctReg, setCorrectReg] = React.useState(false)
   const [isLogin, setIsLogin] = React.useState(true)
@@ -88,10 +88,12 @@ const Login = () => {
             if (localStorage.getItem('user')) {
               navigate('/profile')
             } else {
-              setError('Қайтадан кіріп көріңіз')
+              setError(t('errLogin'))
             }
           })
-          .catch((err: any) => {})
+          .catch((err) => {
+            console.log('err', err)
+          })
       } else {
         AuthService.register(
           all.username.toString(),
@@ -100,23 +102,34 @@ const Login = () => {
           all.middleName.toString(),
           all.lastName.toString(),
           all.firstName.toString(),
-        ).then((response: AxiosResponse) => {
-          console.log(response.status)
-          setFormState('submitted')
-          if (Number(response.status) == 200) {
-            AuthService.login(all.username.toString(), all.password.toString())
-              .then((response: AxiosResponse) => {
-                if (localStorage.getItem('user')) {
-                  navigate('/profile')
-                } else {
+        )
+          .then((response: AxiosResponse) => {
+            console.log(response.status)
+            setFormState('submitted')
+            if (Number(response.status) == 200) {
+              AuthService.login(
+                all.username.toString(),
+                all.password.toString(),
+              )
+                .then((response: AxiosResponse) => {
+                  setFormState('submitted')
+                  if (localStorage.getItem('user')) {
+                    navigate('/profile')
+                  } else {
+                    setError('Қайтадан кіріп көріңіз')
+                  }
+                })
+                .catch((err: AxiosError) => {
                   setError('Қайтадан кіріп көріңіз')
-                }
-              })
-              .catch((err: AxiosError) => {
-                setError('Қайтадан кіріп көріңіз')
-              })
-          }
-        })
+                  setFormState('submitted')
+                  console.log('err', err)
+                })
+            }
+          })
+          .catch((err) => {
+            setError(t('exist'))
+            setFormState('submitted')
+          })
       }
       setAll({
         username: '',

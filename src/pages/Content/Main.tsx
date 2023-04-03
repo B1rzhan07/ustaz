@@ -40,16 +40,31 @@ const main: React.FC = () => {
             }}
           >
             <div>{t('readMore')}</div>
-            <TelegramIcon
-              fontSize="large"
-              style={{
-                color: '#3E58E8',
-              }}
-              className="telegram"
-              onClick={() => {
-                window.open('https://t.me/almaty_ustazy_support')
-              }}
-            />
+            <div className="telegram">
+              <button
+                onClick={() => {
+                  window.open('https://t.me/almaty_ustazy_support')
+                }}
+                style={{
+                  backgroundColor: 'transparent',
+                  border: 'none',
+                  outline: 'none',
+                  textDecoration: 'underline',
+                }}
+              >
+                Almaty_ustazy
+              </button>
+
+              <TelegramIcon
+                fontSize="large"
+                style={{
+                  color: '#3E58E8',
+                }}
+                onClick={() => {
+                  window.open('https://t.me/almaty_ustazy_support')
+                }}
+              />
+            </div>
           </div>
         </div>
       </div>

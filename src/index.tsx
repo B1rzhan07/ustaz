@@ -6,7 +6,7 @@ import './index.scss'
 import { I18nextProvider } from 'react-i18next'
 import i18n from './models/18n/18n'
 import { Provider } from 'react-redux'
-import store from './store'
+import store from './store/store'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <Provider store={store}>

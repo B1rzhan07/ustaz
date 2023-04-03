@@ -12,8 +12,14 @@ const Profile = () => {
   var birthDateFormated = 'Енгізілмеген'
   const [number, setNumber] = React.useState<any>()
   const type = JSON.parse(localStorage.getItem('user') || '').role
+  const [grade, setGrade] = React.useState<any>()
   React.useEffect(() => {
     const user = AuthService.getCurrentUser()
+
+    AuthService.getGrade().then((res) => {
+      setGrade(res.data)
+      console.log(res.data)
+    })
     user.then((res) => {
       setUserProfile(res)
       localStorage.setItem('data', JSON.stringify(res))

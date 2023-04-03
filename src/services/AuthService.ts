@@ -85,10 +85,23 @@ class AuthService {
       })
       .then((response) => {
         return response.data;
+      })
+      .catch((error) => {
+        console.log("error", error);
+        return error;
       });
   }
   async sendPhoto(formData: FormData): Promise<AxiosResponse<any>> {
     return axios.post(API_URL + "/profile/uploadAndSetProfilePhoto", formData, {
+      headers: {
+        Authorization:
+          "Bearer " +
+          JSON.parse(localStorage.getItem("user") || "{}").authenticationToken,
+      },
+    });
+  }
+  async getGrade(): Promise<AxiosResponse<any>> {
+    return axios.get(API_URL + "/student/teams/getGrades", {
       headers: {
         Authorization:
           "Bearer " +

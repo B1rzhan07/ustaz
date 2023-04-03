@@ -1,8 +1,5 @@
 import styled from "styled-components";
 export const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   margin-top: 50px;
 `;
 
@@ -61,15 +58,17 @@ export interface User {
 }
 
 export const style = {
-  position: "absolute" as "absolute",
+  position: "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 800,
-  height: 700,
+  width: 900,
+  height: 650,
   bgcolor: "background.paper",
-  border: "2px solid #000",
+  border: "0px solid #000",
   boxShadow: 24,
+  backgroundColor: "white",
+  borderRadius: 10,
   p: 4,
 };
 export type Props = {

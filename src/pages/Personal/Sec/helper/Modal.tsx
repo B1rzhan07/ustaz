@@ -4,7 +4,6 @@ import Modal from '@mui/material/Modal'
 import { useState } from 'react'
 import {
   Button,
-  Container,
   Label,
   Props,
   Select,
@@ -12,9 +11,12 @@ import {
   style,
   User,
 } from './styless'
+import { Slider } from '@mui/material'
+import Typography from '@mui/material/Typography'
 import Defences from '../../../../services/Defences'
 import ClearIcon from '@mui/icons-material/Clear'
 import { stages } from './styless'
+import Secretary from '../../../../services/Secretary'
 export default function BasicModal({
   open,
   handleClose,
@@ -25,11 +27,29 @@ export default function BasicModal({
 }: Props) {
   const [selectedCommissions, setSelectedCommissions] = useState<any[]>([])
   const [commissions, setCommissions] = useState<User[]>([])
+  const [defences, setDefences] = useState<any>([])
   React.useEffect(() => {
     Defences.getCommissions().then((res) => {
       setCommissions(res.data)
     })
+    Defences.getSecretaryDefence().then((res) => {
+      setDefences(res.data)
+    })
   }, [])
+  const [isDefence, setIsDefence] = useState<any>([])
+  React.useEffect(() => {
+    if (id) {
+      Secretary.getDefence(defenceId).then((res) => {
+        setIsDefence(res.data)
+      })
+    }
+  }, [id])
+
+  const defense = defences.find(
+    (d: any) => d?.team?.toString() === moreInfo?.team?.name.toString(),
+  )
+  var defenceId = defense?.id
+
   const handleCommissionChange = (
     event: React.ChangeEvent<HTMLSelectElement>,
   ) => {
@@ -46,21 +66,20 @@ export default function BasicModal({
       )
     }
   }
-
-  const show = []
-  for (let i = 0; i < selectedCommissions.length; i++) {
-    for (let j = 0; j < commissions.length; j++) {
-      if (selectedCommissions[i] === commissions[j].id) {
-        show[i] = commissions[j]
-      }
-    }
+  const [grade, setGrade] = useState<number>(0)
+  const handleChange = (event: Event, value: number | number[]) => {
+    setGrade(value as number)
   }
+
+  const show = commissions.filter((commission) =>
+    selectedCommissions.includes(commission.id),
+  )
+
   const [stage, setStage] = useState<any>(null)
   const handleStageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setStage(event.target.value)
   }
 
-  console.log(stage)
   const setDefence = () => {
     Defences.createDefence(selectedCommissions, id, stage).then((res) => {
       console.log(res)
@@ -92,6 +111,13 @@ export default function BasicModal({
         console.log(err)
       })
   }
+  const setFinalGrade = () => {
+    Defences.setFinalGrade(defenceId, moreInfo.creator.id, grade)
+    Defences.getSecrataryGrade(id)
+  }
+
+  const updateDefence = () => {}
+  console.log(moreInfo)
 
   return (
     <div>
@@ -103,7 +129,14 @@ export default function BasicModal({
       >
         <Box sx={style}>
           {formState === 'pending' && (
-            <Container>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
               <Label htmlFor="commission-select">Select Commission:</Label>
               <Select
                 id="commission-select"
@@ -113,7 +146,6 @@ export default function BasicModal({
                 <option value="" disabled>
                   Select Commission
                 </option>
-
                 {commissions
                   .filter(
                     (commission) =>
@@ -170,66 +202,215 @@ export default function BasicModal({
                   <option value={commission.id}>{commission.name}</option>
                 ))}
               </Select>
-
               <Button onClick={setDefence}>Set Defence</Button>
-            </Container>
+              {defenceId && (
+                <Button onClick={updateDefence}>UpdateDefence</Button>
+              )}
+            </div>
           )}
           {formState === 'submitted' && (
-            <Container>
-              <h4>
-                ФИО: {moreInfo?.creator?.first_name}{' '}
-                {moreInfo?.creator?.last_name} {moreInfo?.creator?.middle_name}
-              </h4>
-              <Button
-                onClick={() => {
-                  window.open(moreInfo?.creator?.applicationFormURL)
+            <div
+              style={
+                moreInfo?.defences?.length > 0
+                  ? { display: 'flex', flexDirection: 'row' }
+                  : {}
+              }
+            >
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  flexBasis: '50%',
                 }}
               >
-                ApplicationURL
-              </Button>
-              <Button
-                onClick={() => window.open(moreInfo?.creator?.presentationURL)}
-              >
-                presentationURL
-              </Button>
-              <Button
-                onClick={() => {
-                  window.open(moreInfo?.creator?.lessonRecordingURL)
+                <div
+                  style={{
+                    marginBottom: '20px',
+                    margin: '0.5rem 0',
+                    border: '1px solid #ccc',
+                    borderRadius: '1rem',
+                    padding: '1rem',
+                  }}
+                >
+                  <h3>
+                    ФИО: {moreInfo?.team?.creator?.first_name}{' '}
+                    {moreInfo?.team?.creator?.last_name}{' '}
+                    {moreInfo?.team?.creator?.middle_name}
+                  </h3>
+                  <p>Дата Рождения: {moreInfo?.team?.creator?.birthDate}</p>
+                  <p>Email: {moreInfo?.creator?.email}</p>
+                  <p>
+                    Фото:{' '}
+                    {moreInfo?.creator?.profilePhoto ? 'Есть' : 'Не указано'}
+                  </p>
+                </div>
+
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    width: '100%',
+                    marginBottom: '30px',
+                  }}
+                >
+                  <Button
+                    style={{ flex: 1, margin: '0 10px' }}
+                    onClick={() =>
+                      window.open(moreInfo?.creator?.applicationFormURL)
+                    }
+                  >
+                    Application URL
+                  </Button>
+                  <Button
+                    style={{ flex: 1, margin: '0 10px' }}
+                    onClick={() =>
+                      window.open(moreInfo?.creator?.presentationURL)
+                    }
+                  >
+                    Presentation URL
+                  </Button>
+                  <Button
+                    style={{ flex: 1, margin: '0 10px' }}
+                    onClick={() =>
+                      window.open(moreInfo?.creator?.lessonRecordingURL)
+                    }
+                  >
+                    Lesson Recording URL
+                  </Button>
+                </div>
+
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    width: '100%',
+                  }}
+                >
+                  <Button
+                    style={{
+                      background: '#4caf50',
+                      color: '#fff',
+                      margin: '0 10px',
+                    }}
+                    onClick={confirm}
+                  >
+                    Подтвердить
+                  </Button>
+                  <Button
+                    style={{
+                      background: '#f44336',
+                      color: '#fff',
+                      margin: '0 10px',
+                    }}
+                    onClick={deleteTeam}
+                  >
+                    Удалить
+                  </Button>
+                </div>
+              </div>
+
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  flexWrap: 'wrap',
+                  flexBasis: '50%',
                 }}
               >
-                lessonRecordingURL
-              </Button>
-              <h4>
-                Defence has:{' '}
-                {moreInfo?.defences?.length === 0 ? 'Not been set' : 'Been set'}
-              </h4>
-
-              {moreInfo?.defences?.length > 0 && (
-                <>
-                  {moreInfo?.defences?.map((defence: any, index: number) => (
-                    <div key={defence.id}>
-                      stage: {defence.stage.name} <br />
-                      {defence?.grades?.length > 0 && (
-                        <div>
-                          {defence?.grades?.map((grade: any, index: number) => (
-                            <>
-                              <div key={grade.id}>
-                                commission:{grade?.commission.first_name}{' '}
-                                {grade?.commission.last_name} grade:
-                                {grade?.grade}
-                              </div>
-                            </>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </>
-              )}
-
-              <Button onClick={confirm}>Confirm make true</Button>
-              <Button onClick={deleteTeam}>Delete</Button>
-            </Container>
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    margin: '1rem',
+                  }}
+                >
+                  <Typography
+                    variant="h6"
+                    gutterBottom
+                    style={{ marginBottom: '1rem' }}
+                  >
+                    Defences
+                  </Typography>
+                  {moreInfo?.defences?.length > 0 ? (
+                    moreInfo.defences.map((defence: any) => (
+                      <div
+                        key={defence.id}
+                        style={{
+                          margin: '0.5rem 0',
+                          border: '1px solid #ccc',
+                          borderRadius: '0.5rem',
+                          padding: '1rem',
+                          display: 'flex',
+                          flexDirection: 'column',
+                          alignItems: 'center',
+                        }}
+                      >
+                        <Typography variant="body1" gutterBottom>
+                          Stage: {defence.stage.name}
+                        </Typography>
+                        {defence.grades.length > 0 ? (
+                          defence.grades.map((grade: any, index: number) => (
+                            <Typography
+                              key={grade.id}
+                              variant="body2"
+                              gutterBottom
+                            >
+                              {index + 1}. Оценил: {grade.commission.first_name}{' '}
+                              {grade.commission.last_name},{' '}
+                              <b>grade: {grade.grade}</b>
+                            </Typography>
+                          ))
+                        ) : (
+                          <Typography variant="body2" gutterBottom>
+                            No grades available
+                          </Typography>
+                        )}
+                      </div>
+                    ))
+                  ) : (
+                    <Typography variant="body1" gutterBottom>
+                      No defences available
+                    </Typography>
+                  )}
+                </div>
+                {moreInfo?.defences?.length > 0 && (
+                  <div
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      margin: '1rem',
+                    }}
+                  >
+                    <Typography
+                      variant="h6"
+                      gutterBottom
+                      style={{ marginBottom: '1rem' }}
+                    >
+                      Final Grade: {grade}
+                    </Typography>
+                    <Slider
+                      value={grade}
+                      min={0}
+                      max={100}
+                      step={1}
+                      onChange={handleChange}
+                      aria-labelledby="continuous-slider"
+                      style={{ width: '50%', marginBottom: '1rem' }}
+                    />
+                    <Button onClick={setFinalGrade}>Set Final Grade</Button>
+                  </div>
+                )}
+              </div>
+            </div>
           )}
         </Box>
       </Modal>

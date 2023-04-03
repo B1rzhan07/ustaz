@@ -17,6 +17,7 @@ import Alert from '@mui/material/Alert'
 import { useTranslation } from 'react-i18next'
 import Autocomplete from '@mui/material/Autocomplete'
 import { useAppSelector } from '../../../store/hook'
+import { DefenceResponse } from '../../../store/types/Defence'
 
 const languages = [
   {
@@ -136,8 +137,11 @@ const RegisterDoctor = () => {
         setState((prevState) => ({ ...prevState, error: true }))
       })
   }
-  const defenceData = useAppSelector((state) => state.defence)
-  console.log(defenceData.data)
+  const [defenceData, setDefenceData] = React.useState<DefenceResponse | null>(
+    {} as DefenceResponse,
+  )
+  const defence = useAppSelector((state) => state.defence)
+  console.log(defence.data)
 
   return (
     <>

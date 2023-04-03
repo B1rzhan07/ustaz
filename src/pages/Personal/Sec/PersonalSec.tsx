@@ -12,8 +12,7 @@ import '../../../index.scss'
 import BasicModal from './helper/Modal'
 import Pagination from '../../Function/News/Pagination'
 import Defences from '../../../services/Defences'
-import { fetchDefenceData } from '../../../store/Slices/defenceSlice'
-import { useAppDispatch } from '../../../store/hook'
+
 interface Team {
   creator: any
   map(arg0: (row: Team) => JSX.Element): React.ReactNode
@@ -27,6 +26,7 @@ interface Team {
 
 const PersonalSec = () => {
   const [teams, setTeams] = React.useState<Team[]>([])
+
   React.useEffect(() => {
     const fetchData = async () => {
       Defense.getTeams().then((res) => {
@@ -35,12 +35,11 @@ const PersonalSec = () => {
     }
     fetchData()
   }, [])
+
   const [open, setOpen] = React.useState(false)
 
-  const [stateToChange, setStateToChange] = React.useState('initial state')
   const handleClose = () => {
     setOpen(false)
-    setStateToChange('new state')
   }
   const [curPage, setCurPage] = React.useState(1)
   const [postPerPage] = React.useState(12)
@@ -60,14 +59,9 @@ const PersonalSec = () => {
     if (id !== null) {
       Defences.getMoreInfoSecretary(id).then((res) => {
         setMoreInfo(res.data)
-        console.log(res.data)
       })
     }
   }, [id])
-  const dispatch = useAppDispatch()
-  React.useEffect(() => {
-    dispatch(fetchDefenceData(id))
-  }, [dispatch, id])
 
   return (
     <div>
