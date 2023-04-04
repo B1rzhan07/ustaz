@@ -145,9 +145,20 @@ const Login = () => {
   const [open, setOpen] = React.useState(false)
   const [reset, setReset] = React.useState<string>('')
   console.log('reset', reset)
-
+  const [message, setMessage] = React.useState<string>('')
   const resetPassword = () => {
+    setFormState('pending')
     AuthService.resetPassword(reset.toString())
+      .then((response: AxiosResponse) => {
+        setFormState('submitted')
+        setMessage('Проверьте почту')
+        setReset('')
+      })
+      .catch((err: AxiosError) => {
+        setFormState('submitted')
+        setMessage('C таким email не существует пользователь')
+        setReset('')
+      })
   }
   return (
     <>
@@ -366,6 +377,29 @@ const Login = () => {
                       {t('register')}{' '}
                     </Button>
                   )}
+                  {!open && formState === 'pending' && (
+                    <div
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        marginTop: 25,
+                      }}
+                    >
+                      <CircularProgress />
+                    </div>
+                  )}
+                  {error && (
+                    <div
+                      style={{
+                        marginTop: 15,
+                      }}
+                      className="alert alert-danger"
+                      role="alert"
+                    >
+                      {error}
+                    </div>
+                  )}
                   <div
                     className={
                       classes.text2 + ' mt-4 d-flex flex-row align-items-center'
@@ -377,19 +411,17 @@ const Login = () => {
                         onClick={switchAuthModeHandler}
                         to={''}
                       >
-                        {' '}
                         {isLogin ? t('register') : t('login')}{' '}
                       </Link>{' '}
                     </h3>{' '}
                   </div>{' '}
-                  {isLogin && (
+                  {isLogin && !open && (
                     <Button
                       style={{ marginTop: 15 }}
                       variant="contained"
                       onClick={() => setOpen(true)}
                     >
-                      {' '}
-                      Forgot password?{' '}
+                      {t('forgot')}
                     </Button>
                   )}
                   {open && (
@@ -398,28 +430,51 @@ const Login = () => {
                         style={{ marginTop: 20, marginBottom: 40 }}
                         required
                         id="outlined-required"
-                        label="Required"
+                        label={t('email')}
                         value={reset}
-                        onChange={(e) => setReset(e.target.value)}
+                        onChange={(e) => {
+                          const regex = /^[a-zA-Z0-9\s!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~]*$/
+                          const input = e.target.value
+                          if (isEmailValid(input)) {
+                            setIsValidEmail(true)
+                          }
+                          if (!/\s/g.test(input) && regex.test(input)) {
+                            setReset(input)
+                          }
+                        }}
                       />
-                      <Button onClick={resetPassword}> Reset password </Button>
+                      <Button
+                        disabled={!isValidEmail}
+                        style={{ marginTop: -25 }}
+                        variant="contained"
+                        onClick={resetPassword}
+                      >
+                        {' '}
+                        {t('reset')}
+                      </Button>
                     </>
                   )}
-                  {formState === 'pending' && (
+                  {open && formState === 'pending' && (
                     <div
                       style={{
                         display: 'flex',
                         justifyContent: 'center',
                         alignItems: 'center',
-                        marginTop: 15,
+                        marginTop: 25,
                       }}
                     >
                       <CircularProgress />
                     </div>
                   )}
-                  {error && (
-                    <div className="alert alert-danger" role="alert">
-                      {error}
+                  {message && (
+                    <div
+                      style={{
+                        marginTop: 15,
+                      }}
+                      className="alert alert-success"
+                      role="alert"
+                    >
+                      {message}
                     </div>
                   )}
                 </div>

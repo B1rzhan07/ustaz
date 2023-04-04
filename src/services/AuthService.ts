@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { AxiosResponse } from "axios";
 import { Dayjs } from "dayjs";
 import { AuthResponse } from "../models/response/AuthResponse";
@@ -128,10 +128,10 @@ class AuthService {
         token,
       },
     })
-      .then((response) => {
-        return response.data;
+      .then((response: any) => {
+        return response;
       })
-      .catch((error) => {
+      .catch((error: AxiosError) => {
         return error;
       });
   }

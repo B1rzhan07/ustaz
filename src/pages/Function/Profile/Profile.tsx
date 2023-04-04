@@ -51,7 +51,14 @@ const Profile = () => {
             <div className="row d-flex justify-content-center">
               <div className="col-md-7">
                 <div className="card p-3 py-4">
-                  <div>Өзгерістер енгізу үшін Тольқтыру батырмасын басыныз</div>
+                  <h5
+                    style={{
+                      textAlign: 'center',
+                      color: '#2D2D2D',
+                    }}
+                  >
+                    {t('change')}
+                  </h5>
                   <div className="text-center">
                     <img
                       src={
