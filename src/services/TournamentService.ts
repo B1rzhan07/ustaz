@@ -13,17 +13,17 @@ class TournamentService {
     });
   }
   async updateProfile(
-    firstName: string,
-    lastName: string,
-    middleName: string,
-    birthDate: Dayjs,
-    group: string,
-    subject: string,
-    category: number,
-    isKazakhProficient: boolean,
-    englishProficiency: boolean,
-    pedagogicalExperienceCurrent: number,
-    pedagogicalExperience: number
+    firstName: string | undefined | null,
+    lastName: string | undefined | null,
+    middleName: string | undefined | null,
+    birthDate: Dayjs | undefined | null,
+    group: string | undefined | null,
+    subject: string | undefined | null,
+    category: number | undefined | null,
+    isKazakhProficient: boolean | undefined | null,
+    englishProficiency: boolean | undefined | null,
+    pedagogicalExperienceCurrent: number | undefined | null,
+    pedagogicalExperience: number | undefined | null
   ): Promise<AxiosResponse<any>> {
     return axios({
       method: "put",

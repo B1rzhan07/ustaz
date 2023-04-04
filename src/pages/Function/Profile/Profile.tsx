@@ -51,6 +51,7 @@ const Profile = () => {
             <div className="row d-flex justify-content-center">
               <div className="col-md-7">
                 <div className="card p-3 py-4">
+                  <div>Өзгерістер енгізу үшін Тольқтыру батырмасын басыныз</div>
                   <div className="text-center">
                     <img
                       src={
@@ -62,7 +63,6 @@ const Profile = () => {
                       className="rounded-circle"
                     />
                   </div>
-
                   <div className="text-center mt-3">
                     <span className="bg-secondary p-1 px-4 rounded text-white">
                       Login: {userProfile?.username}
@@ -85,7 +85,7 @@ const Profile = () => {
                           : userProfile?.subject?.nameKaz}
                       </p>
                       <p className="fonts">
-                        {/* {t('birthday')}: <b>{birthDateFormated}</b> */}
+                        {t('birthday')}: <b>{birthDateFormated}</b>
                       </p>
                       <p className="fonts">
                         {t('degree')}:{' '}

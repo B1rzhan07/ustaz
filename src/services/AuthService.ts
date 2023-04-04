@@ -1,5 +1,6 @@
 import axios from "axios";
 import { AxiosResponse } from "axios";
+import { Dayjs } from "dayjs";
 import { AuthResponse } from "../models/response/AuthResponse";
 
 export const API_URL = "https://almatyustazy.akylgroup.com.kz";
@@ -108,6 +109,31 @@ class AuthService {
           JSON.parse(localStorage.getItem("user") || "{}").authenticationToken,
       },
     });
+  }
+
+  async resetPassword(email: string): Promise<AxiosResponse<any>> {
+    return axios.post(API_URL + "/auth/resetPasswordToken/create", {
+      email,
+    });
+  }
+  async resetWithToken(
+    password: string,
+    token: string
+  ): Promise<AxiosResponse<any>> {
+    return axios({
+      method: "put",
+      url: API_URL + "/auth/resetPassword",
+      data: {
+        password,
+        token,
+      },
+    })
+      .then((response) => {
+        return response.data;
+      })
+      .catch((error) => {
+        return error;
+      });
   }
 }
 

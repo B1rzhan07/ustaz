@@ -142,14 +142,21 @@ const Login = () => {
     },
     [all, isLogin, navigate],
   )
+  const [open, setOpen] = React.useState(false)
+  const [reset, setReset] = React.useState<string>('')
+  console.log('reset', reset)
+
+  const resetPassword = () => {
+    AuthService.resetPassword(reset.toString())
+  }
   return (
     <>
       <HeaderComponent />
       <form onSubmit={submitHandler}>
         <div className="container mb-5">
-          <div className="d-flex flex row g-0">
+          <div className="d-flex flex justify-content-around  ">
             <div className="col-md-6 mt-3">
-              <div className={'card p-3 ' + classes.card1}>
+              <div className="card p-3 ">
                 <div className="d-flex justify-content-around">
                   <h1
                     style={{
@@ -160,15 +167,9 @@ const Login = () => {
                     {isLogin ? t('login') : t('register')}
                   </h1>{' '}
                 </div>{' '}
-                <div
-                  className={classes.inputField + ' d-flex flex-column mt-3'}
-                >
+                <div className=" d-flex flex-column mt-3">
                   {!isLogin && (
-                    <div
-                      className={
-                        classes.inputField + ' d-flex flex-column mt-3'
-                      }
-                    >
+                    <div className=" d-flex flex-column mt-3">
                       <div
                         style={{
                           marginTop: '10px',
@@ -381,6 +382,29 @@ const Login = () => {
                       </Link>{' '}
                     </h3>{' '}
                   </div>{' '}
+                  {isLogin && (
+                    <Button
+                      style={{ marginTop: 15 }}
+                      variant="contained"
+                      onClick={() => setOpen(true)}
+                    >
+                      {' '}
+                      Forgot password?{' '}
+                    </Button>
+                  )}
+                  {open && (
+                    <>
+                      <TextField
+                        style={{ marginTop: 20, marginBottom: 40 }}
+                        required
+                        id="outlined-required"
+                        label="Required"
+                        value={reset}
+                        onChange={(e) => setReset(e.target.value)}
+                      />
+                      <Button onClick={resetPassword}> Reset password </Button>
+                    </>
+                  )}
                   {formState === 'pending' && (
                     <div
                       style={{
@@ -401,15 +425,6 @@ const Login = () => {
                 </div>
               </div>{' '}
             </div>
-            <div className="col-md-6 mt-3">
-              <div className={'card p-3 ' + classes.card2}>
-                <div className="image">
-                  <Link to="/">
-                    <img src={img} height={500} width="100%" />
-                  </Link>{' '}
-                </div>{' '}
-              </div>{' '}
-            </div>{' '}
           </div>{' '}
         </div>{' '}
       </form>

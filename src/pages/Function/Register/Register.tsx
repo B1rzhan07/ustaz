@@ -9,7 +9,6 @@ import UploadButtons from '../../../components/Upload/Upload.component'
 import HeaderComponent from '../../../components/Header/Header.component'
 import dayjs, { Dayjs } from 'dayjs'
 import DatePickerValue from '../../../components/DatePicker/DatePicker.component'
-import { schools, subjects } from '../../../models/data'
 import AuthService from '../../../services/AuthService'
 import TournamentService from '../../../services/TournamentService'
 import { useNavigate } from 'react-router-dom'
@@ -109,12 +108,14 @@ const RegisterDoctor = () => {
   }>({ success: null, error: null })
 
   console.log(all)
-
+  const [firstName, setFirstName] = React.useState(data.firstName)
+  const [lastName, setLastName] = React.useState(data.lastName)
+  const [middleName, setMiddleName] = React.useState(data.middleName)
   const send = () => {
     TournamentService.updateProfile(
-      userProfile.firstName,
-      userProfile.lastName,
-      userProfile.middleName,
+      firstName,
+      lastName,
+      middleName,
       value.add(1, 'day'),
       all.group.id,
       all.subject,
@@ -137,11 +138,6 @@ const RegisterDoctor = () => {
         setState((prevState) => ({ ...prevState, error: true }))
       })
   }
-  const [defenceData, setDefenceData] = React.useState<DefenceResponse | null>(
-    {} as DefenceResponse,
-  )
-  const defence = useAppSelector((state) => state.defence)
-  console.log(defence.data)
 
   return (
     <>
@@ -160,7 +156,51 @@ const RegisterDoctor = () => {
             <div>
               <UploadButtons userProfile={userProfile} />
               <DatePickerValue value={value} setValue={setValue} />
-
+              <TextField
+                id="standard-basic"
+                variant="standard"
+                value={firstName}
+                required
+                placeholder={t('kaz') + ''}
+                label={t('firstName')}
+                onChange={(e) => {
+                  const input = e.target.value
+                  const regex1 = /^[А-ЯҢңӘӨҮа-яңғіқҚӨҰҺІҒұһәөү\s]*$/
+                  if (!/\s/g.test(input) && regex1.test(input)) {
+                    setFirstName(e.target.value)
+                  }
+                }}
+              />
+              <TextField
+                id="standard-basic"
+                variant="standard"
+                required
+                placeholder={t('kaz') + ''}
+                label={t('lastName')}
+                value={lastName}
+                onChange={(e) => {
+                  const input = e.target.value
+                  const regex1 = /^[А-ЯҢңӘӨҮа-яңғіқҚӨҰҺІҒұһәөү\s]*$/
+                  if (!/\s/g.test(input) && regex1.test(input)) {
+                    setLastName(e.target.value)
+                  }
+                }}
+              />
+              <TextField
+                id="standard-basic"
+                variant="standard"
+                label={t('middleName')}
+                required
+                placeholder={t('kaz') + ''}
+                value={middleName}
+                onChange={(e) => {
+                  const input = e.target.value
+                  const regex1 = /^[А-ЯҢңӘӨҮа-яңғіқҚӨҰҺІҒұһәөү\s]*$/
+                  if (!/\s/g.test(input) && regex1.test(input)) {
+                    setMiddleName(e.target.value)
+                  }
+                }}
+              />
               <FormControl sx={{ m: 1, minWidth: 300 }}>
                 <InputLabel>{t('degree')}</InputLabel>
                 <Select

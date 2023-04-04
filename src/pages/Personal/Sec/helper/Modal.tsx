@@ -3,7 +3,6 @@ import Box from '@mui/material/Box'
 import Modal from '@mui/material/Modal'
 import { useState } from 'react'
 import {
-  Button,
   Label,
   Props,
   Select,
@@ -11,12 +10,14 @@ import {
   style,
   User,
 } from './styless'
+import Button from '@mui/material/Button'
 import { Slider } from '@mui/material'
 import Typography from '@mui/material/Typography'
 import Defences from '../../../../services/Defences'
 import ClearIcon from '@mui/icons-material/Clear'
 import { stages } from './styless'
 import Secretary from '../../../../services/Secretary'
+
 export default function BasicModal({
   open,
   handleClose,
@@ -27,28 +28,11 @@ export default function BasicModal({
 }: Props) {
   const [selectedCommissions, setSelectedCommissions] = useState<any[]>([])
   const [commissions, setCommissions] = useState<User[]>([])
-  const [defences, setDefences] = useState<any>([])
   React.useEffect(() => {
     Defences.getCommissions().then((res) => {
       setCommissions(res.data)
     })
-    Defences.getSecretaryDefence().then((res) => {
-      setDefences(res.data)
-    })
   }, [])
-  const [isDefence, setIsDefence] = useState<any>([])
-  React.useEffect(() => {
-    if (id) {
-      Secretary.getDefence(defenceId).then((res) => {
-        setIsDefence(res.data)
-      })
-    }
-  }, [id])
-
-  const defense = defences.find(
-    (d: any) => d?.team?.toString() === moreInfo?.team?.name.toString(),
-  )
-  var defenceId = defense?.id
 
   const handleCommissionChange = (
     event: React.ChangeEvent<HTMLSelectElement>,
@@ -82,7 +66,6 @@ export default function BasicModal({
 
   const setDefence = () => {
     Defences.createDefence(selectedCommissions, id, stage).then((res) => {
-      console.log(res)
       setSelectedCommissions([])
     })
     handleClose()
@@ -112,12 +95,13 @@ export default function BasicModal({
       })
   }
   const setFinalGrade = () => {
-    Defences.setFinalGrade(defenceId, moreInfo.creator.id, grade)
+    Defences.setFinalGrade(moreInfo?.defences?.id, moreInfo.creator.id, grade)
     Defences.getSecrataryGrade(id)
   }
 
   const updateDefence = () => {}
-  console.log(moreInfo)
+
+  console.log('moreInfo', moreInfo)
 
   return (
     <div>
@@ -203,7 +187,7 @@ export default function BasicModal({
                 ))}
               </Select>
               <Button onClick={setDefence}>Set Defence</Button>
-              {defenceId && (
+              {moreInfo?.defences?.id && (
                 <Button onClick={updateDefence}>UpdateDefence</Button>
               )}
             </div>
@@ -240,11 +224,14 @@ export default function BasicModal({
                     {moreInfo?.team?.creator?.middle_name}
                   </h3>
                   <p>Дата Рождения: {moreInfo?.team?.creator?.birthDate}</p>
-                  <p>Email: {moreInfo?.creator?.email}</p>
+                  <p>Email: {moreInfo?.team?.creator?.email}</p>
                   <p>
-                    Фото:{' '}
-                    {moreInfo?.creator?.profilePhoto ? 'Есть' : 'Не указано'}
+                    Школа:{' '}
+                    {moreInfo?.team?.creator?.group?.nameRus !== null
+                      ? moreInfo?.team?.creator?.group?.nameRus
+                      : moreInfo?.team?.creator?.group?.nameKaz}
                   </p>
+                  <p>Предмет: {moreInfo?.team?.creator?.subject?.nameRus}</p>
                 </div>
 
                 <div
@@ -258,25 +245,31 @@ export default function BasicModal({
                   }}
                 >
                   <Button
-                    style={{ flex: 1, margin: '0 10px' }}
+                    variant="contained"
+                    style={{ flex: 1, margin: '0 10px', marginTop: '10px' }}
+                    disabled={moreInfo?.team?.applicationFormURL === null}
                     onClick={() =>
-                      window.open(moreInfo?.creator?.applicationFormURL)
+                      window.open(moreInfo?.team?.applicationFormURL)
                     }
                   >
                     Application URL
                   </Button>
+
                   <Button
-                    style={{ flex: 1, margin: '0 10px' }}
-                    onClick={() =>
-                      window.open(moreInfo?.creator?.presentationURL)
-                    }
+                    variant="contained"
+                    disabled={moreInfo?.team?.presentationURL === null}
+                    style={{ flex: 1, margin: '0 10px', marginTop: '10px' }}
+                    onClick={() => window.open(moreInfo?.team?.presentationURL)}
                   >
                     Presentation URL
                   </Button>
+
                   <Button
-                    style={{ flex: 1, margin: '0 10px' }}
+                    variant="contained"
+                    disabled={moreInfo?.team?.lessonRecordingURL === null}
+                    style={{ flex: 1, margin: '0 10px', marginTop: '10px' }}
                     onClick={() =>
-                      window.open(moreInfo?.creator?.lessonRecordingURL)
+                      window.open(moreInfo?.team?.lessonRecordingURL)
                     }
                   >
                     Lesson Recording URL
@@ -293,19 +286,24 @@ export default function BasicModal({
                   }}
                 >
                   <Button
+                    disabled={
+                      moreInfo?.team?.applicationFormURL === null &&
+                      moreInfo?.team?.lessonRecordingURL === null &&
+                      moreInfo?.team?.presentationURL === null
+                    }
+                    variant="contained"
                     style={{
-                      background: '#4caf50',
-                      color: '#fff',
                       margin: '0 10px',
                     }}
                     onClick={confirm}
                   >
                     Подтвердить
                   </Button>
+
                   <Button
+                    variant="contained"
                     style={{
-                      background: '#f44336',
-                      color: '#fff',
+                      marginTop: 10,
                       margin: '0 10px',
                     }}
                     onClick={deleteTeam}
@@ -406,7 +404,9 @@ export default function BasicModal({
                       aria-labelledby="continuous-slider"
                       style={{ width: '50%', marginBottom: '1rem' }}
                     />
-                    <Button onClick={setFinalGrade}>Set Final Grade</Button>
+                    <Button variant="contained" onClick={setFinalGrade}>
+                      Set Final Grade
+                    </Button>
                   </div>
                 )}
               </div>

@@ -12,6 +12,7 @@ import '../../../index.scss'
 import BasicModal from './helper/Modal'
 import Pagination from '../../Function/News/Pagination'
 import Defences from '../../../services/Defences'
+import Secretary from '../../../services/Secretary'
 
 interface Team {
   creator: any
@@ -54,7 +55,7 @@ const PersonalSec = () => {
     setCurPage(pageNum)
   }
   const [id, setId] = React.useState<number | null>(null)
-  const [moreInfo, setMoreInfo] = React.useState([])
+  const [moreInfo, setMoreInfo] = React.useState<any>([])
   React.useEffect(() => {
     if (id !== null) {
       Defences.getMoreInfoSecretary(id).then((res) => {
