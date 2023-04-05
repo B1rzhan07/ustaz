@@ -12,8 +12,8 @@ class Defense {
       },
     });
   }
-  async getCommissions(): Promise<AxiosResponse<any>> {
-    return axios.get(API_URL + "/secretary/commissions", {
+  async getCommissions(id: number | null): Promise<AxiosResponse<any>> {
+    return axios.get(API_URL + `/secretary/commissions?subjectId=${id}`, {
       headers: {
         Authorization:
           "Bearer " +

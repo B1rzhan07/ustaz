@@ -151,7 +151,9 @@ const Login = () => {
     AuthService.resetPassword(reset.toString())
       .then((response: AxiosResponse) => {
         setFormState('submitted')
-        setMessage('Проверьте почту')
+        setMessage(
+          'Проверьте почту. Если не можете найти письмо, проверьте в папке "Спам"',
+        )
         setReset('')
       })
       .catch((err: AxiosError) => {

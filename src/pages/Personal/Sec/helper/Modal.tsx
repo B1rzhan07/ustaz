@@ -28,11 +28,17 @@ export default function BasicModal({
 }: Props) {
   const [selectedCommissions, setSelectedCommissions] = useState<any[]>([])
   const [commissions, setCommissions] = useState<User[]>([])
+  var subjectId: number
   React.useEffect(() => {
-    Defences.getCommissions().then((res) => {
+    if (moreInfo?.team?.creator?.subject) {
+      subjectId = moreInfo?.team?.creator?.subject?.id
+    }
+  }, [moreInfo])
+  React.useEffect(() => {
+    Defences.getCommissions(subjectId).then((res) => {
       setCommissions(res.data)
     })
-  }, [])
+  }, [moreInfo])
 
   const handleCommissionChange = (
     event: React.ChangeEvent<HTMLSelectElement>,
@@ -99,7 +105,21 @@ export default function BasicModal({
     Defences.getSecrataryGrade(id)
   }
 
-  const updateDefence = () => {}
+  const updateDefence = () => {
+    Secretary.updateDefence(
+      moreInfo?.defences[0]?.id,
+      selectedCommissions,
+      stage,
+    )
+      .then((res) => {
+        setSelectedCommissions([])
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+
+    handleClose()
+  }
 
   console.log('moreInfo', moreInfo)
 
@@ -121,14 +141,27 @@ export default function BasicModal({
                 alignItems: 'center',
               }}
             >
-              <Label htmlFor="commission-select">Select Commission:</Label>
+              {moreInfo?.defences?.length > 0 && (
+                <div>
+                  <Typography id="discrete-slider" gutterBottom>
+                    Defence : уже существует
+                  </Typography>
+                  <Typography id="discrete-slider" gutterBottom>
+                    stage: {moreInfo?.defences[0]?.stage?.name}
+                  </Typography>
+                  <h5>Хотите изменить?</h5>
+                </div>
+              )}
+              <hr style={{ width: '100%' }} />
+
+              <Label htmlFor="commission-select"></Label>
               <Select
                 id="commission-select"
                 value=""
                 onChange={handleCommissionChange}
               >
                 <option value="" disabled>
-                  Select Commission
+                  Выберите Комиссию:
                 </option>
                 {commissions
                   .filter(
@@ -173,22 +206,35 @@ export default function BasicModal({
                   </SelectedCommission>
                 </>
               ))}
-              <Label htmlFor="commission-select">Select Stage:</Label>
+              <Label htmlFor="commission-select">Выберите Stage:</Label>
               <Select
                 id="commission-select"
                 value={stage}
                 onChange={handleStageChange}
               >
                 <option value="" disabled>
-                  Select Stage
+                  Выберите Stage:
                 </option>
                 {stages.map((commission: any) => (
                   <option value={commission.id}>{commission.name}</option>
                 ))}
               </Select>
-              <Button onClick={setDefence}>Set Defence</Button>
-              {moreInfo?.defences?.id && (
-                <Button onClick={updateDefence}>UpdateDefence</Button>
+              {moreInfo?.defences?.length === 0 && (
+                <Button variant="contained" onClick={setDefence}>
+                  Set Defence
+                </Button>
+              )}
+
+              {moreInfo?.defences?.length > 0 && (
+                <Button
+                  style={{
+                    marginTop: '20px',
+                  }}
+                  variant="contained"
+                  onClick={updateDefence}
+                >
+                  изменить Defence
+                </Button>
               )}
             </div>
           )}
@@ -223,17 +269,51 @@ export default function BasicModal({
                     {moreInfo?.team?.creator?.last_name}{' '}
                     {moreInfo?.team?.creator?.middle_name}
                   </h3>
-                  <p>Дата Рождения: {moreInfo?.team?.creator?.birthDate}</p>
+                  <p>
+                    Дата Рождения:{' '}
+                    {moreInfo?.team?.creator?.birthDate === null
+                      ? 'Не указано'
+                      : moreInfo?.team?.creator?.birthDate}
+                  </p>
+
                   <p>Email: {moreInfo?.team?.creator?.email}</p>
                   <p>
                     Школа:{' '}
-                    {moreInfo?.team?.creator?.group?.nameRus !== null
-                      ? moreInfo?.team?.creator?.group?.nameRus
-                      : moreInfo?.team?.creator?.group?.nameKaz}
+                    {moreInfo?.team?.creator?.group === null
+                      ? 'Не указано'
+                      : moreInfo?.team?.creator?.group?.nameRus}
                   </p>
-                  <p>Предмет: {moreInfo?.team?.creator?.subject?.nameRus}</p>
+                  <p>
+                    Предмет:{' '}
+                    {moreInfo?.team?.creator?.subject === null
+                      ? 'Не указано'
+                      : moreInfo?.team?.creator?.subject?.nameRus}
+                  </p>
                 </div>
 
+                <Button
+                  disabled={
+                    moreInfo?.team?.applicationFormURL === null &&
+                    moreInfo?.team?.lessonRecordingURL === null &&
+                    moreInfo?.team?.presentationURL === null
+                  }
+                  variant="contained"
+                  style={{
+                    margin: '0 10px',
+                  }}
+                  onClick={confirm}
+                >
+                  Подтвердить
+                </Button>
+                <hr
+                  style={{
+                    width: '100%',
+                    margin: '20px 0',
+                    color: 'black',
+                    backgroundColor: 'black',
+                    height: '1px',
+                  }}
+                />
                 <div
                   style={{
                     display: 'flex',
@@ -285,21 +365,6 @@ export default function BasicModal({
                     width: '100%',
                   }}
                 >
-                  <Button
-                    disabled={
-                      moreInfo?.team?.applicationFormURL === null &&
-                      moreInfo?.team?.lessonRecordingURL === null &&
-                      moreInfo?.team?.presentationURL === null
-                    }
-                    variant="contained"
-                    style={{
-                      margin: '0 10px',
-                    }}
-                    onClick={confirm}
-                  >
-                    Подтвердить
-                  </Button>
-
                   <Button
                     variant="contained"
                     style={{

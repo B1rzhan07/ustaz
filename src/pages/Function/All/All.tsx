@@ -6,8 +6,10 @@ import Main from '../../Content/Main'
 import Now from '../../Content/Now'
 import Stages from '../../Content/Stages'
 import { BrowserView, MobileView } from 'react-device-detect'
+import { useTranslation } from 'react-i18next'
 
 const All = () => {
+  const { t, i18n } = useTranslation()
   return (
     <div>
       <BrowserView>
@@ -19,11 +21,7 @@ const All = () => {
         <Footer />
       </BrowserView>
       <MobileView>
-        <div>
-          Сіздің құрылғыңыздың браузері қолданбасындағы құралдарды қолдануға
-          мүмкін емес. Қолданбасындағы құралдарды қолдануға үшін компьютердің
-          браузерін қолданыңыз
-        </div>
+        <h3>{t('support')}</h3>
       </MobileView>
     </div>
   )

@@ -27,7 +27,6 @@ interface Team {
 
 const PersonalSec = () => {
   const [teams, setTeams] = React.useState<Team[]>([])
-
   React.useEffect(() => {
     const fetchData = async () => {
       Defense.getTeams().then((res) => {

@@ -75,7 +75,7 @@ const News = () => {
             {t('noNews')}
           </h1>
         )}
-        {currentPosts?.reverse().map((announcement: any) => (
+        {currentPosts?.map((announcement: any) => (
           <div className={classes.news__item}>
             <b>{announcement?.title}</b>
             <div className={classes.news__item__text}>
