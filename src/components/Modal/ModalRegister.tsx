@@ -55,6 +55,10 @@ export default function ModalRegister({ handleClose, open }: Props) {
   const choices = 0
   const name = 'file'
   const url = ''
+  const [data, setData] = useState<any>(
+    JSON.parse(localStorage.getItem('register') || '{}'),
+  )
+  console.log(data)
 
   const [fileUrl, setFileUrl] = useState<string>('')
 
@@ -65,16 +69,13 @@ export default function ModalRegister({ handleClose, open }: Props) {
     TournamentService.sendForm(formData1)
       .then((response) => {
         setFormState('submitted')
-        if (i18n.language === 'kz') {
-          alert('Қабылданды')
-        } else if (i18n.language === 'ru') {
-          alert('Принято')
-        }
-        localStorage.setItem('register', 'yes')
-        handleClose()
       })
       .finally(() => {
         setSuccess(true)
+        TournamentService.getRegister().then((res) => {
+          setData(res.data)
+          localStorage.setItem('register', JSON.stringify(res.data))
+        })
       })
       .catch((err: AxiosError) => {
         setSuccess(false)
@@ -96,7 +97,6 @@ export default function ModalRegister({ handleClose, open }: Props) {
           } else if (i18n.language === 'ru') {
             alert('Принято')
           }
-          localStorage.setItem('register', 'yes')
           handleClose()
         })
         .catch((err: AxiosError) => {
@@ -112,7 +112,6 @@ export default function ModalRegister({ handleClose, open }: Props) {
   }
   const [errors, setErrors] = useState<string | null>(null)
   const isValidLink = (link: string) => {
-    // Use a regular expression to check if the link is valid
     return /^(ftp|http|https):\/\/[^ "]+$/.test(link)
   }
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -124,10 +123,6 @@ export default function ModalRegister({ handleClose, open }: Props) {
       setErrors(null)
     }
   }
-  const dataApp = axios.get(
-    'https://storage.googleapis.com/almatyustazy-profile-bucket/%D0%A4%D0%BE%D1%80%D0%BC%D0%B0%20%D0%B7%D0%B0%D1%8F%D0%B2%D0%BA%D0%B8%20%D0%BD%D0%B0%20%D0%BA%D0%BE%D0%BD%D0%BA%D1%83%D1%80%D1%81.DOCX',
-  )
-  console.log(dataApp)
 
   return (
     <div>
@@ -154,7 +149,7 @@ export default function ModalRegister({ handleClose, open }: Props) {
             <h3>{t('olymp')}</h3>
           </Typography>
 
-          {/* {success ? (
+          {success || data?.team?.applicationFormURL ? (
             <>
               <h5>{t('link')} </h5>
               <Box
@@ -235,72 +230,85 @@ export default function ModalRegister({ handleClose, open }: Props) {
                 )}
               </Box>
             </>
-          ) : ( */}
-          {/* <> */}
-          <FormControl fullWidth>
-            <h5 style={{ marginTop: 40 }}>{t('form')}</h5>
-            <Button
-              variant="contained"
-              style={{ marginTop: 20, textDecoration: 'none', color: 'white' }}
-              onClick={() => {
-                window.open(
-                  'https://storage.googleapis.com/almatyustazy-profile-bucket/%D0%A4%D0%BE%D1%80%D0%BC%D0%B0%20%D0%B7%D0%B0%D1%8F%D0%B2%D0%BA%D0%B8%20%D0%BD%D0%B0%20%D0%BA%D0%BE%D0%BD%D0%BA%D1%83%D1%80%D1%81.DOCX',
-                )
-              }}
-            >
-              {t('clickKaz')}
-            </Button>
-            <Button
-              variant="contained"
-              style={{ marginTop: 20, textDecoration: 'none', color: 'white' }}
-              onClick={() => {
-                window.open(
-                  'https://storage.googleapis.com/almatyustazy-profile-bucket/Форма%20РУС.docx',
-                )
-              }}
-            >
-              {t('clickRus')}
-            </Button>
-            <h5 style={{ marginTop: 40 }}>{t('form1')}</h5>
-            <Button variant="outlined" style={{ marginTop: 10 }}>
-              <input
-                type="file"
-                id="upload"
-                onChange={(e) => setSelectedFile(e.target.files)}
-              />
-            </Button>
-
-            <Button
-              style={{
-                marginTop: 20,
-              }}
-              variant="contained"
-              onClick={sendFirst}
-            >
-              {t('send')}
-            </Button>
-          </FormControl>
-          {formState === 'pending' && (
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                marginTop: 15,
-              }}
-            >
-              <CircularProgress />
-            </div>
+          ) : (
+            ''
           )}
-          {error && (
-            <Alert
-              style={{
-                marginTop: 15,
-              }}
-              severity="error"
-            >
-              {t('errorSend')}
-            </Alert>
+          {data?.team?.applicationFormURL === null && (
+            <>
+              <FormControl fullWidth>
+                <h5 style={{ marginTop: 40 }}>{t('form')}</h5>
+                <Button
+                  variant="contained"
+                  style={{
+                    marginTop: 20,
+                    textDecoration: 'none',
+                    color: 'white',
+                  }}
+                  onClick={() => {
+                    window.open(
+                      'https://storage.googleapis.com/almatyustazy-profile-bucket/%D0%A4%D0%BE%D1%80%D0%BC%D0%B0%20%D0%B7%D0%B0%D1%8F%D0%B2%D0%BA%D0%B8%20%D0%BD%D0%B0%20%D0%BA%D0%BE%D0%BD%D0%BA%D1%83%D1%80%D1%81.DOCX',
+                    )
+                  }}
+                >
+                  {t('clickKaz')}
+                </Button>
+                <Button
+                  variant="contained"
+                  style={{
+                    marginTop: 20,
+                    textDecoration: 'none',
+                    color: 'white',
+                  }}
+                  onClick={() => {
+                    window.open(
+                      'https://storage.googleapis.com/almatyustazy-profile-bucket/Форма%20РУС.docx',
+                    )
+                  }}
+                >
+                  {t('clickRus')}
+                </Button>
+                <h5 style={{ marginTop: 40 }}>{t('form1')}</h5>
+                <Button variant="outlined" style={{ marginTop: 10 }}>
+                  <input
+                    type="file"
+                    id="upload"
+                    onChange={(e) => setSelectedFile(e.target.files)}
+                  />
+                </Button>
+
+                <Button
+                  style={{
+                    marginTop: 20,
+                  }}
+                  variant="contained"
+                  onClick={sendFirst}
+                >
+                  {t('send')}
+                </Button>
+              </FormControl>
+              {formState === 'pending' && (
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginTop: 15,
+                  }}
+                >
+                  <CircularProgress />
+                </div>
+              )}
+              {error && (
+                <Alert
+                  style={{
+                    marginTop: 15,
+                  }}
+                  severity="error"
+                >
+                  {t('errorSend')}
+                </Alert>
+              )}
+            </>
           )}
         </Box>
       </Modal>

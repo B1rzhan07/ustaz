@@ -11,6 +11,9 @@ type Props = {
 export default function Input({ handleOpen }: Props) {
   const storedData = localStorage.getItem('data')
   const data = storedData ? JSON.parse(storedData) : null
+  console.log(data, 'data')
+  const data2 = JSON.parse(localStorage.getItem('register') || '{}')
+  console.log(data2, 'data2')
 
   const navigate = useNavigate()
   const { t, i18n } = useTranslation()
@@ -19,7 +22,12 @@ export default function Input({ handleOpen }: Props) {
       <ButtonComponent
         word={t('nysan')}
         onClick={() => {
-          if (localStorage.getItem('user') && data.category) {
+          if (
+            localStorage.getItem('user') &&
+            data.category &&
+            data.birthDate &&
+            data2?.team?.applicationFormURL === null
+          ) {
             handleOpen()
           } else if (localStorage.getItem('user') && data.category === null) {
             if (i18n.language == 'kz') {
@@ -28,8 +36,11 @@ export default function Input({ handleOpen }: Props) {
               alert('Добавьте незаполненые данные в профиле')
             }
             navigate('/register')
-          } else {
+          } else if (localStorage.getItem('user') === null) {
             window.location.href = '/login'
+          }
+          if (data2?.team?.applicationFormURL && data2?.team?.presentationURL) {
+            alert('Вы уже отправили заявку')
           }
         }}
       />

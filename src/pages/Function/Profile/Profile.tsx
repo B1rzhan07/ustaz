@@ -5,6 +5,9 @@ import { useTranslation } from 'react-i18next'
 import React from 'react'
 import TournamentService from '../../../services/TournamentService'
 import { useAppSelector } from '../../../store/hook'
+import Input from '../../../components/Input/Input.component'
+import ModalRegister from '../../../components/Modal/ModalRegister'
+import Button from '@mui/material/Button'
 const Profile = () => {
   const { t, i18n } = useTranslation()
   const [userProfile, setUserProfile] = React.useState<any>()
@@ -13,9 +16,12 @@ const Profile = () => {
   const [number, setNumber] = React.useState<any>()
   const type = JSON.parse(localStorage.getItem('user') || '').role
   const [grade, setGrade] = React.useState<any>()
-  React.useEffect(() => {
-    const user = AuthService.getCurrentUser()
+  const user = AuthService.getCurrentUser()
+  const [open, setOpen] = React.useState(false)
 
+  const handleOpen = () => setOpen(true)
+  const handleClose = () => setOpen(false)
+  React.useEffect(() => {
     AuthService.getGrade().then((res) => {
       setGrade(res.data)
       console.log(res.data)
@@ -27,6 +33,7 @@ const Profile = () => {
     if (type === 'ROLE_STUDENT') {
       TournamentService.getRegister().then((res) => {
         setRegister(res.data)
+        localStorage.setItem('register', JSON.stringify(res.data))
       })
     }
     if (type === 'ROLE_ADMIN' || type === 'ROLE_SECRETARY') {
@@ -54,7 +61,12 @@ const Profile = () => {
                   <h5
                     style={{
                       textAlign: 'center',
-                      color: '#2D2D2D',
+                      backgroundColor: '#3E58E8',
+                      color: 'white',
+                      padding: '20px',
+                      borderRadius: 50,
+                      margin: 'auto',
+                      marginBottom: 20,
                     }}
                   >
                     {t('change')}
@@ -156,22 +168,34 @@ const Profile = () => {
                       )}
                     </div>
                     <div className="buttons d-flex justify-content-around ml-5">
-                      <button
-                        className="btn btn-outline-primary px-4"
+                      <Button
+                        variant="contained"
+                        style={{
+                          borderRadius: '40px',
+                          backgroundColor: '#3E58E8',
+                        }}
                         onClick={() => {
                           navigate('/')
                         }}
                       >
                         {t('mainPage')}
-                      </button>
-                      <button
-                        className="btn btn-outline-primary px-4"
+                      </Button>
+                      <Input handleOpen={handleOpen} />
+                      {open && (
+                        <ModalRegister handleClose={handleClose} open={open} />
+                      )}
+                      <Button
+                        variant="contained"
+                        style={{
+                          borderRadius: '40px',
+                          backgroundColor: '#3E58E8',
+                        }}
                         onClick={() => {
                           navigate('/register')
                         }}
                       >
                         {t('more')}
-                      </button>
+                      </Button>
                     </div>
                   </div>
                 </div>

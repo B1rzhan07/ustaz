@@ -73,7 +73,6 @@ const PersonalSec = () => {
               <TableCell>ФИО</TableCell>
               <TableCell>Confirmed</TableCell>
               <TableCell>Defense</TableCell>
-              <TableCell>Больше информаций</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -117,7 +116,7 @@ const PersonalSec = () => {
                       setFormState('submitted')
                     }}
                   >
-                    более
+                    Подробнее
                   </button>
                 </TableCell>
               </TableRow>

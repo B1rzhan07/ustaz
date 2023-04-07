@@ -141,19 +141,26 @@ export default function BasicModal({
                 alignItems: 'center',
               }}
             >
-              {moreInfo?.defences?.length > 0 && (
-                <div>
-                  <Typography id="discrete-slider" gutterBottom>
-                    Defence : уже существует
-                  </Typography>
-                  <Typography id="discrete-slider" gutterBottom>
-                    stage: {moreInfo?.defences[0]?.stage?.name}
-                  </Typography>
-                  <h5>Хотите изменить?</h5>
-                </div>
-              )}
-              <hr style={{ width: '100%' }} />
-
+              <div>
+                {moreInfo?.defences?.length > 0 ? (
+                  <div>
+                    <h2>Defences уже есть</h2>
+                    <div>
+                      Stage 1: {moreInfo?.defences[0]?.stage ? 'Да' : 'Нет'}
+                    </div>
+                    <div>
+                      Stage 2: {moreInfo?.defences[1]?.stage ? 'Да' : 'Нет'}
+                    </div>
+                    <div>
+                      Stage 3: {moreInfo?.defences[2]?.stage ? 'Да' : 'Нет'}
+                    </div>
+                  </div>
+                ) : (
+                  <div>
+                    <h2>Defences нет, создайте</h2>
+                  </div>
+                )}
+              </div>
               <Label htmlFor="commission-select"></Label>
               <Select
                 id="commission-select"
@@ -219,23 +226,19 @@ export default function BasicModal({
                   <option value={commission.id}>{commission.name}</option>
                 ))}
               </Select>
-              {moreInfo?.defences?.length === 0 && (
-                <Button variant="contained" onClick={setDefence}>
-                  Set Defence
-                </Button>
-              )}
+              <Button variant="contained" onClick={setDefence}>
+                Создать Defence
+              </Button>
 
-              {moreInfo?.defences?.length > 0 && (
-                <Button
-                  style={{
-                    marginTop: '20px',
-                  }}
-                  variant="contained"
-                  onClick={updateDefence}
-                >
-                  изменить Defence
-                </Button>
-              )}
+              <Button
+                style={{
+                  marginTop: '20px',
+                }}
+                variant="contained"
+                onClick={updateDefence}
+              >
+                Изменить Defence
+              </Button>
             </div>
           )}
           {formState === 'submitted' && (
