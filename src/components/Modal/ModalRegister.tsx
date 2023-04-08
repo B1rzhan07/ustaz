@@ -53,7 +53,6 @@ export default function ModalRegister({ handleClose, open }: Props) {
   formData1.append('file', selectedFile?.item(0) as File)
   formData2.append('file', selectedFile2?.item(0) as File)
   formData3.append('file', selectedFile3?.item(0) as File)
-  console.log(selectedFile3?.item(0))
   const [error, setError] = useState(false)
   const [link, setLink] = useState('')
   const tournamentId = 0
@@ -129,6 +128,19 @@ export default function ModalRegister({ handleClose, open }: Props) {
       setErrors(null)
     }
   }
+
+  const handleChangeArticle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value
+    setLinkArticle(value)
+    if (value && !isValidLink(value)) {
+      setErrors('Please enter a valid link')
+    } else {
+      setErrors(null)
+    }
+  }
+
+  console.log(linkArticle)
+
   const sendThird = () => {
     if (selectedFile3) {
       TournamentService.sendArticle(formData2)
@@ -150,6 +162,9 @@ export default function ModalRegister({ handleClose, open }: Props) {
     }
     if (linkArticle) {
       TournamentService.linkArticle(linkArticle).then((res) => {
+        TournamentService.getRegister().then((res) => {
+          localStorage.setItem('register', JSON.stringify(res.data))
+        })
         handleClose()
       })
     }
@@ -179,7 +194,6 @@ export default function ModalRegister({ handleClose, open }: Props) {
           >
             <h3>{t('olymp')}</h3>
           </Typography>
-
           {success || data?.team?.applicationFormURL ? (
             <>
               <h5>{t('link')} </h5>
@@ -286,8 +300,8 @@ export default function ModalRegister({ handleClose, open }: Props) {
                     id="standard-basic"
                     label="Link"
                     variant="standard"
-                    value={link}
-                    onChange={handleChange}
+                    value={linkArticle}
+                    onChange={handleChangeArticle}
                     error={!!error}
                     helperText={error}
                   />
@@ -296,7 +310,7 @@ export default function ModalRegister({ handleClose, open }: Props) {
                       marginTop: 10,
                     }}
                     variant="contained"
-                    onClick={sendThird}
+                    onClick={() => sendThird()}
                   >
                     {t('work')}
                   </Button>

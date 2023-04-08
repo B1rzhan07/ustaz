@@ -10,7 +10,6 @@ type Props = {
 }
 export default function Input({ handleOpen }: Props) {
   const url = window.location.pathname
-  console.log(url, 'url')
 
   const storedData = localStorage.getItem('data')
   const data = storedData ? JSON.parse(storedData) : null
@@ -21,18 +20,17 @@ export default function Input({ handleOpen }: Props) {
   const navigate = useNavigate()
   const { t, i18n } = useTranslation()
   console.log(data, 'data')
-  console.log(localStorage.getItem('user'))
   return (
     <>
       <ButtonComponent
         word={url === '/' ? t('register') : url === '/profile' && t('nysan')}
         onClick={() => {
           if (
-            localStorage.getItem('user') &&
-            data.category &&
-            data.birthDate &&
-            (data2?.team?.applicationFormURL === null ||
-              data2?.team?.presentationURL === null)
+            (localStorage.getItem('user') &&
+              data.category &&
+              (data2?.team?.applicationFormURL === null ||
+                data2?.team?.presentationURL === null)) ||
+            data2.team.articleURL === null
           ) {
             handleOpen()
           } else if (localStorage.getItem('user') && data.category === null) {
@@ -45,7 +43,11 @@ export default function Input({ handleOpen }: Props) {
           } else if (localStorage.getItem('user') === null) {
             window.location.href = '/login'
           }
-          if (data2?.team?.applicationFormURL && data2?.team?.presentationURL) {
+          if (
+            data2?.team?.applicationFormURL &&
+            data2?.team?.presentationURL &&
+            data2?.team?.articleURL
+          ) {
             alert('Вы уже отправили заявку')
           }
         }}

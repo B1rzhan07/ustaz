@@ -66,11 +66,11 @@ class TournamentService {
       }
     );
   }
-  async linkArticle(articleUrl: string): Promise<AxiosResponse<any>> {
+  async linkArticle(articleURL: string): Promise<AxiosResponse<any>> {
     return axios.put(
       API_URL + "/student/team/setArticleURL",
       {
-        articleUrl,
+        articleURL,
       },
       {
         headers: {
