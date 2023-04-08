@@ -52,9 +52,25 @@ class TournamentService {
     presentationUrl: string
   ): Promise<AxiosResponse<any>> {
     return axios.put(
-      API_URL + "/student/team/update",
+      API_URL + "/student/team/setPresentationURL",
       {
         presentationUrl,
+      },
+      {
+        headers: {
+          Authorization:
+            "Bearer " +
+            JSON.parse(localStorage.getItem("user") || "{}")
+              .authenticationToken,
+        },
+      }
+    );
+  }
+  async linkArticle(articleUrl: string): Promise<AxiosResponse<any>> {
+    return axios.put(
+      API_URL + "/student/team/setArticleURL",
+      {
+        articleUrl,
       },
       {
         headers: {
@@ -82,6 +98,15 @@ class TournamentService {
     );
   }
   async sendPresentation(formData: FormData): Promise<AxiosResponse<any>> {
+    return axios.post(API_URL + "/student/team/uploadAndSetArticle", formData, {
+      headers: {
+        Authorization:
+          "Bearer " +
+          JSON.parse(localStorage.getItem("user") || "{}").authenticationToken,
+      },
+    });
+  }
+  async sendArticle(formData: FormData): Promise<AxiosResponse<any>> {
     return axios.post(
       API_URL + "/student/team/uploadAndSetPresentation",
       formData,

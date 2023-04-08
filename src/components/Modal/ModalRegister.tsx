@@ -44,11 +44,16 @@ export default function ModalRegister({ handleClose, open }: Props) {
 
   const [selectedFile, setSelectedFile] = useState<FileList | null>(null)
   const [selectedFile2, setSelectedFile2] = useState<FileList | null>(null)
+  const [selectedFile3, setSelectedFile3] = useState<FileList | null>(null)
+
   const [success, setSuccess] = useState(false)
   const formData1 = new FormData()
   const formData2 = new FormData()
+  const formData3 = new FormData()
   formData1.append('file', selectedFile?.item(0) as File)
   formData2.append('file', selectedFile2?.item(0) as File)
+  formData3.append('file', selectedFile3?.item(0) as File)
+  console.log(selectedFile3?.item(0))
   const [error, setError] = useState(false)
   const [link, setLink] = useState('')
   const tournamentId = 0
@@ -110,6 +115,7 @@ export default function ModalRegister({ handleClose, open }: Props) {
       })
     }
   }
+  const [linkArticle, setLinkArticle] = useState<string>('')
   const [errors, setErrors] = useState<string | null>(null)
   const isValidLink = (link: string) => {
     return /^(ftp|http|https):\/\/[^ "]+$/.test(link)
@@ -121,6 +127,31 @@ export default function ModalRegister({ handleClose, open }: Props) {
       setErrors('Please enter a valid link')
     } else {
       setErrors(null)
+    }
+  }
+  const sendThird = () => {
+    if (selectedFile3) {
+      TournamentService.sendArticle(formData2)
+        .then((response) => {
+          setFormState('submitted')
+        })
+        .finally(() => {
+          if (i18n.language === 'kz') {
+            alert('Қабылданды')
+          } else if (i18n.language === 'ru') {
+            alert('Принято')
+          }
+          handleClose()
+        })
+        .catch((err: AxiosError) => {
+          setSuccess(false)
+          setError(true)
+        })
+    }
+    if (linkArticle) {
+      TournamentService.linkArticle(linkArticle).then((res) => {
+        handleClose()
+      })
     }
   }
 
@@ -197,6 +228,7 @@ export default function ModalRegister({ handleClose, open }: Props) {
                       }}
                     />
                   </Button>
+
                   <Button
                     style={{
                       marginTop: 10,
@@ -228,6 +260,47 @@ export default function ModalRegister({ handleClose, open }: Props) {
                     {t('errorSend')}
                   </Alert>
                 )}
+                <h5>4. Артикльді жіберу(Егер болса)</h5>
+                <FormControl fullWidth>
+                  <Button variant="outlined">
+                    <input
+                      multiple
+                      type="file"
+                      onChange={(e) => {
+                        setSelectedFile3(e.target.files)
+                      }}
+                    />
+                  </Button>
+
+                  <div
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      flexDirection: 'column',
+                    }}
+                  >
+                    {t('or')}
+                  </div>
+                  <TextField
+                    id="standard-basic"
+                    label="Link"
+                    variant="standard"
+                    value={link}
+                    onChange={handleChange}
+                    error={!!error}
+                    helperText={error}
+                  />
+                  <Button
+                    style={{
+                      marginTop: 10,
+                    }}
+                    variant="contained"
+                    onClick={sendThird}
+                  >
+                    {t('work')}
+                  </Button>
+                </FormControl>
               </Box>
             </>
           ) : (

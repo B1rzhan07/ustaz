@@ -115,7 +115,9 @@ class Defense {
         return response;
       });
   }
-  async getMoreInfoSecretary(teamId: number): Promise<AxiosResponse<any>> {
+  async getMoreInfoSecretary(
+    teamId: number | null
+  ): Promise<AxiosResponse<any>> {
     return axios.get(API_URL + `/secretary/team/${teamId}`, {
       headers: {
         Authorization:

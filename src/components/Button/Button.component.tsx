@@ -3,7 +3,7 @@ import { styled } from '@mui/material/styles'
 import Button from '@mui/material/Button'
 import { blue } from '@mui/material/colors'
 type ButtonProps = {
-  word: string
+  word: string | false | null
   onClick: () => void
 }
 const BootstrapButton = styled(Button)({

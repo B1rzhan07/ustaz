@@ -136,7 +136,8 @@ function HeaderComponent() {
                     localStorage.removeItem('user')
                     localStorage.removeItem('data')
                     localStorage.removeItem('register')
-                    navigate('/')
+                    localStorage.removeItem('more')
+                    window.location.href = '/'
                   }}
                 />
               </>

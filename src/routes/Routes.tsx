@@ -10,6 +10,7 @@ import News from '../pages/Function/News/News'
 import PersonalSec from '../pages/Personal/Sec/PersonalSec'
 import PersonalCom from '../pages/Personal/Com/PersonalCom'
 import PasswordReset from './PasswordReset'
+import More from '../pages/Personal/Sec/More'
 
 function RoutesComponent() {
   return (
@@ -23,6 +24,7 @@ function RoutesComponent() {
         <Route path="/sec" element={<PersonalSec />} />
         <Route path="/com" element={<PersonalCom />} />
         <Route path="/password_reset" element={<PasswordReset />} />
+        <Route path={`/moresec/:id`} element={<More />} />
       </Routes>
     </div>
   )

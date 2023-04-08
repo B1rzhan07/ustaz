@@ -9,6 +9,9 @@ type Props = {
   handleOpen: () => void
 }
 export default function Input({ handleOpen }: Props) {
+  const url = window.location.pathname
+  console.log(url, 'url')
+
   const storedData = localStorage.getItem('data')
   const data = storedData ? JSON.parse(storedData) : null
   console.log(data, 'data')
@@ -17,16 +20,19 @@ export default function Input({ handleOpen }: Props) {
 
   const navigate = useNavigate()
   const { t, i18n } = useTranslation()
+  console.log(data, 'data')
+  console.log(localStorage.getItem('user'))
   return (
     <>
       <ButtonComponent
-        word={t('nysan')}
+        word={url === '/' ? t('register') : url === '/profile' && t('nysan')}
         onClick={() => {
           if (
             localStorage.getItem('user') &&
             data.category &&
             data.birthDate &&
-            data2?.team?.applicationFormURL === null
+            (data2?.team?.applicationFormURL === null ||
+              data2?.team?.presentationURL === null)
           ) {
             handleOpen()
           } else if (localStorage.getItem('user') && data.category === null) {

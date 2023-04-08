@@ -120,8 +120,8 @@ export default function BasicModal({ open, handleClose, id }: Props) {
             <Button
               onClick={() => {
                 Defences.setGradeCommission(
-                  id,
-                  data?.team?.member?.id,
+                  data?.defence?.id,
+                  data?.team?.team?.id,
                   grade,
                 ).then((res) => {
                   console.log(res.data)

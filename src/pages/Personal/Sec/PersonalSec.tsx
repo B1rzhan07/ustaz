@@ -13,6 +13,7 @@ import BasicModal from './helper/Modal'
 import Pagination from '../../Function/News/Pagination'
 import Defences from '../../../services/Defences'
 import Secretary from '../../../services/Secretary'
+import { useNavigate } from 'react-router-dom'
 
 interface Team {
   creator: any
@@ -26,6 +27,7 @@ interface Team {
 }
 
 const PersonalSec = () => {
+  const navigate = useNavigate()
   const [teams, setTeams] = React.useState<Team[]>([])
   React.useEffect(() => {
     const fetchData = async () => {
@@ -55,13 +57,13 @@ const PersonalSec = () => {
   }
   const [id, setId] = React.useState<number | null>(null)
   const [moreInfo, setMoreInfo] = React.useState<any>([])
-  React.useEffect(() => {
-    if (id !== null) {
-      Defences.getMoreInfoSecretary(id).then((res) => {
-        setMoreInfo(res.data)
-      })
-    }
-  }, [id])
+  // React.useEffect(() => {
+  //   if (id !== null) {
+  //     Defences.getMoreInfoSecretary(id).then((res) => {
+  //       setMoreInfo(res.data)
+  //     })
+  //   }
+  // }, [id])
 
   return (
     <div>
@@ -79,8 +81,13 @@ const PersonalSec = () => {
             {currentPosts.map((row: Team, index: number) => (
               <TableRow key={row.id}>
                 <TableCell>
-                  {row.id}. {row.creator.first_name} {row.creator.last_name}{' '}
-                  {row.creator.middle_name}
+                  {row.id}.{' '}
+                  {row.creator.first_name.charAt(0).toUpperCase() +
+                    row.creator.first_name.slice(1)}{' '}
+                  {row.creator.last_name.charAt(0).toUpperCase() +
+                    row.creator.last_name.slice(1)}{' '}
+                  {row.creator.middle_name.charAt(0).toUpperCase() +
+                    row.creator.middle_name.slice(1)}{' '}
                 </TableCell>
                 <TableCell>{row.confirmed ? 'true' : 'false'}</TableCell>
                 <TableCell>
@@ -95,7 +102,9 @@ const PersonalSec = () => {
                     onClick={() => {
                       setOpen(true)
                       setId(row.id)
-                      setFormState('pending')
+                      Defences.getMoreInfoSecretary(row.id).then((res) => {
+                        setMoreInfo(res.data)
+                      })
                     }}
                   >
                     Set Defense
@@ -111,9 +120,8 @@ const PersonalSec = () => {
                       padding: '5px 10px',
                     }}
                     onClick={() => {
-                      setOpen(true)
                       setId(row.id)
-                      setFormState('submitted')
+                      navigate(`/moresec/${row.id}`)
                     }}
                   >
                     Подробнее
