@@ -47,6 +47,7 @@ export default function ModalRegister({ handleClose, open }: Props) {
   const [selectedFile3, setSelectedFile3] = useState<FileList | null>(null)
 
   const [success, setSuccess] = useState(false)
+  const [success2, setSuccess2] = useState(false)
   const formData1 = new FormData()
   const formData2 = new FormData()
   const formData3 = new FormData()
@@ -55,18 +56,12 @@ export default function ModalRegister({ handleClose, open }: Props) {
   formData3.append('file', selectedFile3?.item(0) as File)
   const [error, setError] = useState(false)
   const [link, setLink] = useState('')
-  const tournamentId = 0
-  const choices = 0
-  const name = 'file'
-  const url = ''
   const [data, setData] = useState<any>(
     JSON.parse(localStorage.getItem('register') || '{}'),
   )
   console.log(data)
 
   const [fileUrl, setFileUrl] = useState<string>('')
-
-  const sent = () => {}
 
   const sendFirst = () => {
     setFormState('pending')
@@ -90,8 +85,45 @@ export default function ModalRegister({ handleClose, open }: Props) {
 
   const sendSecond = () => {
     setFormState('pending')
+    setSuccess(true)
     if (selectedFile2) {
       TournamentService.sendPresentation(formData2)
+        .then((response) => {
+          TournamentService.getRegister().then((res) => {
+            localStorage.setItem('register', JSON.stringify(res.data))
+          })
+          setFormState('submitted')
+
+          setSuccess(true)
+          setSuccess2(true)
+        })
+        .catch((err: AxiosError) => {
+          setSuccess(true)
+          setError(true)
+        })
+    }
+    if (link) {
+      TournamentService.registerTournament(link)
+        .then((response) => {
+          setFormState('submitted')
+          setSuccess(true)
+          setSuccess2(true)
+        })
+        .catch((err: AxiosError) => {
+          setSuccess(false)
+          setError(true)
+        })
+    }
+  }
+  const [linkArticle, setLinkArticle] = useState<string>('')
+  const [errors, setErrors] = useState<string | null>(null)
+  const isValidLink = (link: string) => {
+    return /^(ftp|http|https):\/\/[^ "]+$/.test(link)
+  }
+
+  const sendThird = () => {
+    if (selectedFile3) {
+      TournamentService.sendArticle(formData2)
         .then((response) => {
           setFormState('submitted')
         })
@@ -101,6 +133,8 @@ export default function ModalRegister({ handleClose, open }: Props) {
           } else if (i18n.language === 'ru') {
             alert('Принято')
           }
+          setSuccess(false)
+          setSuccess2(false)
           handleClose()
         })
         .catch((err: AxiosError) => {
@@ -108,16 +142,14 @@ export default function ModalRegister({ handleClose, open }: Props) {
           setError(true)
         })
     }
-    if (link) {
-      TournamentService.registerTournament(link).then((res) => {
+    if (linkArticle) {
+      TournamentService.linkArticle(linkArticle).then((res) => {
+        TournamentService.getRegister().then((res) => {
+          localStorage.setItem('register', JSON.stringify(res.data))
+        })
         handleClose()
       })
     }
-  }
-  const [linkArticle, setLinkArticle] = useState<string>('')
-  const [errors, setErrors] = useState<string | null>(null)
-  const isValidLink = (link: string) => {
-    return /^(ftp|http|https):\/\/[^ "]+$/.test(link)
   }
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value
@@ -136,37 +168,6 @@ export default function ModalRegister({ handleClose, open }: Props) {
       setErrors('Please enter a valid link')
     } else {
       setErrors(null)
-    }
-  }
-
-  console.log(linkArticle)
-
-  const sendThird = () => {
-    if (selectedFile3) {
-      TournamentService.sendArticle(formData2)
-        .then((response) => {
-          setFormState('submitted')
-        })
-        .finally(() => {
-          if (i18n.language === 'kz') {
-            alert('Қабылданды')
-          } else if (i18n.language === 'ru') {
-            alert('Принято')
-          }
-          handleClose()
-        })
-        .catch((err: AxiosError) => {
-          setSuccess(false)
-          setError(true)
-        })
-    }
-    if (linkArticle) {
-      TournamentService.linkArticle(linkArticle).then((res) => {
-        TournamentService.getRegister().then((res) => {
-          localStorage.setItem('register', JSON.stringify(res.data))
-        })
-        handleClose()
-      })
     }
   }
 
@@ -194,7 +195,78 @@ export default function ModalRegister({ handleClose, open }: Props) {
           >
             <h3>{t('olymp')}</h3>
           </Typography>
-          {success || data?.team?.applicationFormURL ? (
+          {data?.team?.applicationFormURL &&
+          data?.team?.presentationURL &&
+          data?.team?.articleURL === null ? (
+            <>
+              <h5>4. Артикльді жіберу(Егер болса)</h5>
+              <FormControl fullWidth>
+                <Button variant="outlined">
+                  <input
+                    multiple
+                    type="file"
+                    onChange={(e) => {
+                      setSelectedFile3(e.target.files)
+                    }}
+                  />
+                </Button>
+
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    flexDirection: 'column',
+                  }}
+                >
+                  {t('or')}
+                </div>
+                <TextField
+                  id="standard-basic"
+                  label="Link"
+                  variant="standard"
+                  value={linkArticle}
+                  onChange={handleChangeArticle}
+                  error={!!error}
+                  helperText={error}
+                />
+                <Button
+                  style={{
+                    marginTop: 10,
+                  }}
+                  variant="contained"
+                  onClick={() => sendThird()}
+                >
+                  {t('work')}
+                </Button>
+                {formState === 'pending' && (
+                  <div
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <CircularProgress />
+                  </div>
+                )}
+                {error && (
+                  <Alert
+                    style={{
+                      marginTop: 10,
+                    }}
+                    severity="error"
+                  >
+                    {t('errorSend')}
+                  </Alert>
+                )}
+              </FormControl>
+            </>
+          ) : (
+            ''
+          )}
+          {data?.team?.applicationFormURL &&
+          data?.team?.presentationURL === null ? (
             <>
               <h5>{t('link')} </h5>
               <Box
@@ -245,7 +317,7 @@ export default function ModalRegister({ handleClose, open }: Props) {
 
                   <Button
                     style={{
-                      marginTop: 10,
+                      marginTop: 15,
                     }}
                     variant="contained"
                     onClick={sendSecond}
@@ -274,52 +346,12 @@ export default function ModalRegister({ handleClose, open }: Props) {
                     {t('errorSend')}
                   </Alert>
                 )}
-                <h5>4. Артикльді жіберу(Егер болса)</h5>
-                <FormControl fullWidth>
-                  <Button variant="outlined">
-                    <input
-                      multiple
-                      type="file"
-                      onChange={(e) => {
-                        setSelectedFile3(e.target.files)
-                      }}
-                    />
-                  </Button>
-
-                  <div
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      flexDirection: 'column',
-                    }}
-                  >
-                    {t('or')}
-                  </div>
-                  <TextField
-                    id="standard-basic"
-                    label="Link"
-                    variant="standard"
-                    value={linkArticle}
-                    onChange={handleChangeArticle}
-                    error={!!error}
-                    helperText={error}
-                  />
-                  <Button
-                    style={{
-                      marginTop: 10,
-                    }}
-                    variant="contained"
-                    onClick={() => sendThird()}
-                  >
-                    {t('work')}
-                  </Button>
-                </FormControl>
               </Box>
             </>
           ) : (
             ''
           )}
+
           {data?.team?.applicationFormURL === null && (
             <>
               <FormControl fullWidth>

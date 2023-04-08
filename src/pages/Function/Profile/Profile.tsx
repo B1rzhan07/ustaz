@@ -16,7 +16,7 @@ const Profile = () => {
   const [number, setNumber] = React.useState<any>()
   const type = JSON.parse(localStorage.getItem('user') || '').role
   const [grade, setGrade] = React.useState<any>()
-  const user = AuthService.getCurrentUser()
+
   const [open, setOpen] = React.useState(false)
 
   const handleOpen = () => setOpen(true)
@@ -26,7 +26,7 @@ const Profile = () => {
       setGrade(res.data)
       console.log(res.data)
     })
-    user.then((res) => {
+    AuthService.getCurrentUser().then((res) => {
       setUserProfile(res)
       localStorage.setItem('data', JSON.stringify(res))
     })
@@ -168,18 +168,6 @@ const Profile = () => {
                       )}
                     </div>
                     <div className="buttons d-flex justify-content-around ml-5">
-                      <Button
-                        variant="contained"
-                        style={{
-                          borderRadius: '40px',
-                          backgroundColor: '#3E58E8',
-                        }}
-                        onClick={() => {
-                          navigate('/')
-                        }}
-                      >
-                        {t('mainPage')}
-                      </Button>
                       <Input handleOpen={handleOpen} />
                       {open && (
                         <ModalRegister handleClose={handleClose} open={open} />

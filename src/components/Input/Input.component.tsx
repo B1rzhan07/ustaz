@@ -25,22 +25,25 @@ export default function Input({ handleOpen }: Props) {
       <ButtonComponent
         word={url === '/' ? t('register') : url === '/profile' && t('nysan')}
         onClick={() => {
+          console.log('click')
+
           if (
-            (localStorage.getItem('user') &&
-              data.category &&
-              (data2?.team?.applicationFormURL === null ||
-                data2?.team?.presentationURL === null)) ||
-            data2.team.articleURL === null
+            localStorage.getItem('user') &&
+            data.category &&
+            (data2?.team?.applicationFormURL === null ||
+              data2?.team?.presentationURL === null ||
+              data2?.team?.articleURL === null)
           ) {
             handleOpen()
           } else if (localStorage.getItem('user') && data.category === null) {
+            navigate('/register')
             if (i18n.language == 'kz') {
               alert('Жеке кабинеттегі мәліметтерді толықтырыңыз')
             } else if (i18n.language == 'ru') {
               alert('Добавьте незаполненые данные в профиле')
             }
-            navigate('/register')
-          } else if (localStorage.getItem('user') === null) {
+          }
+          if (!localStorage.getItem('user')) {
             window.location.href = '/login'
           }
           if (

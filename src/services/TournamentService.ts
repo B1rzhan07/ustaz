@@ -48,13 +48,11 @@ class TournamentService {
       },
     });
   }
-  async registerTournament(
-    presentationUrl: string
-  ): Promise<AxiosResponse<any>> {
+  async registerTournament(url: string): Promise<AxiosResponse<any>> {
     return axios.put(
       API_URL + "/student/team/setPresentationURL",
       {
-        presentationUrl,
+        url,
       },
       {
         headers: {
@@ -66,11 +64,11 @@ class TournamentService {
       }
     );
   }
-  async linkArticle(articleURL: string): Promise<AxiosResponse<any>> {
+  async linkArticle(url: string): Promise<AxiosResponse<any>> {
     return axios.put(
       API_URL + "/student/team/setArticleURL",
       {
-        articleURL,
+        url,
       },
       {
         headers: {
@@ -98,6 +96,20 @@ class TournamentService {
     );
   }
   async sendPresentation(formData: FormData): Promise<AxiosResponse<any>> {
+    return axios
+      .post(API_URL + "/student/team/uploadAndSetPresentation", formData, {
+        headers: {
+          Authorization:
+            "Bearer " +
+            JSON.parse(localStorage.getItem("user") || "{}")
+              .authenticationToken,
+        },
+      })
+      .then((response) => {
+        return response;
+      });
+  }
+  async sendArticle(formData: FormData): Promise<AxiosResponse<any>> {
     return axios.post(API_URL + "/student/team/uploadAndSetArticle", formData, {
       headers: {
         Authorization:
@@ -105,20 +117,6 @@ class TournamentService {
           JSON.parse(localStorage.getItem("user") || "{}").authenticationToken,
       },
     });
-  }
-  async sendArticle(formData: FormData): Promise<AxiosResponse<any>> {
-    return axios.post(
-      API_URL + "/student/team/uploadAndSetPresentation",
-      formData,
-      {
-        headers: {
-          Authorization:
-            "Bearer " +
-            JSON.parse(localStorage.getItem("user") || "{}")
-              .authenticationToken,
-        },
-      }
-    );
   }
   async getGroups(): Promise<AxiosResponse<any>> {
     return axios.get(API_URL + "/profile/groups", {
