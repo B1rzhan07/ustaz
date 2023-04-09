@@ -49,7 +49,7 @@ export default function Input({ handleOpen }: Props) {
             data2?.team?.applicationFormURL
           ) {
             if (i18n.language == 'kz') {
-              alert('Нысан бойынща форманы жүктегенсіз')
+              alert('өтінімді жүктегенсіз')
             } else if (i18n.language == 'ru') {
               alert('Вы уже загрузили форму')
             }

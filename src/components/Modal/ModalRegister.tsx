@@ -43,17 +43,11 @@ export default function ModalRegister({ handleClose, open }: Props) {
   )
 
   const [selectedFile, setSelectedFile] = useState<FileList | null>(null)
-  const [selectedFile2, setSelectedFile2] = useState<FileList | null>(null)
-  const [selectedFile3, setSelectedFile3] = useState<FileList | null>(null)
 
-  const [success, setSuccess] = useState(false)
-  const [success2, setSuccess2] = useState(false)
   const formData1 = new FormData()
-  const formData2 = new FormData()
-  const formData3 = new FormData()
+
   formData1.append('file', selectedFile?.item(0) as File)
-  formData2.append('file', selectedFile2?.item(0) as File)
-  formData3.append('file', selectedFile3?.item(0) as File)
+
   const [error, setError] = useState(false)
   const [link, setLink] = useState('')
   const [data, setData] = useState<any>(
@@ -68,7 +62,6 @@ export default function ModalRegister({ handleClose, open }: Props) {
         setFormState('submitted')
       })
       .finally(() => {
-        setSuccess(true)
         handleClose()
         TournamentService.getRegister().then((res) => {
           setData(res.data)
@@ -76,99 +69,10 @@ export default function ModalRegister({ handleClose, open }: Props) {
         })
       })
       .catch((err: AxiosError) => {
-        setSuccess(false)
         setError(true)
       })
   }
   const { t, i18n } = useTranslation()
-
-  const sendSecond = () => {
-    setFormState('pending')
-    setSuccess(true)
-    if (selectedFile2) {
-      TournamentService.sendPresentation(formData2)
-        .then((response) => {
-          TournamentService.getRegister().then((res) => {
-            localStorage.setItem('register', JSON.stringify(res.data))
-          })
-          setFormState('submitted')
-
-          setSuccess(true)
-          setSuccess2(true)
-        })
-        .catch((err: AxiosError) => {
-          setSuccess(true)
-          setError(true)
-        })
-    }
-    if (link) {
-      TournamentService.registerTournament(link)
-        .then((response) => {
-          setFormState('submitted')
-          setSuccess(true)
-          setSuccess2(true)
-        })
-        .catch((err: AxiosError) => {
-          setSuccess(false)
-          setError(true)
-        })
-    }
-  }
-  const [linkArticle, setLinkArticle] = useState<string>('')
-  const [errors, setErrors] = useState<string | null>(null)
-  const isValidLink = (link: string) => {
-    return /^(ftp|http|https):\/\/[^ "]+$/.test(link)
-  }
-
-  const sendThird = () => {
-    if (selectedFile3) {
-      TournamentService.sendArticle(formData2)
-        .then((response) => {
-          setFormState('submitted')
-        })
-        .finally(() => {
-          if (i18n.language === 'kz') {
-            alert('Қабылданды')
-          } else if (i18n.language === 'ru') {
-            alert('Принято')
-          }
-          setSuccess(false)
-          setSuccess2(false)
-          handleClose()
-        })
-        .catch((err: AxiosError) => {
-          setSuccess(false)
-          setError(true)
-        })
-    }
-    if (linkArticle) {
-      TournamentService.linkArticle(linkArticle).then((res) => {
-        TournamentService.getRegister().then((res) => {
-          localStorage.setItem('register', JSON.stringify(res.data))
-        })
-        handleClose()
-      })
-    }
-  }
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value
-    setLink(value)
-    if (value && !isValidLink(value)) {
-      setErrors('Please enter a valid link')
-    } else {
-      setErrors(null)
-    }
-  }
-
-  const handleChangeArticle = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value
-    setLinkArticle(value)
-    if (value && !isValidLink(value)) {
-      setErrors('Please enter a valid link')
-    } else {
-      setErrors(null)
-    }
-  }
 
   return (
     <div>
