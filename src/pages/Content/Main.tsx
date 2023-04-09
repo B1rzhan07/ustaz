@@ -20,7 +20,6 @@ const main: React.FC = () => {
             Жаспын, жас та болсам баспын!
           </h1>
           <h3 style={{ marginBottom: 30 }}>{t('greeting')}</h3>
-
           <Input handleOpen={handleOpen} />
           {open && <ModalRegister handleClose={handleClose} open={open} />}
         </div>

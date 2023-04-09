@@ -61,8 +61,6 @@ export default function ModalRegister({ handleClose, open }: Props) {
   )
   console.log(data)
 
-  const [fileUrl, setFileUrl] = useState<string>('')
-
   const sendFirst = () => {
     setFormState('pending')
     TournamentService.sendForm(formData1)
@@ -71,6 +69,7 @@ export default function ModalRegister({ handleClose, open }: Props) {
       })
       .finally(() => {
         setSuccess(true)
+        handleClose()
         TournamentService.getRegister().then((res) => {
           setData(res.data)
           localStorage.setItem('register', JSON.stringify(res.data))
@@ -195,239 +194,79 @@ export default function ModalRegister({ handleClose, open }: Props) {
           >
             <h3>{t('olymp')}</h3>
           </Typography>
-          {data?.team?.applicationFormURL &&
-          data?.team?.presentationURL &&
-          data?.team?.articleURL === null ? (
-            <>
-              <h5>4. Артикльді жіберу(Егер болса)</h5>
-              <FormControl fullWidth>
-                <Button variant="outlined">
-                  <input
-                    multiple
-                    type="file"
-                    onChange={(e) => {
-                      setSelectedFile3(e.target.files)
-                    }}
-                  />
-                </Button>
 
-                <div
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    flexDirection: 'column',
-                  }}
-                >
-                  {t('or')}
-                </div>
-                <TextField
-                  id="standard-basic"
-                  label="Link"
-                  variant="standard"
-                  value={linkArticle}
-                  onChange={handleChangeArticle}
-                  error={!!error}
-                  helperText={error}
-                />
-                <Button
-                  style={{
-                    marginTop: 10,
-                  }}
-                  variant="contained"
-                  onClick={() => sendThird()}
-                >
-                  {t('work')}
-                </Button>
-                {formState === 'pending' && (
-                  <div
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                    }}
-                  >
-                    <CircularProgress />
-                  </div>
-                )}
-                {error && (
-                  <Alert
-                    style={{
-                      marginTop: 10,
-                    }}
-                    severity="error"
-                  >
-                    {t('errorSend')}
-                  </Alert>
-                )}
-              </FormControl>
-            </>
-          ) : (
-            ''
+          <FormControl fullWidth>
+            <h5 style={{ marginTop: 40 }}>{t('form')}</h5>
+            <Button
+              variant="contained"
+              style={{
+                marginTop: 20,
+                textDecoration: 'none',
+                color: 'white',
+              }}
+              onClick={() => {
+                window.open(
+                  'https://storage.googleapis.com/almatyustazy-profile-bucket/%D0%A4%D0%BE%D1%80%D0%BC%D0%B0%20%D0%B7%D0%B0%D1%8F%D0%B2%D0%BA%D0%B8%20%D0%BD%D0%B0%20%D0%BA%D0%BE%D0%BD%D0%BA%D1%83%D1%80%D1%81.DOCX',
+                )
+              }}
+            >
+              {t('clickKaz')}
+            </Button>
+            <Button
+              variant="contained"
+              style={{
+                marginTop: 20,
+                textDecoration: 'none',
+                color: 'white',
+              }}
+              onClick={() => {
+                window.open(
+                  'https://storage.googleapis.com/almatyustazy-profile-bucket/Форма%20РУС.docx',
+                )
+              }}
+            >
+              {t('clickRus')}
+            </Button>
+            <h5 style={{ marginTop: 40 }}>{t('form1')}</h5>
+            <Button variant="outlined" style={{ marginTop: 10 }}>
+              <input
+                type="file"
+                id="upload"
+                onChange={(e) => setSelectedFile(e.target.files)}
+              />
+            </Button>
+
+            <Button
+              style={{
+                marginTop: 20,
+              }}
+              variant="contained"
+              onClick={sendFirst}
+            >
+              {t('send')}
+            </Button>
+          </FormControl>
+          {formState === 'pending' && (
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginTop: 15,
+              }}
+            >
+              <CircularProgress />
+            </div>
           )}
-          {data?.team?.applicationFormURL &&
-          data?.team?.presentationURL === null ? (
-            <>
-              <h5>{t('link')} </h5>
-              <Box
-                component="form"
-                sx={{
-                  '& > :not(style)': { m: 1, width: '35ch' },
-                }}
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  fontSize: '20px',
-
-                  color: '#000',
-                }}
-                noValidate
-                autoComplete="off"
-              >
-                <TextField
-                  id="standard-basic"
-                  label="Link"
-                  variant="standard"
-                  value={link}
-                  onChange={handleChange}
-                  error={!!error}
-                  helperText={error}
-                />
-                <div
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}
-                >
-                  {t('or')}
-                </div>
-                <FormControl fullWidth>
-                  <Button variant="outlined">
-                    <input
-                      multiple
-                      type="file"
-                      onChange={(e) => {
-                        setSelectedFile2(e.target.files)
-                      }}
-                    />
-                  </Button>
-
-                  <Button
-                    style={{
-                      marginTop: 15,
-                    }}
-                    variant="contained"
-                    onClick={sendSecond}
-                  >
-                    {t('work')}
-                  </Button>
-                </FormControl>
-                {formState === 'pending' && (
-                  <div
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                    }}
-                  >
-                    <CircularProgress />
-                  </div>
-                )}
-                {error && (
-                  <Alert
-                    style={{
-                      marginTop: 10,
-                    }}
-                    severity="error"
-                  >
-                    {t('errorSend')}
-                  </Alert>
-                )}
-              </Box>
-            </>
-          ) : (
-            ''
-          )}
-
-          {data?.team?.applicationFormURL === null && (
-            <>
-              <FormControl fullWidth>
-                <h5 style={{ marginTop: 40 }}>{t('form')}</h5>
-                <Button
-                  variant="contained"
-                  style={{
-                    marginTop: 20,
-                    textDecoration: 'none',
-                    color: 'white',
-                  }}
-                  onClick={() => {
-                    window.open(
-                      'https://storage.googleapis.com/almatyustazy-profile-bucket/%D0%A4%D0%BE%D1%80%D0%BC%D0%B0%20%D0%B7%D0%B0%D1%8F%D0%B2%D0%BA%D0%B8%20%D0%BD%D0%B0%20%D0%BA%D0%BE%D0%BD%D0%BA%D1%83%D1%80%D1%81.DOCX',
-                    )
-                  }}
-                >
-                  {t('clickKaz')}
-                </Button>
-                <Button
-                  variant="contained"
-                  style={{
-                    marginTop: 20,
-                    textDecoration: 'none',
-                    color: 'white',
-                  }}
-                  onClick={() => {
-                    window.open(
-                      'https://storage.googleapis.com/almatyustazy-profile-bucket/Форма%20РУС.docx',
-                    )
-                  }}
-                >
-                  {t('clickRus')}
-                </Button>
-                <h5 style={{ marginTop: 40 }}>{t('form1')}</h5>
-                <Button variant="outlined" style={{ marginTop: 10 }}>
-                  <input
-                    type="file"
-                    id="upload"
-                    onChange={(e) => setSelectedFile(e.target.files)}
-                  />
-                </Button>
-
-                <Button
-                  style={{
-                    marginTop: 20,
-                  }}
-                  variant="contained"
-                  onClick={sendFirst}
-                >
-                  {t('send')}
-                </Button>
-              </FormControl>
-              {formState === 'pending' && (
-                <div
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    marginTop: 15,
-                  }}
-                >
-                  <CircularProgress />
-                </div>
-              )}
-              {error && (
-                <Alert
-                  style={{
-                    marginTop: 15,
-                  }}
-                  severity="error"
-                >
-                  {t('errorSend')}
-                </Alert>
-              )}
-            </>
+          {error && (
+            <Alert
+              style={{
+                marginTop: 15,
+              }}
+              severity="error"
+            >
+              {t('errorSend')}
+            </Alert>
           )}
         </Box>
       </Modal>

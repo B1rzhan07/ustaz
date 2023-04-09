@@ -57,13 +57,6 @@ const PersonalSec = () => {
   }
   const [id, setId] = React.useState<number | null>(null)
   const [moreInfo, setMoreInfo] = React.useState<any>([])
-  // React.useEffect(() => {
-  //   if (id !== null) {
-  //     Defences.getMoreInfoSecretary(id).then((res) => {
-  //       setMoreInfo(res.data)
-  //     })
-  //   }
-  // }, [id])
 
   return (
     <div>

@@ -82,18 +82,18 @@ class TournamentService {
   }
 
   async sendForm(formData: FormData): Promise<AxiosResponse<any>> {
-    return axios.post(
-      API_URL + "/student/team/uploadAndSetApplicationForm",
-      formData,
-      {
+    return axios
+      .post(API_URL + "/student/team/uploadAndSetApplicationForm", formData, {
         headers: {
           Authorization:
             "Bearer " +
             JSON.parse(localStorage.getItem("user") || "{}")
               .authenticationToken,
         },
-      }
-    );
+      })
+      .catch((error) => {
+        return error;
+      });
   }
   async sendPresentation(formData: FormData): Promise<AxiosResponse<any>> {
     return axios

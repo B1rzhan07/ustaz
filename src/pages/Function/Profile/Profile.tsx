@@ -9,6 +9,7 @@ import Input from '../../../components/Input/Input.component'
 import ModalRegister from '../../../components/Modal/ModalRegister'
 import Button from '@mui/material/Button'
 const Profile = () => {
+  const data = JSON.parse(localStorage.getItem('register') || '{}')
   const { t, i18n } = useTranslation()
   const [userProfile, setUserProfile] = React.useState<any>()
   const [register, setRegister] = React.useState<any>()
@@ -141,26 +142,39 @@ const Profile = () => {
                           ? ' '
                           : userProfile?.pedagogicalExperience}
                       </p>
-                      <p className="fonts">
-                        {t('olympReg')}:{' '}
-                        {register?.team?.applicationFormURL ? (
-                          <b>{t('yes')}</b>
-                        ) : (
-                          <b>{t('no')}</b>
-                        )}
-                        {register?.team?.applicationFormURL ? (
-                          ' '
-                        ) : (
-                          <Link
-                            style={{
-                              textDecoration: 'none',
-                            }}
-                            to="/"
-                          >
-                            {t('sss')}
-                          </Link>
-                        )}
+                      <p
+                        style={{
+                          fontWeight: 'bold',
+                        }}
+                      >
+                        {' '}
+                        {t('question1')}{' '}
+                        {data?.team?.applicationFormURL ? t('yes') : t('no')}
                       </p>
+
+                      <p
+                        style={{
+                          fontWeight: 'bold',
+                        }}
+                      >
+                        {t('question2')}{' '}
+                        {data?.team?.presentationURL ? t('yes') : t('no')}
+                      </p>
+                      <p
+                        style={{
+                          fontWeight: 'bold',
+                        }}
+                      >
+                        {t('question3')}{' '}
+                        {data?.team?.ArticleURL ? t('yes') : t('no')}
+                      </p>
+
+                      {/* <p className="fonts">
+                        <Link to="/stepper">
+                          {' '}
+                          Осы ссылка арқылы жүктелген файлдарды көре аласыз:
+                        </Link>
+                      </p> */}
                       {(type === 'ROLE_SECRETARY' || type === 'ROLE_ADMIN') && (
                         <p className="fonts">
                           Количество людей: {number?.number}

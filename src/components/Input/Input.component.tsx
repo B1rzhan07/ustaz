@@ -25,17 +25,9 @@ export default function Input({ handleOpen }: Props) {
       <ButtonComponent
         word={url === '/' ? t('register') : url === '/profile' && t('nysan')}
         onClick={() => {
-          console.log('click')
-
-          if (
-            localStorage.getItem('user') &&
-            data.category &&
-            (data2?.team?.applicationFormURL === null ||
-              data2?.team?.presentationURL === null ||
-              data2?.team?.articleURL === null)
-          ) {
-            handleOpen()
-          } else if (localStorage.getItem('user') && data.category === null) {
+          if (url === '/profile' && data?.group) {
+            navigate('/stepper')
+          } else if (url === '/profile' && !data.group) {
             navigate('/register')
             if (i18n.language == 'kz') {
               alert('Жеке кабинеттегі мәліметтерді толықтырыңыз')
@@ -43,15 +35,41 @@ export default function Input({ handleOpen }: Props) {
               alert('Добавьте незаполненые данные в профиле')
             }
           }
-          if (!localStorage.getItem('user')) {
-            window.location.href = '/login'
-          }
           if (
-            data2?.team?.applicationFormURL &&
-            data2?.team?.presentationURL &&
-            data2?.team?.articleURL
+            url === '/' &&
+            data.group &&
+            localStorage.getItem('user') &&
+            !data2?.team?.applicationFormURL
           ) {
-            alert('Вы уже отправили заявку')
+            handleOpen()
+          } else if (
+            url === '/' &&
+            data.group &&
+            localStorage.getItem('user') &&
+            data2?.team?.applicationFormURL
+          ) {
+            if (i18n.language == 'kz') {
+              alert('Нысан бойынща форманы жүктегенсіз')
+            } else if (i18n.language == 'ru') {
+              alert('Вы уже загрузили форму')
+            }
+          } else if (
+            url === '/' &&
+            data.group &&
+            !localStorage.getItem('user')
+          ) {
+            navigate('/login')
+          } else if (
+            url === '/' &&
+            !data.group &&
+            localStorage.getItem('user')
+          ) {
+            navigate('/register')
+            if (i18n.language == 'kz') {
+              alert('Жеке кабинеттегі мәліметтерді толықтырыңыз')
+            } else if (i18n.language == 'ru') {
+              alert('Добавьте незаполненые данные в профиле')
+            }
           }
         }}
       />

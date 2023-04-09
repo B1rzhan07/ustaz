@@ -11,6 +11,7 @@ import PersonalSec from '../pages/Personal/Sec/PersonalSec'
 import PersonalCom from '../pages/Personal/Com/PersonalCom'
 import PasswordReset from './PasswordReset'
 import More from '../pages/Personal/Sec/More'
+import HorizontalLinearStepper from '../components/Modal/Stepper'
 
 function RoutesComponent() {
   return (
@@ -25,6 +26,7 @@ function RoutesComponent() {
         <Route path="/com" element={<PersonalCom />} />
         <Route path="/password_reset" element={<PasswordReset />} />
         <Route path={`/moresec/:id`} element={<More />} />
+        <Route path={`/stepper`} element={<HorizontalLinearStepper />} />
       </Routes>
     </div>
   )
