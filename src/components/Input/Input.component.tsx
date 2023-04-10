@@ -20,6 +20,8 @@ export default function Input({ handleOpen }: Props) {
   const navigate = useNavigate()
   const { t, i18n } = useTranslation()
   console.log(data, 'data')
+  console.log('local', localStorage.getItem('user'))
+
   return (
     <>
       <ButtonComponent
@@ -37,31 +39,31 @@ export default function Input({ handleOpen }: Props) {
           }
           if (
             url === '/' &&
-            data.group &&
+            data?.group &&
             localStorage.getItem('user') &&
             !data2?.team?.applicationFormURL
           ) {
             handleOpen()
           } else if (
             url === '/' &&
-            data.group &&
+            data?.group &&
             localStorage.getItem('user') &&
             data2?.team?.applicationFormURL
           ) {
             if (i18n.language == 'kz') {
-              alert('өтінімді жүктегенсіз')
+              alert(
+                'Өтінімді жүктегенсіз, презентация және мақала жүктеуіңіз керек',
+              )
             } else if (i18n.language == 'ru') {
-              alert('Вы уже загрузили форму')
+              alert(
+                'Вы уже загрузили форму, необходимо загрузить презентацию и статью',
+              )
             }
-          } else if (
-            url === '/' &&
-            data.group &&
-            !localStorage.getItem('user')
-          ) {
+          } else if (url === '/' && !localStorage.getItem('user')) {
             navigate('/login')
           } else if (
             url === '/' &&
-            !data.group &&
+            !data?.group &&
             localStorage.getItem('user')
           ) {
             navigate('/register')
@@ -70,6 +72,9 @@ export default function Input({ handleOpen }: Props) {
             } else if (i18n.language == 'ru') {
               alert('Добавьте незаполненые данные в профиле')
             }
+          }
+          if (url === '/' && localStorage.getItem('user') === null) {
+            navigate('/login')
           }
         }}
       />

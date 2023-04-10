@@ -14,6 +14,14 @@ import Pagination from '../../Function/News/Pagination'
 import Defences from '../../../services/Defences'
 import Secretary from '../../../services/Secretary'
 import { useNavigate } from 'react-router-dom'
+import {
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  TextField,
+} from '@mui/material'
 
 interface Team {
   creator: any
@@ -27,6 +35,13 @@ interface Team {
 }
 
 const PersonalSec = () => {
+  const [completed, setCompleted] = React.useState<string>('')
+
+  const handleChange = (event: SelectChangeEvent) => {
+    setCompleted(event.target.value as string)
+  }
+  console.log(completed)
+
   const navigate = useNavigate()
   const [teams, setTeams] = React.useState<Team[]>([])
   React.useEffect(() => {
@@ -39,7 +54,7 @@ const PersonalSec = () => {
   }, [])
 
   const [open, setOpen] = React.useState(false)
-
+  const [search, setSearch] = React.useState('')
   const handleClose = () => {
     setOpen(false)
   }
@@ -50,7 +65,30 @@ const PersonalSec = () => {
   >('submitted')
   const indexOfLastPost = curPage * postPerPage
   const indexOfFirstPost = indexOfLastPost - postPerPage
-  const currentPosts = teams.slice(indexOfFirstPost, indexOfLastPost)
+  const currentPosts = teams
+    .filter((team) => {
+      if (search === '') {
+        return team
+      } else if (
+        team.creator.first_name.toLowerCase().includes(search.toLowerCase()) ||
+        team.creator.last_name.toLowerCase().includes(search.toLowerCase()) ||
+        team.creator.middle_name.toLowerCase().includes(search.toLowerCase())
+      ) {
+        return team
+      }
+    })
+    .filter((team) => {
+      if (completed === '') {
+        return team
+      } else if (completed === 'true') {
+        return team.confirmed === true
+      } else if (completed === 'false') {
+        return team.confirmed === false
+      }
+    })
+
+    .slice(indexOfFirstPost, indexOfLastPost)
+
   const paginationCount = Math.ceil(teams.length / postPerPage)
   function handlePage(pageNum: number) {
     setCurPage(pageNum)
@@ -61,7 +99,46 @@ const PersonalSec = () => {
   return (
     <div>
       <HeaderComponent />
+
       <TableContainer component={Paper} className="table">
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-around',
+            width: '100%',
+            marginLeft: 300,
+            marginRight: 300,
+          }}
+        >
+          <TextField
+            onChange={(e) => {
+              setSearch(e.target.value)
+            }}
+            style={{
+              width: '30%',
+            }}
+            id="standard-basic"
+            placeholder="поиск по ФИО"
+            variant="standard"
+          />
+          <FormControl
+            style={{
+              width: '20%',
+            }}
+          >
+            <InputLabel id="demo-simple-select-label">Confirmed</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={completed}
+              label="Completed"
+              onChange={handleChange}
+            >
+              <MenuItem value={'true'}>True</MenuItem>
+              <MenuItem value={'false'}>False</MenuItem>
+            </Select>
+          </FormControl>
+        </div>
         <Table sx={{ maxWidth: 1000 }}>
           <TableHead>
             <TableRow>

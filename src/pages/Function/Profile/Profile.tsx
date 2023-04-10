@@ -166,15 +166,9 @@ const Profile = () => {
                         }}
                       >
                         {t('question3')}{' '}
-                        {data?.team?.ArticleURL ? t('yes') : t('no')}
+                        {data?.team?.articleURL ? t('yes') : t('no')}
                       </p>
 
-                      {/* <p className="fonts">
-                        <Link to="/stepper">
-                          {' '}
-                          Осы ссылка арқылы жүктелген файлдарды көре аласыз:
-                        </Link>
-                      </p> */}
                       {(type === 'ROLE_SECRETARY' || type === 'ROLE_ADMIN') && (
                         <p className="fonts">
                           Количество людей: {number?.number}

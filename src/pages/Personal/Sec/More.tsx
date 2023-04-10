@@ -1,7 +1,7 @@
 import { Slider, Typography, Button } from '@mui/material'
 import React from 'react'
 import Defences from '../../../services/Defences'
-import { useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import HeaderComponent from '../../../components/Header/Header.component'
 import { Label, Select } from './helper/styless'
 
@@ -17,7 +17,7 @@ const More = () => {
       })
     }
   }, [url.id])
-
+  const navigate = useNavigate()
   const [grade, setGrade] = React.useState<number>(0)
   const handleChange = (event: Event, value: number | number[]) => {
     setGrade(value as number)
@@ -52,6 +52,7 @@ const More = () => {
   return (
     <div>
       <HeaderComponent />
+
       <div
         style={
           moreInfo?.defences?.length > 0
@@ -187,6 +188,22 @@ const More = () => {
               onClick={deleteTeam}
             >
               Удалить
+            </Button>
+            <Button
+              style={{
+                width: '50%',
+                marginTop: 10,
+                padding: '0.5rem 1rem',
+                borderRadius: '1rem',
+                backgroundColor: '#fff',
+              }}
+              variant="contained"
+              color="inherit"
+              onClick={() => {
+                navigate('/sec')
+              }}
+            >
+              Назад
             </Button>
           </div>
         </div>
