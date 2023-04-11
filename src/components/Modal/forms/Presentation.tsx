@@ -12,7 +12,7 @@ import { useTranslation } from 'react-i18next'
 import TournamentService from '../../../services/TournamentService'
 
 const Presentation = () => {
-  const data = JSON.parse(localStorage.getItem('register') || '{}')
+  const [isFileUploaded, setIsFileUploaded] = React.useState(false)
 
   const [formState, setFormState] = React.useState<
     'pending' | 'submitted' | 'error'
@@ -38,8 +38,12 @@ const Presentation = () => {
             localStorage.setItem('register', JSON.stringify(res.data))
           })
           setFormState('submitted')
-          setSuccess(true)
+
           setSelectedFile2(null)
+          setIsFileUploaded(true)
+        })
+        .finally(() => {
+          setSuccess(true)
         })
         .catch((err: AxiosError) => {
           setSuccess(true)
@@ -55,6 +59,10 @@ const Presentation = () => {
           setFormState('submitted')
           setSuccess(true)
           setLink('')
+          setIsFileUploaded(true)
+        })
+        .finally(() => {
+          setSuccess(true)
         })
         .catch((err: AxiosError) => {
           setSuccess(false)
@@ -94,7 +102,7 @@ const Presentation = () => {
             fontSize: 20,
           }}
         >
-          {t('question2')} {data?.team?.presentationURL ? t('yes') : t('no')}
+          {t('question2')} {isFileUploaded ? t('yes') : t('no')}
         </div>
         <h5
           style={{

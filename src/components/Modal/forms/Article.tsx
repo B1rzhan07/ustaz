@@ -10,13 +10,12 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import TournamentService from '../../../services/TournamentService'
 const Article = () => {
-  const data = JSON.parse(localStorage.getItem('register') || '{}')
   const [error, setError] = useState(false)
 
   const [formState, setFormState] = React.useState<
     'pending' | 'submitted' | 'error'
   >('submitted')
-  const [success, setSuccess] = React.useState(false)
+  const [success, setSuccess] = React.useState<boolean | null>(null)
 
   const [selectedFile3, setSelectedFile3] = React.useState<FileList | null>(
     null,
@@ -25,6 +24,8 @@ const Article = () => {
   const [errors, setErrors] = useState<string | null>(null)
   const formData3 = new FormData()
   formData3.append('file', selectedFile3?.item(0) as File)
+  const [isFileUploaded, setIsFileUploaded] = useState(false)
+
   const { t, i18n } = useTranslation()
   const sendThird = () => {
     setFormState('pending')
@@ -36,9 +37,13 @@ const Article = () => {
           TournamentService.getRegister().then((res) => {
             localStorage.setItem('register', JSON.stringify(res.data))
           })
-          setSuccess(true)
+          setIsFileUploaded(true)
+
           setFormState('submitted')
           setSelectedFile3(null)
+        })
+        .finally(() => {
+          setSuccess(true)
         })
         .catch((err: AxiosError) => {
           setSuccess(false)
@@ -46,14 +51,22 @@ const Article = () => {
         })
     }
     if (linkArticle) {
-      TournamentService.linkArticle(linkArticle).then((res) => {
-        TournamentService.getRegister().then((res) => {
-          localStorage.setItem('register', JSON.stringify(res.data))
+      TournamentService.linkArticle(linkArticle)
+        .then((res) => {
+          TournamentService.getRegister().then((res) => {
+            localStorage.setItem('register', JSON.stringify(res.data))
+          })
+          setIsFileUploaded(true)
+          setFormState('submitted')
+          setLinkArticle('')
         })
-        setSuccess(true)
-        setFormState('submitted')
-        setLinkArticle('')
-      })
+        .finally(() => {
+          setSuccess(true)
+        })
+        .catch((err: AxiosError) => {
+          setSuccess(false)
+          setError(true)
+        })
     }
     if (!selectedFile3 && !linkArticle) {
       setSuccess(false)
@@ -84,7 +97,7 @@ const Article = () => {
             fontSize: 20,
           }}
         >
-          {t('question3')} {data?.team?.articleURL ? t('yes') : t('no')}
+          {t('question3')} {isFileUploaded ? t('yes') : t('no')}
         </div>
         <h5
           style={{
@@ -174,6 +187,7 @@ const Article = () => {
         {formState === 'pending' && (
           <div
             style={{
+              marginTop: 20,
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',

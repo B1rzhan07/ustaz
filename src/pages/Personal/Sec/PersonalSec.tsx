@@ -59,7 +59,7 @@ const PersonalSec = () => {
     setOpen(false)
   }
   const [curPage, setCurPage] = React.useState(1)
-  const [postPerPage] = React.useState(12)
+  const [postPerPage] = React.useState(15)
   const [formState, setFormState] = React.useState<
     'pending' | 'submitted' | 'error'
   >('submitted')
@@ -70,9 +70,11 @@ const PersonalSec = () => {
       if (search === '') {
         return team
       } else if (
-        team.creator.first_name.toLowerCase().includes(search.toLowerCase()) ||
-        team.creator.last_name.toLowerCase().includes(search.toLowerCase()) ||
-        team.creator.middle_name.toLowerCase().includes(search.toLowerCase())
+        team?.creator?.first_name
+          .toLowerCase()
+          .includes(search.toLowerCase()) ||
+        team?.creator?.last_name.toLowerCase().includes(search.toLowerCase()) ||
+        team?.creator?.middle_name.toLowerCase().includes(search.toLowerCase())
       ) {
         return team
       }
@@ -81,9 +83,9 @@ const PersonalSec = () => {
       if (completed === '') {
         return team
       } else if (completed === 'true') {
-        return team.confirmed === true
+        return team?.confirmed === true
       } else if (completed === 'false') {
-        return team.confirmed === false
+        return team?.confirmed === false
       }
     })
 
