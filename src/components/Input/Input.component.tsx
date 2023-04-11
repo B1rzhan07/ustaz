@@ -48,16 +48,55 @@ export default function Input({ handleOpen }: Props) {
             url === '/' &&
             data?.group &&
             localStorage.getItem('user') &&
-            data2?.team?.applicationFormURL
+            data2?.team?.applicationFormURL &&
+            data2?.team.presentationURL === null &&
+            data2?.team.articleURL === null
           ) {
             if (i18n.language == 'kz') {
               alert(
                 'Өтінімді жүктегенсіз, презентация және мақала жүктеуіңіз керек',
               )
+              navigate('/stepper')
             } else if (i18n.language == 'ru') {
               alert(
                 'Вы уже загрузили форму, необходимо загрузить презентацию и статью',
               )
+              navigate('/stepper')
+            }
+          } else if (
+            url === '/' &&
+            data?.group &&
+            localStorage.getItem('user') &&
+            data2?.team?.applicationFormURL &&
+            data2?.team.presentationURL &&
+            data2?.team.articleURL === null
+          ) {
+            if (i18n.language == 'kz') {
+              alert(
+                'Өтінімді жүктегенсіз, мақала жүктеуіңіз керек(қалау бойынша)',
+              )
+              navigate('/stepper')
+            } else if (i18n.language == 'ru') {
+              alert(
+                'Вы уже загрузили форму и презентацию, необходимо загрузить статью(необязательно)',
+              )
+              navigate('/stepper')
+            }
+          } else if (
+            url === '/' &&
+            data?.group &&
+            localStorage.getItem('user') &&
+            data2?.team?.applicationFormURL &&
+            data2?.team.presentationURL &&
+            data2?.team.articleURL
+          ) {
+            if (i18n.language == 'kz') {
+              alert('Өтінімді, презентацияны, және мақаланы жүктегенсіз')
+              navigate('/profile')
+            }
+            if (i18n.language == 'ru') {
+              alert('Вы уже загрузили форму, презентацию и статью')
+              navigate('/profile')
             }
           } else if (url === '/' && !localStorage.getItem('user')) {
             navigate('/login')

@@ -63,6 +63,11 @@ export default function ModalRegister({ handleClose, open }: Props) {
       })
       .finally(() => {
         handleClose()
+        if (i18n.language == 'kz') {
+          alert('Өтінім жүктелді')
+        } else if (i18n.language == 'ru') {
+          alert('Успешно загружена')
+        }
         TournamentService.getRegister().then((res) => {
           setData(res.data)
           localStorage.setItem('register', JSON.stringify(res.data))
