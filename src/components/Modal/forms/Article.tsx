@@ -10,6 +10,9 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import TournamentService from '../../../services/TournamentService'
 const Article = () => {
+  const data = JSON.parse(localStorage.getItem('register') || ({} as string))
+  console.log(data, 'article')
+
   const [error, setError] = useState(false)
 
   const [formState, setFormState] = React.useState<
@@ -97,7 +100,12 @@ const Article = () => {
             fontSize: 20,
           }}
         >
-          {t('question3')} {isFileUploaded ? t('yes') : t('no')}
+          {t('question3')}{' '}
+          {data?.team.articleURL
+            ? t('yes')
+            : isFileUploaded
+            ? t('yes')
+            : t('no')}
         </div>
         <h5
           style={{

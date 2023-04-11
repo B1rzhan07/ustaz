@@ -12,6 +12,8 @@ import { useTranslation } from 'react-i18next'
 import TournamentService from '../../../services/TournamentService'
 
 const Presentation = () => {
+  const data = JSON.parse(localStorage.getItem('register') || ({} as string))
+
   const [isFileUploaded, setIsFileUploaded] = React.useState(false)
 
   const [formState, setFormState] = React.useState<
@@ -102,7 +104,12 @@ const Presentation = () => {
             fontSize: 20,
           }}
         >
-          {t('question2')} {isFileUploaded ? t('yes') : t('no')}
+          {t('question2')}{' '}
+          {data?.team.presentationURL
+            ? t('yes')
+            : isFileUploaded
+            ? t('yes')
+            : t('no')}
         </div>
         <h5
           style={{
