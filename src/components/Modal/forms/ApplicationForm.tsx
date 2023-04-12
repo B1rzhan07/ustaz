@@ -2,6 +2,7 @@ import { Alert, Button, CircularProgress, FormControl } from '@mui/material'
 import { AxiosError } from 'axios'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
+import { Link } from 'react-router-dom'
 import TournamentService from '../../../services/TournamentService'
 
 const ApplicationForm = () => {
@@ -55,6 +56,18 @@ const ApplicationForm = () => {
             : isFileUploaded
             ? t('yes')
             : t('no')}
+          {data?.team?.applicationFormURL && (
+            <Button
+              style={{ marginLeft: 10, borderRadius: 20 }}
+              variant="contained"
+              component="label"
+              onClick={() => {
+                window.open(data?.team?.applicationFormURL)
+              }}
+            >
+              {t('click')}
+            </Button>
+          )}
         </div>
         <h5 style={{ marginTop: 40 }}>{t('form')}</h5>
         <div

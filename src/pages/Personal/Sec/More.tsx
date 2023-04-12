@@ -168,6 +168,14 @@ const More = () => {
             >
               Lesson Recording URL
             </Button>
+            <Button
+              variant="contained"
+              style={{ flex: 1, margin: '0 10px', marginTop: '10px' }}
+              disabled={moreInfo?.team?.articleURL === null}
+              onClick={() => window.open(moreInfo?.team?.articleURL)}
+            >
+              ArticleURL
+            </Button>
           </div>
 
           <div

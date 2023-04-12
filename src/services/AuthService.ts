@@ -43,7 +43,6 @@ class AuthService {
       .post(API_URL + "/auth/login", {
         username,
         password,
-        origin: "https://localhost:3000",
       })
       .then((response) => {
         if (response.data.authenticationToken) {
@@ -134,6 +133,13 @@ class AuthService {
       .catch((error: AxiosError) => {
         return error;
       });
+  }
+
+  async logout(): Promise<void> {
+    localStorage.removeItem("user");
+    localStorage.removeItem("userType");
+    localStorage.removeItem("userType");
+    localStorage.removeItem("userType");
   }
 }
 

@@ -59,7 +59,6 @@ const Presentation = () => {
             localStorage.setItem('register', JSON.stringify(res.data))
           })
           setFormState('submitted')
-          setSuccess(true)
           setLink('')
           setIsFileUploaded(true)
         })
@@ -110,6 +109,18 @@ const Presentation = () => {
             : isFileUploaded
             ? t('yes')
             : t('no')}
+          {data?.team?.presentationURL && (
+            <Button
+              style={{ marginLeft: 10, borderRadius: 20 }}
+              variant="contained"
+              component="label"
+              onClick={() => {
+                window.open(data?.team?.presentationURL)
+              }}
+            >
+              {t('click')}
+            </Button>
+          )}
         </div>
         <h5
           style={{

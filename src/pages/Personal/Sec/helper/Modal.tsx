@@ -269,6 +269,68 @@ export default function BasicModal({
             >
               Изменить Defence
             </Button>
+            <hr
+              style={{
+                width: '100%',
+                marginTop: '20px',
+                marginBottom: '20px',
+              }}
+            />
+            <div
+              style={{
+                width: '100%',
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: ' space-around',
+              }}
+            >
+              <Button
+                onClick={
+                  moreInfo?.team?.applicationFormURL
+                    ? () => window.open(moreInfo?.team?.applicationFormURL)
+                    : () => {}
+                }
+                disabled={
+                  moreInfo?.team?.applicationFormURL === null ? true : false
+                }
+              >
+                applicationFormURL
+              </Button>
+              <Button
+                onClick={
+                  moreInfo?.team?.applicationFormURL
+                    ? () => window.open(moreInfo?.team?.articleURL)
+                    : () => {}
+                }
+                disabled={moreInfo?.team?.articleURL === null ? true : false}
+              >
+                articleURL
+              </Button>
+              <Button
+                onClick={
+                  moreInfo?.team?.applicationFormURL
+                    ? () => window.open(moreInfo?.team?.presentationURL)
+                    : () => {}
+                }
+                disabled={
+                  moreInfo?.team?.presentationURL === null ? true : false
+                }
+              >
+                presentationURL
+              </Button>
+              <Button
+                onClick={
+                  moreInfo?.team?.applicationFormURL
+                    ? () => window.open(moreInfo?.team?.lessonRecordingURL)
+                    : () => {}
+                }
+                disabled={
+                  moreInfo?.team?.lessonRecordingURL === null ? true : false
+                }
+              >
+                lessonRecordingURL
+              </Button>
+            </div>
           </div>
         </Box>
       </Modal>

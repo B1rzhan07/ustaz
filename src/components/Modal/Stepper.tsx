@@ -15,8 +15,10 @@ export default function HorizontalLinearStepper() {
   const { t, i18n } = useTranslation()
   const steps = [
     i18n.language === 'kz' ? 'Нысан бойынша форманы жүктеу' : 'Загрузка формы',
-    i18n.language === 'kz' ? 'Презентазияны жүктеу' : 'Загрузка презентации',
-    i18n.language === 'kz' ? 'Мақаланы жүктеу' : 'Загрузка статьи',
+    i18n.language === 'kz'
+      ? 'Мультимедиялық мақаланы жүктеу'
+      : 'Загрузка презентации',
+    i18n.language === 'kz' ? 'Мәтіндік мақаланы жүктеу' : 'Загрузка статьи',
   ]
   const data = JSON.parse(localStorage.getItem('register') || '{}')
 

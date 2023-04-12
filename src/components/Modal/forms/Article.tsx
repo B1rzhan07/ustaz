@@ -41,7 +41,6 @@ const Article = () => {
             localStorage.setItem('register', JSON.stringify(res.data))
           })
           setIsFileUploaded(true)
-
           setFormState('submitted')
           setSelectedFile3(null)
         })
@@ -106,6 +105,18 @@ const Article = () => {
             : isFileUploaded
             ? t('yes')
             : t('no')}
+          {data?.team?.articleURL && (
+            <Button
+              style={{ marginLeft: 10, borderRadius: 20 }}
+              variant="contained"
+              component="label"
+              onClick={() => {
+                window.open(data?.team?.articleURL)
+              }}
+            >
+              {t('click')}
+            </Button>
+          )}
         </div>
         <h5
           style={{
