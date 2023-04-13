@@ -28,6 +28,7 @@ const ApplicationForm = () => {
         TournamentService.getRegister().then((res) => {
           setData(res.data)
           localStorage.setItem('register', JSON.stringify(res.data))
+          setData(res.data)
         })
         setFormState('submitted')
         setSelectedFile(null)
@@ -55,7 +56,7 @@ const ApplicationForm = () => {
           }}
         >
           {t('question1')}{' '}
-          {data?.team.applicationFormURL
+          {data?.team?.applicationFormURL
             ? t('yes')
             : isFileUploaded
             ? t('yes')

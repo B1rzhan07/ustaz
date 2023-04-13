@@ -40,6 +40,7 @@ const Presentation = () => {
           TournamentService.getRegister().then((res) => {
             setData(res.data)
             localStorage.setItem('register', JSON.stringify(res.data))
+            setData(res.data)
           })
           setFormState('submitted')
 
@@ -60,6 +61,7 @@ const Presentation = () => {
           TournamentService.getRegister().then((res) => {
             setData(res.data)
             localStorage.setItem('register', JSON.stringify(res.data))
+            setData(res.data)
           })
           setFormState('submitted')
           setLink('')
@@ -107,7 +109,7 @@ const Presentation = () => {
           }}
         >
           {t('question2')}{' '}
-          {data?.team.presentationURL
+          {data?.team?.presentationURL
             ? t('yes')
             : isFileUploaded
             ? t('yes')
