@@ -6,8 +6,9 @@ import { Link } from 'react-router-dom'
 import TournamentService from '../../../services/TournamentService'
 
 const ApplicationForm = () => {
-  const data = JSON.parse(localStorage.getItem('register') || ({} as string))
-
+  const [data, setData] = React.useState<any>(
+    JSON.parse(localStorage.getItem('register') || '{}'),
+  )
   const [isFileUploaded, setIsFileUploaded] = React.useState(false)
 
   const [formState, setFormState] = React.useState<
@@ -19,18 +20,20 @@ const ApplicationForm = () => {
   const formData1 = new FormData()
   formData1.append('file', selectedFile?.item(0) as File)
   const { t, i18n } = useTranslation()
-  const sendFirst = () => {
+
+  const sendFirst = async () => {
     setFormState('pending')
-    TournamentService.sendForm(formData1)
-      .then((response) => {
+    await TournamentService.sendForm(formData1)
+      .then(async (response) => {
+        TournamentService.getRegister().then((res) => {
+          setData(res.data)
+          localStorage.setItem('register', JSON.stringify(res.data))
+        })
         setFormState('submitted')
         setSelectedFile(null)
         setIsFileUploaded(true)
       })
       .finally(() => {
-        TournamentService.getRegister().then((res) => {
-          localStorage.setItem('register', JSON.stringify(res.data))
-        })
         setSuccess(true)
       })
       .catch((err) => {
@@ -38,6 +41,7 @@ const ApplicationForm = () => {
         console.log(err, 'err')
       })
   }
+
   return (
     <div>
       <FormControl fullWidth>

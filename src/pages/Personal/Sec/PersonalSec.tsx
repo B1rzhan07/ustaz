@@ -73,8 +73,10 @@ const PersonalSec = () => {
         team?.creator?.first_name
           .toLowerCase()
           .includes(search.toLowerCase()) ||
-        team?.creator?.last_name.toLowerCase().includes(search.toLowerCase()) ||
-        team?.creator?.middle_name.toLowerCase().includes(search.toLowerCase())
+        team?.creator?.last_name
+          ?.toLowerCase()
+          .includes(search.toLowerCase()) ||
+        team?.creator?.middle_name?.toLowerCase().includes(search.toLowerCase())
       ) {
         return team
       }

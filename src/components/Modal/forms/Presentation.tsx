@@ -12,8 +12,9 @@ import { useTranslation } from 'react-i18next'
 import TournamentService from '../../../services/TournamentService'
 
 const Presentation = () => {
-  const data = JSON.parse(localStorage.getItem('register') || ({} as string))
-
+  const [data, setData] = React.useState<any>(
+    JSON.parse(localStorage.getItem('register') || '{}'),
+  )
   const [isFileUploaded, setIsFileUploaded] = React.useState(false)
 
   const [formState, setFormState] = React.useState<
@@ -28,15 +29,16 @@ const Presentation = () => {
   const [error, setError] = React.useState(false)
   const [link, setLink] = React.useState('')
   const { t, i18n } = useTranslation()
-  const sendSecond = () => {
+  const sendSecond = async () => {
     setSuccess(false)
     setError(false)
     setFormState('pending')
     setSuccess(true)
     if (selectedFile2) {
-      TournamentService.sendPresentation(formData2)
-        .then((response) => {
+      await TournamentService.sendPresentation(formData2)
+        .then(async (response) => {
           TournamentService.getRegister().then((res) => {
+            setData(res.data)
             localStorage.setItem('register', JSON.stringify(res.data))
           })
           setFormState('submitted')
@@ -53,9 +55,10 @@ const Presentation = () => {
         })
     }
     if (link) {
-      TournamentService.registerTournament(link)
-        .then((response) => {
+      await TournamentService.registerTournament(link)
+        .then(async (response) => {
           TournamentService.getRegister().then((res) => {
+            setData(res.data)
             localStorage.setItem('register', JSON.stringify(res.data))
           })
           setFormState('submitted')

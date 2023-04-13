@@ -10,8 +10,9 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import TournamentService from '../../../services/TournamentService'
 const Article = () => {
-  const data = JSON.parse(localStorage.getItem('register') || ({} as string))
-  console.log(data, 'article')
+  const [data, setData] = React.useState<any>(
+    JSON.parse(localStorage.getItem('register') || '{}'),
+  )
 
   const [error, setError] = useState(false)
 
@@ -30,14 +31,15 @@ const Article = () => {
   const [isFileUploaded, setIsFileUploaded] = useState(false)
 
   const { t, i18n } = useTranslation()
-  const sendThird = () => {
+  const sendThird = async () => {
     setFormState('pending')
     setSuccess(false)
     setError(false)
     if (selectedFile3) {
-      TournamentService.sendArticle(formData3)
-        .then((response) => {
+      await TournamentService.sendArticle(formData3)
+        .then(async (response) => {
           TournamentService.getRegister().then((res) => {
+            setData(res.data)
             localStorage.setItem('register', JSON.stringify(res.data))
           })
           setIsFileUploaded(true)
@@ -53,9 +55,10 @@ const Article = () => {
         })
     }
     if (linkArticle) {
-      TournamentService.linkArticle(linkArticle)
-        .then((res) => {
+      await TournamentService.linkArticle(linkArticle)
+        .then(async (res) => {
           TournamentService.getRegister().then((res) => {
+            setData(res.data)
             localStorage.setItem('register', JSON.stringify(res.data))
           })
           setIsFileUploaded(true)
