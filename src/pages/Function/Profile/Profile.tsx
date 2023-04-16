@@ -153,6 +153,16 @@ const Profile = () => {
                         {' '}
                         {t('question1')}{' '}
                         {data?.team?.applicationFormURL ? t('yes') : t('no')}
+                        <Button
+                          style={{ marginLeft: 10, borderRadius: 20 }}
+                          variant="contained"
+                          component="label"
+                          onClick={() => {
+                            window.open(data?.team?.applicationFormURL)
+                          }}
+                        >
+                          {t('click')}
+                        </Button>
                       </p>
 
                       <p
@@ -162,6 +172,16 @@ const Profile = () => {
                       >
                         {t('question2')}{' '}
                         {data?.team?.presentationURL ? t('yes') : t('no')}
+                        <Button
+                          style={{ marginLeft: 10, borderRadius: 20 }}
+                          variant="contained"
+                          component="label"
+                          onClick={() => {
+                            window.open(data?.team?.presentationURL)
+                          }}
+                        >
+                          {t('click')}
+                        </Button>
                       </p>
                       <p
                         style={{
@@ -170,6 +190,16 @@ const Profile = () => {
                       >
                         {t('question3')}{' '}
                         {data?.team?.articleURL ? t('yes') : t('no')}
+                        <Button
+                          style={{ marginLeft: 10, borderRadius: 20 }}
+                          variant="contained"
+                          component="label"
+                          onClick={() => {
+                            window.open(data?.team?.articleURL)
+                          }}
+                        >
+                          {t('click')}
+                        </Button>
                       </p>
 
                       {(type === 'ROLE_SECRETARY' || type === 'ROLE_ADMIN') && (
