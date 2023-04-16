@@ -9,7 +9,6 @@ import Modal from '@mui/material/Modal'
 import Button from '@mui/material/Button'
 import { style } from './styles'
 import { ColorButton } from './styles'
-import { BootstrapButton } from './styles'
 import Announcements from '../../../services/Announcements'
 import DeleteIcon from '@mui/icons-material/Delete'
 import Pagination from './Pagination'
@@ -37,7 +36,6 @@ const News = () => {
     setCurPage(pageNum)
   }
   const type = JSON.parse(localStorage.getItem('user') || '{}').role
-  console.log(announcements)
 
   return (
     <div className={classes.container}>

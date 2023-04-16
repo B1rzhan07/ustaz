@@ -1,6 +1,5 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import ButtonComponent from '../../components/Button/Button.component'
 import '../../index.scss'
 type Props = {
   refStage?: React.RefObject<HTMLInputElement>

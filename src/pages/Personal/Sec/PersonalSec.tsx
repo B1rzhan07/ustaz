@@ -43,11 +43,14 @@ const PersonalSec = () => {
   console.log(completed)
 
   const navigate = useNavigate()
-  const [teams, setTeams] = React.useState<Team[]>([])
+  const [teams, setTeams] = React.useState<Team[]>(
+    JSON.parse(localStorage.getItem('teams') || '[]'),
+  )
   React.useEffect(() => {
     const fetchData = async () => {
       Defense.getTeams().then((res) => {
         setTeams(res.data)
+        localStorage.setItem('teams', JSON.stringify(res.data))
       })
     }
     fetchData()
@@ -90,7 +93,6 @@ const PersonalSec = () => {
         return team?.confirmed === false
       }
     })
-
     .slice(indexOfFirstPost, indexOfLastPost)
 
   const paginationCount = Math.ceil(teams.length / postPerPage)

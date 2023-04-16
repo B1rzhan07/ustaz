@@ -363,10 +363,23 @@ const RegisterDoctor = () => {
                 variant="contained"
                 style={{
                   margin: '15px',
+                  borderRadius: '40px',
+                  padding: '10px 20px',
                 }}
                 onClick={() => navigate('/')}
               >
                 {t('mainPage')}
+              </Button>
+              <Button
+                variant="contained"
+                style={{
+                  margin: '15px',
+                  borderRadius: '40px',
+                  padding: '10px 20px',
+                }}
+                onClick={() => navigate('/profile')}
+              >
+                {t('profilePage')}
               </Button>
               {state.error == true && (
                 <Alert severity="error">

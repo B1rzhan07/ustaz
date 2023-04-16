@@ -2,10 +2,7 @@ import * as React from 'react'
 import AppBar from '@mui/material/AppBar'
 import Box from '@mui/material/Box'
 import Toolbar from '@mui/material/Toolbar'
-import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
-import Menu from '@mui/material/Menu'
-import MenuIcon from '@mui/icons-material/Menu'
 import Container from '@mui/material/Container'
 import { Link, useNavigate } from 'react-router-dom'
 import ButtonComponent from '../Button/Button.component'
@@ -14,11 +11,10 @@ import { useTranslation } from 'react-i18next'
 import img2 from '../../../public/Img/index.png'
 
 function HeaderComponent() {
-  const location = window.location.pathname
   const navigate = useNavigate()
 
   const type = JSON.parse(localStorage.getItem('user') || '{}').role
-  const { t, i18n } = useTranslation()
+  const { t } = useTranslation()
 
   return (
     <AppBar
@@ -135,6 +131,7 @@ function HeaderComponent() {
                     localStorage.removeItem('data')
                     localStorage.removeItem('register')
                     localStorage.removeItem('more')
+                    localStorage.removeItem('teams')
                     window.location.href = '/'
                   }}
                 />

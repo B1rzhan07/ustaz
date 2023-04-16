@@ -11,7 +11,7 @@ const main: React.FC = () => {
 
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
-  const { t, i18n } = useTranslation()
+  const { t } = useTranslation()
   return (
     <>
       <div className="content" id="section1">

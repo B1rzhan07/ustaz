@@ -1,7 +1,5 @@
 import React from 'react'
 import '../../index.scss'
-import Input from '../../components/Input/Input.component'
-import CheckBox from '../../components/CheckBox/CheckBox.component'
 import { useTranslation } from 'react-i18next'
 import img from '../../../public/Img/alma.jpg'
 const Now: React.FC = () => {

@@ -9,7 +9,7 @@ import { BrowserView, MobileView } from 'react-device-detect'
 import { useTranslation } from 'react-i18next'
 
 const All = () => {
-  const { t, i18n } = useTranslation()
+  const { t } = useTranslation()
   return (
     <div>
       <BrowserView>

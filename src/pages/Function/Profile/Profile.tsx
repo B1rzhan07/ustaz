@@ -59,7 +59,7 @@ const Profile = () => {
             <div className="row d-flex justify-content-center">
               <div className="col-md-7">
                 <div className="card p-3 py-4">
-                  <h5
+                  <Button
                     style={{
                       textAlign: 'center',
                       backgroundColor: '#3E58E8',
@@ -69,9 +69,12 @@ const Profile = () => {
                       margin: 'auto',
                       marginBottom: 20,
                     }}
+                    onClick={() => {
+                      navigate('/register')
+                    }}
                   >
                     {t('change')}
-                  </h5>
+                  </Button>
                   <div className="text-center">
                     <img
                       src={
@@ -176,15 +179,12 @@ const Profile = () => {
                       )}
                     </div>
                     <div className="buttons d-flex justify-content-around ml-5">
-                      <Input handleOpen={handleOpen} />
-                      {open && (
-                        <ModalRegister handleClose={handleClose} open={open} />
-                      )}
                       <Button
                         variant="contained"
                         style={{
                           borderRadius: '40px',
                           backgroundColor: '#3E58E8',
+                          padding: '10px 20px',
                         }}
                         onClick={() => {
                           navigate('/register')

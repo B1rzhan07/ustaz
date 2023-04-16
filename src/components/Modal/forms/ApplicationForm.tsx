@@ -1,8 +1,6 @@
 import { Alert, Button, CircularProgress, FormControl } from '@mui/material'
-import { AxiosError } from 'axios'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router-dom'
 import TournamentService from '../../../services/TournamentService'
 
 const ApplicationForm = () => {
