@@ -132,6 +132,7 @@ function HeaderComponent() {
                     localStorage.removeItem('register')
                     localStorage.removeItem('more')
                     localStorage.removeItem('teams')
+                    localStorage.removeItem('criteria')
                     window.location.href = '/'
                   }}
                 />

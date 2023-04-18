@@ -91,30 +91,7 @@ class Defense {
       },
     });
   }
-  async setGradeCommission(
-    id1: number,
-    id2: number,
-    grade: number
-  ): Promise<AxiosResponse<any>> {
-    return axios
-      .post(
-        API_URL + `/commission/${id1}/set-grade/${id2}`,
-        {
-          grade: grade,
-        },
-        {
-          headers: {
-            Authorization:
-              "Bearer " +
-              JSON.parse(localStorage.getItem("user") || "{}")
-                .authenticationToken,
-          },
-        }
-      )
-      .then((response) => {
-        return response;
-      });
-  }
+
   async getMoreInfoSecretary(
     teamId: number | null
   ): Promise<AxiosResponse<any>> {

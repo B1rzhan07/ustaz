@@ -11,6 +11,8 @@ import HeaderComponent from '../../../components/Header/Header.component'
 import Defences from '../../../services/Defences'
 import Button from '@mui/material/Button'
 import BasicModal from './modalCom'
+import { useNavigate } from 'react-router-dom'
+import Commission from '../../../services/Commission'
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -33,17 +35,21 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }))
 
 export default function CustomizedTables() {
+  const navigate = useNavigate()
   const [commission, setCommission] = React.useState<any>([])
+  console.log(commission)
+
   React.useEffect(() => {
     Defences.getDefenceCommission().then((res) => {
       setCommission(res.data)
+      localStorage.setItem('commission', JSON.stringify(res.data))
       console.log(res.data)
     })
   }, [])
-  const [open, setOpen] = React.useState(false)
-  const handleOpen = () => setOpen(true)
-  const handleClose = () => setOpen(false)
-  const [id, setId] = React.useState(0)
+  const goEach = (id: number) => {
+    navigate(`morecom/${id}`)
+  }
+
   return (
     <>
       <HeaderComponent />
@@ -75,8 +81,17 @@ export default function CustomizedTables() {
                       padding: '5px 10px',
                     }}
                     onClick={() => {
-                      setOpen(true)
-                      setId(row.id)
+                      goEach(row.id)
+                      const number = parseInt(
+                        row.stage.toString().match(/-(\d+)/)[1],
+                      )
+                      Commission.getCriteries(number).then((response) => {
+                        localStorage.setItem(
+                          'criteria',
+                          JSON.stringify(response.data),
+                        )
+                        console.log(response.data)
+                      })
                     }}
                   >
                     Бағалау
@@ -88,7 +103,7 @@ export default function CustomizedTables() {
         </Table>
       </TableContainer>
 
-      <BasicModal open={open} handleClose={handleClose} id={id} />
+      {/* <BasicModal open={open} handleClose={handleClose} id={id} /> */}
     </>
   )
 }

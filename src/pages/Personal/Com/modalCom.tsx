@@ -6,149 +6,194 @@ import Modal from '@mui/material/Modal'
 import Defences from '../../../services/Defences'
 import { useState } from 'react'
 import { Slider } from '@mui/material'
+import Commission from '../../../services/Commission'
+import HeaderComponent from '../../../components/Header/Header.component'
+import { useNavigate, useParams } from 'react-router-dom'
+import Table from '@mui/material/Table'
+import TableBody from '@mui/material/TableBody'
+import TableCell, { tableCellClasses } from '@mui/material/TableCell'
+import TableContainer from '@mui/material/TableContainer'
+import TableHead from '@mui/material/TableHead'
+import TableRow from '@mui/material/TableRow'
+import Paper from '@mui/material/Paper'
+import { styled } from '@mui/material/styles'
+import InputLabel from '@mui/material/InputLabel'
+import MenuItem from '@mui/material/MenuItem'
+import FormControl from '@mui/material/FormControl'
+import Select, { SelectChangeEvent } from '@mui/material/Select'
+import GradingRow from './GradingRow'
 
-const style = {
-  position: 'absolute' as 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 700,
-  height: 400,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
-}
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+  },
+}))
 
-type Props = {
-  open: boolean
-  handleClose: () => void
-  id: number
-}
+export default function BasicModal() {
+  const navigate = useNavigate()
+  const url = useParams()
+  console.log(url.id)
+  const [criteria, setCriteria] = React.useState<any>(
+    JSON.parse(localStorage.getItem('criteria') || '{}'),
+  )
 
-export default function BasicModal({ open, handleClose, id }: Props) {
-  const [grade, setGrade] = useState<number>(0)
   const [data, setData] = React.useState<any>([])
 
   React.useEffect(() => {
-    Defences.getDefenceCommissionById(id).then((res) => {
+    Defences.getDefenceCommissionById(Number(url.id)).then((res) => {
       console.log(res.data)
       setData(res.data)
     })
-  }, [id])
+  }, [])
 
-  const handleChange = (event: Event, value: number | number[]) => {
-    setGrade(value as number)
-  }
+  const [grades, setGrades] = React.useState<any>([])
+  console.log(JSON.stringify(grades))
+
+  console.log(grades)
 
   return (
     <div>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
+      <HeaderComponent />
+      <div>
+        <Typography
+          variant="h4"
+          gutterBottom
+          style={{
+            marginTop: '20px',
+            marginLeft: '40px',
+          }}
+        >
+          ФИО: {data?.team?.team?.creator?.first_name}{' '}
+          {data?.team?.team?.creator?.last_name}{' '}
+          {data?.team?.team?.creator?.middle_name}
+        </Typography>
+        <Button
+          disabled={data?.team?.team?.applicationFormURL === null}
+          style={{
+            marginTop: '10px',
+          }}
+          onClick={() =>
+            window.open(data?.team?.team?.applicationFormURL, '_blank')
+          }
+          variant="contained"
+          sx={{ ml: 5 }}
+        >
+          Өтініш формасы
+        </Button>
+        <Button
+          style={{
+            marginTop: '10px',
+          }}
+          disabled={data?.team?.team?.presentationURL === null}
+          onClick={() =>
+            window.open(data?.team?.team?.presentationURL, '_blank')
+          }
+          variant="contained"
+          sx={{ ml: 2 }}
+        >
+          Мультимедиалық Мақала
+        </Button>
+        <Button
+          style={{
+            marginTop: '10px',
+          }}
+          disabled={data?.team?.team?.articleURL === null}
+          onClick={() => window.open(data?.team?.team?.articleURL, '_blank')}
+          variant="contained"
+          sx={{ ml: 2 }}
+        >
+          Мәтіндік Мақала
+        </Button>
+        <Button
+          style={{
+            marginTop: '10px',
+          }}
+          disabled={data?.team?.team?.lessonRecordingURL === null}
+          onClick={() =>
+            window.open(data?.team?.team?.lessonRecordingURL, '_blank')
+          }
+          variant="contained"
+          sx={{ ml: 2 }}
+        >
+          Сабақтың ссылкасы
+        </Button>
+      </div>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          flexDirection: 'column',
+          marginLeft: '40px',
+          marginRight: '40px',
+          marginTop: '40px',
+        }}
       >
-        <Box sx={style}>
-          <Typography variant="h4" gutterBottom>
-            {data?.team?.member?.first_name} {data?.team?.member?.last_name}
-          </Typography>
-          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-            <Box sx={{ mt: 4 }}>
-              <Typography variant="h6" gutterBottom>
-                Жіберген Жұмыстар
-              </Typography>
-              <Button
-                disabled={data?.team?.team?.applicationFormURL === null}
-                onClick={() =>
-                  window.open(data?.team?.team?.applicationFormURL, '_blank')
-                }
-                variant="contained"
-                sx={{ ml: 2 }}
-              >
-                Өтініш формасы
-              </Button>
-              <Button
-                style={{
-                  marginTop: '10px',
-                }}
-                disabled={data?.team?.team?.presentationURL === null}
-                onClick={() =>
-                  window.open(data?.team?.team?.presentationURL, '_blank')
-                }
-                variant="contained"
-                sx={{ ml: 2 }}
-              >
-                Мультимедиалық Мақала
-              </Button>
-              <Button
-                style={{
-                  marginTop: '10px',
-                }}
-                disabled={data?.team?.team?.articleURL === null}
-                onClick={() =>
-                  window.open(data?.team?.team?.articleURL, '_blank')
-                }
-                variant="contained"
-                sx={{ ml: 2 }}
-              >
-                Мәтіндік Мақала
-              </Button>
-              <Button
-                style={{
-                  marginTop: '10px',
-                }}
-                disabled={data?.team?.team?.lessonRecordingURL === null}
-                onClick={() =>
-                  window.open(data?.team?.team?.lessonRecordingURL, '_blank')
-                }
-                variant="contained"
-                sx={{ ml: 2 }}
-              >
-                Open Lesson URL
-              </Button>
-            </Box>
-            <Typography
-              style={{
-                marginTop: '10px',
-              }}
-              variant="body1"
-              gutterBottom
-            >
-              Баға беріңіз
-            </Typography>
-            <Box sx={{ mb: 2 }}>
-              <Typography variant="h6" gutterBottom>
-                Grade: {grade}
-              </Typography>
-              <Slider
-                value={grade}
-                min={0}
-                max={100}
-                step={1}
-                onChange={handleChange}
-                aria-labelledby="continuous-slider"
-              />
-            </Box>
-            <Button
-              onClick={() => {
-                Defences.setGradeCommission(
-                  data?.defence?.id,
-                  data?.team?.team?.id,
-                  grade,
-                ).then((res) => {
-                  console.log(res.data)
-                  handleClose()
-                  setGrade(0)
-                })
-              }}
-              variant="contained"
-            >
-              Бағаны жіберу
-            </Button>
-          </Box>
-        </Box>
-      </Modal>
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 700 }} aria-label="customized table">
+            <TableHead>
+              <TableRow>
+                <StyledTableCell>Критерий</StyledTableCell>
+                <StyledTableCell>Баға</StyledTableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {criteria?.map((criterion: any) => (
+                <GradingRow
+                  key={criterion.id}
+                  criteria={criterion}
+                  setGrades={setGrades}
+                />
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <Button
+            variant="contained"
+            style={{
+              marginTop: '20px',
+              marginBottom: '50px',
+              backgroundColor: '#3f51b5',
+              color: 'white',
+              marginLeft: '10px',
+              borderRadius: '40px',
+              padding: '10px 20px',
+              right: '0',
+            }}
+            onClick={() => {
+              Commission.setGradeCommission(data?.defence?.id, grades).then(
+                (res) => {
+                  console.log(res)
+                },
+              )
+            }}
+          >
+            Жіберу
+          </Button>
+          <Button
+            variant="contained"
+            style={{
+              marginTop: '20px',
+              marginBottom: '50px',
+              backgroundColor: '#3f51b5',
+              color: 'white',
+              marginLeft: '10px',
+              borderRadius: '40px',
+              padding: '10px 20px',
+              right: '0',
+            }}
+            onClick={() => {
+              navigate('/com')
+            }}
+          >
+            Артқа
+          </Button>
+        </div>
+      </div>
     </div>
   )
 }

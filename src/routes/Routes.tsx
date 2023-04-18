@@ -12,6 +12,7 @@ import PersonalCom from '../pages/Personal/Com/PersonalCom'
 import PasswordReset from './PasswordReset'
 import More from '../pages/Personal/Sec/More'
 import HorizontalLinearStepper from '../components/Modal/Stepper'
+import BasicModal from '../pages/Personal/Com/modalCom'
 
 function RoutesComponent() {
   return (
@@ -25,8 +26,9 @@ function RoutesComponent() {
         <Route path="/sec" element={<PersonalSec />} />
         <Route path="/com" element={<PersonalCom />} />
         <Route path="/password_reset" element={<PasswordReset />} />
-        <Route path={`/moresec/:id`} element={<More />} />
+        <Route path={`/moreSec/:id`} element={<More />} />
         <Route path={`/stepper`} element={<HorizontalLinearStepper />} />
+        <Route path={`com/moreCom/:id`} element={<BasicModal />} />
       </Routes>
     </div>
   )
