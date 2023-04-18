@@ -13,10 +13,10 @@ import {
 import Button from '@mui/material/Button'
 import { Slider } from '@mui/material'
 import Typography from '@mui/material/Typography'
-import Defences from '../../../../services/Defences'
 import ClearIcon from '@mui/icons-material/Clear'
 import { stages } from './styless'
 import Secretary from '../../../../services/Secretary'
+import Defences from '../../../../services/Defences'
 
 export default function BasicModal({
   open,
@@ -78,20 +78,37 @@ export default function BasicModal({
     setStage(event.target.value)
   }
 
-  const setDefence = () => {
-    Defences.createDefence(selectedCommissions, id, stage).then((res) => {
-      setSelectedCommissions([])
-    })
+  const setDefence = async () => {
+    await Defences.createDefence(selectedCommissions, id, stage).then(
+      async (res) => {
+        await Defences.updateTeamConfirmation(Number(id))
+          .then((res) => {
+            console.log(res)
+          })
+          .catch((err) => {
+            console.log(err)
+          })
+        await Defences.getTeams().then((res) => {
+          setTeams(res.data)
+          localStorage.setItem('teams', JSON.stringify(res.data))
+        })
+        setSelectedCommissions([])
+      },
+    )
     handleClose()
     setSelectedCommissions([])
   }
-
+  var ids = moreInfo?.defences?.find(
+    (defence: any) => Number(defence.stage.id) === Number(stage),
+  )?.id
+  console.log('stage', stage)
+  console.log('ids', ids)
   const updateDefence = () => {
     var ids = moreInfo?.defences?.find(
       (defence: any) => Number(defence.stage.id) === Number(stage),
     )?.id
     console.log('stage', stage)
-    console.log('id', ids)
+    console.log('ids', ids)
 
     Secretary.updateDefence(ids, selectedCommissions, stage)
       .then((res) => {
@@ -140,24 +157,48 @@ export default function BasicModal({
                   <h2>Defences уже есть</h2>
                   <div>
                     Stage 1:{' '}
-                    {moreInfo?.defences[0]?.stage ? (
-                      <b>Коммиссий назначены</b>
+                    {moreInfo?.defences.find(
+                      (defence: any) => defence.stage.id == 1,
+                    ) ? (
+                      <b
+                        style={{
+                          color: 'red',
+                        }}
+                      >
+                        Коммиссий назначены
+                      </b>
                     ) : (
                       <b>Коммиссий не назначены</b>
                     )}
                   </div>
                   <div>
                     Stage 2:{' '}
-                    {moreInfo?.defences[1]?.stage ? (
-                      <b>Коммиссий назначены</b>
+                    {moreInfo?.defences.find(
+                      (defence: any) => defence.stage.id == 2,
+                    ) ? (
+                      <b
+                        style={{
+                          color: 'red',
+                        }}
+                      >
+                        Коммиссий назначены
+                      </b>
                     ) : (
                       <b>Коммиссий не назначены</b>
                     )}
                   </div>
                   <div>
                     Stage 3:{' '}
-                    {moreInfo?.defences[2]?.stage ? (
-                      <b>Коммиссий назначены</b>
+                    {moreInfo?.defences.find(
+                      (defence: any) => defence.stage.id == 3,
+                    ) ? (
+                      <b
+                        style={{
+                          color: 'red',
+                        }}
+                      >
+                        Коммиссий назначены
+                      </b>
                     ) : (
                       <b>Коммиссий не назначены</b>
                     )}
@@ -234,18 +275,21 @@ export default function BasicModal({
                 </SelectedCommission>
               </>
             ))}
-            <Label htmlFor="commission-select">Выберите Stage:</Label>
-            <Select
-              id="commission-select"
-              value={stage}
-              onChange={handleStageChange}
-            >
-              <option value="">Выберите Stage:</option>
-              {stages.map((stage: any) => (
-                <option value={stage.id}>{stage.name}</option>
-              ))}
-            </Select>
-
+            {moreInfo?.team?.creator?.subject && (
+              <>
+                <Label htmlFor="commission-select">Выберите Stage:</Label>
+                <Select
+                  id="commission-select"
+                  value={stage}
+                  onChange={handleStageChange}
+                >
+                  <option value="">Выберите Stage:</option>
+                  {stages.map((stage: any) => (
+                    <option value={stage.id}>{stage.name}</option>
+                  ))}
+                </Select>
+              </>
+            )}
             <Button
               disabled={
                 moreInfo?.defences?.length === 3 ||
@@ -259,7 +303,7 @@ export default function BasicModal({
               Создать Defence
             </Button>
 
-            <Button
+            {/* <Button
               disabled={moreInfo?.defences?.length === 0 ? true : false}
               style={{
                 marginTop: '20px',
@@ -268,7 +312,7 @@ export default function BasicModal({
               onClick={updateDefence}
             >
               Изменить Defence
-            </Button>
+            </Button> */}
             <hr
               style={{
                 width: '100%',
@@ -285,6 +329,7 @@ export default function BasicModal({
               }}
             >
               <Button
+                variant="contained"
                 onClick={
                   moreInfo?.team?.applicationFormURL
                     ? () => window.open(moreInfo?.team?.applicationFormURL)
@@ -294,9 +339,10 @@ export default function BasicModal({
                   moreInfo?.team?.applicationFormURL === null ? true : false
                 }
               >
-                applicationFormURL
+                Өтініш формасы
               </Button>
               <Button
+                variant="contained"
                 onClick={
                   moreInfo?.team?.applicationFormURL
                     ? () => window.open(moreInfo?.team?.articleURL)
@@ -304,9 +350,10 @@ export default function BasicModal({
                 }
                 disabled={moreInfo?.team?.articleURL === null ? true : false}
               >
-                articleURL
+                Мәтіндік Мақада
               </Button>
               <Button
+                variant="contained"
                 onClick={
                   moreInfo?.team?.applicationFormURL
                     ? () => window.open(moreInfo?.team?.presentationURL)
@@ -316,9 +363,10 @@ export default function BasicModal({
                   moreInfo?.team?.presentationURL === null ? true : false
                 }
               >
-                presentationURL
+                Мультиметиялық мақала
               </Button>
-              <Button
+              {/* <Button
+                variant="contained"
                 onClick={
                   moreInfo?.team?.applicationFormURL
                     ? () => window.open(moreInfo?.team?.lessonRecordingURL)
@@ -328,8 +376,8 @@ export default function BasicModal({
                   moreInfo?.team?.lessonRecordingURL === null ? true : false
                 }
               >
-                lessonRecordingURL
-              </Button>
+                сабақтың записы
+              </Button> */}
             </div>
           </div>
         </Box>

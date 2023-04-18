@@ -141,6 +141,16 @@ class AuthService {
     localStorage.removeItem("userType");
     localStorage.removeItem("userType");
   }
+
+  async getSubjects(): Promise<any> {
+    return axios.get(API_URL + "/profile/subjects", {
+      headers: {
+        Authorization:
+          "Bearer " +
+          JSON.parse(localStorage.getItem("user") || "{}").authenticationToken,
+      },
+    });
+  }
 }
 
 export default new AuthService();

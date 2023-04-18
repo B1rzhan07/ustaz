@@ -11,7 +11,7 @@ class Secretary {
       method: "put",
       url: API_URL + `/secretary/defence/${defenceId}`,
       data: {
-        comission: comission,
+        comissions: comission,
         stageId: stageId,
         defenceDate: null,
       },

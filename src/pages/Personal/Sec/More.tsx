@@ -119,11 +119,6 @@ const More = () => {
             }}
           />
           <Button
-            disabled={
-              moreInfo?.team?.applicationFormURL === null ||
-              moreInfo?.team?.presentationURL === null ||
-              moreInfo?.team?.lessonRecordingURL === null
-            }
             variant="contained"
             style={{
               margin: '0 10px',

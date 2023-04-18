@@ -22,6 +22,7 @@ import {
   SelectChangeEvent,
   TextField,
 } from '@mui/material'
+import AuthService from '../../../services/AuthService'
 
 interface Team {
   creator: any
@@ -35,12 +36,20 @@ interface Team {
 }
 
 const PersonalSec = () => {
+  const [subjects, setSubjects] = React.useState<any>([])
+  console.log(subjects)
+
+  const [search, setSearch] = React.useState('')
   const [completed, setCompleted] = React.useState<string>('')
+  const [subject, setSubject] = React.useState<string>('')
+  console.log(subject)
 
   const handleChange = (event: SelectChangeEvent) => {
     setCompleted(event.target.value as string)
   }
-  console.log(completed)
+  const handleSubject = (event: SelectChangeEvent) => {
+    setSubject(event.target.value as string)
+  }
 
   const navigate = useNavigate()
   const [teams, setTeams] = React.useState<Team[]>(
@@ -52,12 +61,15 @@ const PersonalSec = () => {
         setTeams(res.data)
         localStorage.setItem('teams', JSON.stringify(res.data))
       })
+      AuthService.getSubjects().then((res) => {
+        setSubjects(res.data)
+      })
     }
     fetchData()
   }, [])
 
   const [open, setOpen] = React.useState(false)
-  const [search, setSearch] = React.useState('')
+
   const handleClose = () => {
     setOpen(false)
   }
@@ -69,12 +81,12 @@ const PersonalSec = () => {
   const indexOfLastPost = curPage * postPerPage
   const indexOfFirstPost = indexOfLastPost - postPerPage
   const currentPosts = teams
-    .filter((team) => {
+    .filter((team: any) => {
       if (search === '') {
         return team
       } else if (
         team?.creator?.first_name
-          .toLowerCase()
+          ?.toLowerCase()
           .includes(search.toLowerCase()) ||
         team?.creator?.last_name
           ?.toLowerCase()
@@ -84,7 +96,7 @@ const PersonalSec = () => {
         return team
       }
     })
-    .filter((team) => {
+    .filter((team: any) => {
       if (completed === '') {
         return team
       } else if (completed === 'true') {
@@ -93,6 +105,15 @@ const PersonalSec = () => {
         return team?.confirmed === false
       }
     })
+    .filter((team: any) => {
+      if (subject === '') {
+        return team
+      }
+      if (team?.creator?.subject?.id === subject) {
+        return team
+      }
+    })
+
     .slice(indexOfFirstPost, indexOfLastPost)
 
   const paginationCount = Math.ceil(teams.length / postPerPage)
@@ -129,10 +150,28 @@ const PersonalSec = () => {
           />
           <FormControl
             style={{
+              width: '30%',
+            }}
+          >
+            <InputLabel id="demo-simple-select-label">Уроки</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={subject}
+              label="Completed"
+              onChange={handleSubject}
+            >
+              {subjects?.map((subject: any) => {
+                return <MenuItem value={subject.id}>{subject.nameKaz}</MenuItem>
+              })}
+            </Select>
+          </FormControl>
+          <FormControl
+            style={{
               width: '20%',
             }}
           >
-            <InputLabel id="demo-simple-select-label">Confirmed</InputLabel>
+            <InputLabel id="demo-simple-select-label">Подтвержден</InputLabel>
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
@@ -140,9 +179,9 @@ const PersonalSec = () => {
               label="Completed"
               onChange={handleChange}
             >
-              <MenuItem value={'true'}>True</MenuItem>
-              <MenuItem value={'false'}>False</MenuItem>
-              <MenuItem value={''}>Nothing</MenuItem>
+              <MenuItem value={'true'}>Да</MenuItem>
+              <MenuItem value={'false'}>Нет</MenuItem>
+              <MenuItem value={''}>Все</MenuItem>
             </Select>
           </FormControl>
         </div>
@@ -150,8 +189,8 @@ const PersonalSec = () => {
           <TableHead>
             <TableRow>
               <TableCell>ФИО</TableCell>
-              <TableCell>Confirmed</TableCell>
-              <TableCell>Defense</TableCell>
+              <TableCell>Подтвержден</TableCell>
+              <TableCell>Защита</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -166,7 +205,7 @@ const PersonalSec = () => {
                   {row.creator.middle_name.charAt(0).toUpperCase() +
                     row.creator.middle_name.slice(1)}{' '}
                 </TableCell>
-                <TableCell>{row.confirmed ? 'true' : 'false'}</TableCell>
+                <TableCell>{row.confirmed ? 'Да' : 'Нет'}</TableCell>
                 <TableCell>
                   <button
                     style={{
@@ -184,7 +223,7 @@ const PersonalSec = () => {
                       })
                     }}
                   >
-                    Set Defense
+                    Назначить Комиссию
                   </button>
                 </TableCell>
                 <TableCell>

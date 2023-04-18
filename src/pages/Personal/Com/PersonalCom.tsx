@@ -52,10 +52,9 @@ export default function CustomizedTables() {
           <TableHead>
             <TableRow>
               <StyledTableCell>Id</StyledTableCell>
-              <StyledTableCell>DateOfDefence</StyledTableCell>
-              <StyledTableCell>Team</StyledTableCell>
+              <StyledTableCell>Жұмысы</StyledTableCell>
               <StyledTableCell>Stage</StyledTableCell>
-              <StyledTableCell>SetGrade</StyledTableCell>
+              <StyledTableCell>Баға қою</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -64,7 +63,6 @@ export default function CustomizedTables() {
                 <StyledTableCell component="th" scope="row">
                   {row.id}
                 </StyledTableCell>
-                <StyledTableCell>{row.defenceDate || 'No'}</StyledTableCell>
                 <StyledTableCell>{row.team}</StyledTableCell>
                 <StyledTableCell>{row.stage}</StyledTableCell>
                 <TableCell>
@@ -81,7 +79,7 @@ export default function CustomizedTables() {
                       setId(row.id)
                     }}
                   >
-                    Set Defense
+                    Бағалау
                   </button>
                 </TableCell>
               </StyledTableRow>

@@ -12,8 +12,8 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 500,
-  height: 500,
+  width: 700,
+  height: 400,
   bgcolor: 'background.paper',
   border: '2px solid #000',
   boxShadow: 24,
@@ -56,7 +56,7 @@ export default function BasicModal({ open, handleClose, id }: Props) {
           <Box sx={{ display: 'flex', flexDirection: 'column' }}>
             <Box sx={{ mt: 4 }}>
               <Typography variant="h6" gutterBottom>
-                Required Forms
+                Жіберген Жұмыстар
               </Typography>
               <Button
                 disabled={data?.team?.team?.applicationFormURL === null}
@@ -66,7 +66,7 @@ export default function BasicModal({ open, handleClose, id }: Props) {
                 variant="contained"
                 sx={{ ml: 2 }}
               >
-                Open Application Form
+                Өтініш формасы
               </Button>
               <Button
                 style={{
@@ -79,7 +79,20 @@ export default function BasicModal({ open, handleClose, id }: Props) {
                 variant="contained"
                 sx={{ ml: 2 }}
               >
-                Open Presentation Form
+                Мультимедиалық Мақала
+              </Button>
+              <Button
+                style={{
+                  marginTop: '10px',
+                }}
+                disabled={data?.team?.team?.articleURL === null}
+                onClick={() =>
+                  window.open(data?.team?.team?.articleURL, '_blank')
+                }
+                variant="contained"
+                sx={{ ml: 2 }}
+              >
+                Мәтіндік Мақала
               </Button>
               <Button
                 style={{
@@ -102,7 +115,7 @@ export default function BasicModal({ open, handleClose, id }: Props) {
               variant="body1"
               gutterBottom
             >
-              Please set the grade for the defense.
+              Баға беріңіз
             </Typography>
             <Box sx={{ mb: 2 }}>
               <Typography variant="h6" gutterBottom>
@@ -131,7 +144,7 @@ export default function BasicModal({ open, handleClose, id }: Props) {
               }}
               variant="contained"
             >
-              Set Grade
+              Бағаны жіберу
             </Button>
           </Box>
         </Box>
