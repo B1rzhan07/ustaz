@@ -14,7 +14,7 @@ const main: React.FC = () => {
   const { t } = useTranslation()
   return (
     <>
-      <div className="content" id="section1">
+      <div className="content">
         <div className="contentLeft">
           <h1 style={{ color: 'blue', marginBottom: 30 }}>
             Жаспын, жас та болсам баспын!

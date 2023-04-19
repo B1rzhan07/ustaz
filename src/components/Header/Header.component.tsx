@@ -9,6 +9,7 @@ import ButtonComponent from '../Button/Button.component'
 import TabsComponent from '../Tabs/Tabs.component'
 import { useTranslation } from 'react-i18next'
 import img2 from '../../../public/Img/index.png'
+import { isMobile } from 'react-device-detect'
 
 function HeaderComponent() {
   const navigate = useNavigate()
@@ -52,35 +53,39 @@ function HeaderComponent() {
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            <div className="pages headerY" style={{ color: 'black' }}>
-              <button
-                style={{
-                  backgroundColor: 'white',
-                  border: 'none',
-                  outline: 'none',
-                }}
-                onClick={() => {
-                  navigate('/')
-                }}
-              >
-                <b>{t('main')}</b>
-              </button>
-            </div>
+            {!isMobile && (
+              <>
+                <div className="pages headerY" style={{ color: 'black' }}>
+                  <button
+                    style={{
+                      backgroundColor: 'white',
+                      border: 'none',
+                      outline: 'none',
+                    }}
+                    onClick={() => {
+                      navigate('/')
+                    }}
+                  >
+                    <b>{t('main')}</b>
+                  </button>
+                </div>
 
-            <div className="pages headerY" style={{ color: 'black' }}>
-              <button
-                style={{
-                  backgroundColor: 'white',
-                  border: 'none',
-                  outline: 'none',
-                }}
-                onClick={() => {
-                  navigate('/news')
-                }}
-              >
-                <b>{t('news')}</b>
-              </button>
-            </div>
+                <div className="pages headerY" style={{ color: 'black' }}>
+                  <button
+                    style={{
+                      backgroundColor: 'white',
+                      border: 'none',
+                      outline: 'none',
+                    }}
+                    onClick={() => {
+                      navigate('/news')
+                    }}
+                  >
+                    <b>{t('news')}</b>
+                  </button>
+                </div>
+              </>
+            )}
             {(type === 'ROLE_SECRETARY' || type === 'ROLE_ADMIN') && (
               <div className="pages headerY" style={{ color: 'black' }}>
                 <button
@@ -93,7 +98,7 @@ function HeaderComponent() {
                     navigate('/sec')
                   }}
                 >
-                  <b>Сделать Defence</b>
+                  <b>Назначить комиссию</b>
                 </button>
               </div>
             )}
@@ -148,8 +153,7 @@ function HeaderComponent() {
                 }}
               />
             )}
-
-            <TabsComponent />
+            {!isMobile && <TabsComponent />}
           </Box>
         </Toolbar>
       </Container>

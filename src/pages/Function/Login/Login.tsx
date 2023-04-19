@@ -10,6 +10,8 @@ import { useTranslation } from 'react-i18next'
 import img from '../../../../public/Img/kaz.png'
 import TextField from '@mui/material/TextField'
 import CircularProgress from '@mui/material/CircularProgress'
+import { isMobile } from 'react-device-detect'
+
 const Login = () => {
   const [formState, setFormState] = React.useState<
     'pending' | 'submitted' | 'error'
@@ -46,6 +48,11 @@ const Login = () => {
       setCorrect(true)
     }
   }, [isValidEmail, isLogin, all])
+  React.useEffect(() => {
+    if (isMobile && localStorage.getItem('user')) {
+      navigate('/profile')
+    }
+  }, [])
 
   const setEmail = React.useCallback(
     (event: React.ChangeEvent<HTMLInputElement>): void => {

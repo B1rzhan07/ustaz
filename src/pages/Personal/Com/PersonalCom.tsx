@@ -159,11 +159,13 @@ export default function CustomizedTables() {
                   <TableCell>
                     <button
                       style={{
-                        backgroundColor: 'blue',
+                        backgroundColor: '#3f51b5',
                         color: 'white',
                         border: 'none',
                         borderRadius: '5px',
                         padding: '5px 10px',
+                        height: '50px',
+                        fontSize: '1.2rem',
                       }}
                       onClick={() => {
                         goEach(row.id)
@@ -193,8 +195,6 @@ export default function CustomizedTables() {
           </TableBody>
         </Table>
       </TableContainer>
-
-      {/* <BasicModal open={open} handleClose={handleClose} id={id} /> */}
     </>
   )
 }

@@ -5,11 +5,18 @@ import Footer from '../../Content/Footer'
 import Main from '../../Content/Main'
 import Now from '../../Content/Now'
 import Stages from '../../Content/Stages'
-import { BrowserView, MobileView } from 'react-device-detect'
+import { BrowserView, MobileView, isMobile } from 'react-device-detect'
 import { useTranslation } from 'react-i18next'
+import { Link, useNavigate } from 'react-router-dom'
 
 const All = () => {
   const { t } = useTranslation()
+  const navigate = useNavigate()
+  React.useEffect(() => {
+    if (isMobile) {
+      navigate('/login')
+    }
+  }, [])
   return (
     <div>
       <BrowserView>
@@ -20,9 +27,6 @@ const All = () => {
         <Now />
         <Footer />
       </BrowserView>
-      <MobileView>
-        <h3>{t('support')}</h3>
-      </MobileView>
     </div>
   )
 }
