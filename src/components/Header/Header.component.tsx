@@ -53,38 +53,35 @@ function HeaderComponent() {
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+            <div className="pages headerY" style={{ color: 'black' }}>
+              <button
+                style={{
+                  backgroundColor: 'white',
+                  border: 'none',
+                  outline: 'none',
+                }}
+                onClick={() => {
+                  navigate('/')
+                }}
+              >
+                <b>{t('main')}</b>
+              </button>
+            </div>
             {!isMobile && (
-              <>
-                <div className="pages headerY" style={{ color: 'black' }}>
-                  <button
-                    style={{
-                      backgroundColor: 'white',
-                      border: 'none',
-                      outline: 'none',
-                    }}
-                    onClick={() => {
-                      navigate('/')
-                    }}
-                  >
-                    <b>{t('main')}</b>
-                  </button>
-                </div>
-
-                <div className="pages headerY" style={{ color: 'black' }}>
-                  <button
-                    style={{
-                      backgroundColor: 'white',
-                      border: 'none',
-                      outline: 'none',
-                    }}
-                    onClick={() => {
-                      navigate('/news')
-                    }}
-                  >
-                    <b>{t('news')}</b>
-                  </button>
-                </div>
-              </>
+              <div className="pages headerY" style={{ color: 'black' }}>
+                <button
+                  style={{
+                    backgroundColor: 'white',
+                    border: 'none',
+                    outline: 'none',
+                  }}
+                  onClick={() => {
+                    navigate('/news')
+                  }}
+                >
+                  <b>{t('news')}</b>
+                </button>
+              </div>
             )}
             {(type === 'ROLE_SECRETARY' || type === 'ROLE_ADMIN') && (
               <div className="pages headerY" style={{ color: 'black' }}>
