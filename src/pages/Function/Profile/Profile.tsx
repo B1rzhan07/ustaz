@@ -22,6 +22,8 @@ const Profile = () => {
 
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
+
+  const [access, setAccess] = React.useState([])
   React.useEffect(() => {
     AuthService.getGrade().then((res) => {
       setGrade(res.data)
@@ -42,6 +44,9 @@ const Profile = () => {
         setNumber(res.data)
       })
     }
+    TournamentService.getRegister().then((res) => {
+      setAccess(res.data)
+    })
   }, [])
 
   const navigate = useNavigate()
@@ -215,6 +220,21 @@ const Profile = () => {
                       )}
                     </div>
                     <div className="buttons d-flex justify-content-around ml-5">
+                      {access?.length > 0 && (
+                        <Button
+                          variant="contained"
+                          style={{
+                            borderRadius: '40px',
+                            backgroundColor: '#3E58E8',
+                            padding: '10px 20px',
+                          }}
+                          onClick={() => {
+                            navigate('/stepper')
+                          }}
+                        >
+                          {t('nysan')}
+                        </Button>
+                      )}{' '}
                       <Button
                         variant="contained"
                         style={{

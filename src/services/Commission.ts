@@ -11,21 +11,14 @@ class Commission {
       },
     });
   }
-  async setGradeCommission(id: number, criteria: any) {
-    return axios.post(
-      API_URL + `/commission/${id}/set-grade/`,
-      {
-        criteria,
+  async setGradeCommission(id: number, criteria: []) {
+    return axios.post(API_URL + `/commission/${id}/set-grade/`, criteria, {
+      headers: {
+        Authorization:
+          "Bearer " +
+          JSON.parse(localStorage.getItem("user") || "{}").authenticationToken,
       },
-      {
-        headers: {
-          Authorization:
-            "Bearer " +
-            JSON.parse(localStorage.getItem("user") || "{}")
-              .authenticationToken,
-        },
-      }
-    );
+    });
   }
 }
 export default new Commission();

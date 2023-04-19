@@ -23,6 +23,7 @@ import {
   TextField,
 } from '@mui/material'
 import AuthService from '../../../services/AuthService'
+import CircularProgress from '@mui/material/CircularProgress'
 
 interface Team {
   creator: any
@@ -36,30 +37,38 @@ interface Team {
 }
 
 const PersonalSec = () => {
+  const navigate = useNavigate()
   const [subjects, setSubjects] = React.useState<any>([])
-  console.log(subjects)
-
+  const [formState, setFormState] = React.useState<
+    'pending' | 'submitted' | 'error'
+  >('submitted')
   const [search, setSearch] = React.useState('')
   const [completed, setCompleted] = React.useState<string>('')
   const [subject, setSubject] = React.useState<string>('')
-  console.log(subject)
-
   const handleChange = (event: SelectChangeEvent) => {
     setCompleted(event.target.value as string)
   }
   const handleSubject = (event: SelectChangeEvent) => {
     setSubject(event.target.value as string)
   }
+  const [open, setOpen] = React.useState(false)
 
-  const navigate = useNavigate()
+  const handleClose = () => {
+    setOpen(false)
+  }
   const [teams, setTeams] = React.useState<Team[]>(
     JSON.parse(localStorage.getItem('teams') || '[]'),
   )
+
   React.useEffect(() => {
+    if (teams.length === 0) {
+      setFormState('pending')
+    }
     const fetchData = async () => {
       Defense.getTeams().then((res) => {
         setTeams(res.data)
         localStorage.setItem('teams', JSON.stringify(res.data))
+        setFormState('submitted')
       })
       AuthService.getSubjects().then((res) => {
         setSubjects(res.data)
@@ -68,18 +77,8 @@ const PersonalSec = () => {
     fetchData()
   }, [])
 
-  const [open, setOpen] = React.useState(false)
-
-  const handleClose = () => {
-    setOpen(false)
-  }
   const [curPage, setCurPage] = React.useState(1)
   const [postPerPage] = React.useState(15)
-  const [formState, setFormState] = React.useState<
-    'pending' | 'submitted' | 'error'
-  >('submitted')
-  const indexOfLastPost = curPage * postPerPage
-  const indexOfFirstPost = indexOfLastPost - postPerPage
   const currentPosts = teams
     .filter((team: any) => {
       if (search === '') {
@@ -114,149 +113,169 @@ const PersonalSec = () => {
       }
     })
 
-    .slice(indexOfFirstPost, indexOfLastPost)
+  const paginationCount = Math.ceil(currentPosts.length / postPerPage)
 
-  const paginationCount = Math.ceil(teams.length / postPerPage)
+  const indexOfLastPost = curPage * postPerPage
+  const indexOfFirstPost = indexOfLastPost - postPerPage
+
+  const slicedPosts = currentPosts.slice(indexOfFirstPost, indexOfLastPost)
+  console.log(slicedPosts)
+
   function handlePage(pageNum: number) {
     setCurPage(pageNum)
   }
+
   const [id, setId] = React.useState<number | null>(null)
   const [moreInfo, setMoreInfo] = React.useState<any>([])
 
   return (
     <div>
       <HeaderComponent />
-
-      <TableContainer component={Paper} className="table">
-        <div
+      {formState === 'pending' ? (
+        <CircularProgress
+          size={100}
           style={{
-            display: 'flex',
-            justifyContent: 'space-around',
-            width: '100%',
-            marginLeft: 300,
-            marginRight: 300,
+            marginLeft: '50%',
+            marginTop: '10%',
           }}
-        >
-          <TextField
-            onChange={(e) => {
-              setSearch(e.target.value)
-            }}
-            style={{
-              width: '30%',
-            }}
-            id="standard-basic"
-            placeholder="поиск по ФИО"
-            variant="standard"
-          />
-          <FormControl
-            style={{
-              width: '30%',
-            }}
-          >
-            <InputLabel id="demo-simple-select-label">Уроки</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={subject}
-              label="Completed"
-              onChange={handleSubject}
-            >
-              {subjects?.map((subject: any) => {
-                return <MenuItem value={subject.id}>{subject.nameKaz}</MenuItem>
-              })}
-            </Select>
-          </FormControl>
-          <FormControl
-            style={{
-              width: '20%',
-            }}
-          >
-            <InputLabel id="demo-simple-select-label">Подтвержден</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={completed}
-              label="Completed"
-              onChange={handleChange}
-            >
-              <MenuItem value={'true'}>Да</MenuItem>
-              <MenuItem value={'false'}>Нет</MenuItem>
-              <MenuItem value={''}>Все</MenuItem>
-            </Select>
-          </FormControl>
-        </div>
-        <Table sx={{ maxWidth: 1000 }}>
-          <TableHead>
-            <TableRow>
-              <TableCell>ФИО</TableCell>
-              <TableCell>Подтвержден</TableCell>
-              <TableCell>Защита</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {currentPosts.map((row: Team, index: number) => (
-              <TableRow key={row.id}>
-                <TableCell>
-                  {row.id}.{' '}
-                  {row.creator.first_name.charAt(0).toUpperCase() +
-                    row.creator.first_name.slice(1)}{' '}
-                  {row.creator.last_name.charAt(0).toUpperCase() +
-                    row.creator.last_name.slice(1)}{' '}
-                  {row.creator.middle_name.charAt(0).toUpperCase() +
-                    row.creator.middle_name.slice(1)}{' '}
-                </TableCell>
-                <TableCell>{row.confirmed ? 'Да' : 'Нет'}</TableCell>
-                <TableCell>
-                  <button
-                    style={{
-                      backgroundColor: row.defense ? 'green' : 'red',
-                      color: 'white',
-                      border: 'none',
-                      borderRadius: '5px',
-                      padding: '5px 10px',
-                    }}
-                    onClick={() => {
-                      setOpen(true)
-                      setId(row.id)
-                      Defences.getMoreInfoSecretary(row.id).then((res) => {
-                        setMoreInfo(res.data)
-                      })
-                    }}
-                  >
-                    Назначить Комиссию
-                  </button>
-                </TableCell>
-                <TableCell>
-                  <button
-                    style={{
-                      backgroundColor: 'green',
-                      color: 'white',
-                      border: 'none',
-                      borderRadius: '5px',
-                      padding: '5px 10px',
-                    }}
-                    onClick={() => {
-                      setId(row.id)
-                      navigate(`/moresec/${row.id}`)
-                    }}
-                  >
-                    Подробнее
-                  </button>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-        <Pagination paginationCount={paginationCount} handlePage={handlePage} />
-        <BasicModal
-          open={open}
-          handleClose={handleClose}
-          id={id || null}
-          formState={formState}
-          moreInfo={moreInfo}
-          setTeams={setTeams}
         />
-      </TableContainer>
+      ) : (
+        <TableContainer component={Paper} className="table">
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-around',
+              width: '100%',
+              marginLeft: 300,
+              marginRight: 300,
+            }}
+          >
+            <TextField
+              onChange={(e) => {
+                setSearch(e.target.value)
+              }}
+              style={{
+                width: '30%',
+              }}
+              id="standard-basic"
+              placeholder="поиск по ФИО"
+              variant="standard"
+            />
+            <FormControl
+              style={{
+                width: '30%',
+              }}
+            >
+              <InputLabel id="demo-simple-select-label">Уроки</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={subject}
+                label="Completed"
+                onChange={handleSubject}
+              >
+                {subjects?.map((subject: any) => {
+                  return (
+                    <MenuItem value={subject.id}>{subject.nameKaz}</MenuItem>
+                  )
+                })}
+              </Select>
+            </FormControl>
+            <FormControl
+              style={{
+                width: '20%',
+              }}
+            >
+              <InputLabel id="demo-simple-select-label">Подтвержден</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={completed}
+                label="Completed"
+                onChange={handleChange}
+              >
+                <MenuItem value={'true'}>Да</MenuItem>
+                <MenuItem value={'false'}>Нет</MenuItem>
+                <MenuItem value={''}>Все</MenuItem>
+              </Select>
+            </FormControl>
+          </div>
+          <Table sx={{ maxWidth: 1000 }}>
+            <TableHead>
+              <TableRow>
+                <TableCell>ФИО</TableCell>
+                <TableCell>Подтвержден</TableCell>
+                <TableCell>Защита</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {slicedPosts.map((row: Team, index: number) => (
+                <TableRow key={row.id}>
+                  <TableCell>
+                    {row.id}.{' '}
+                    {row.creator.first_name.charAt(0).toUpperCase() +
+                      row.creator.first_name.slice(1)}{' '}
+                    {row.creator.last_name.charAt(0).toUpperCase() +
+                      row.creator.last_name.slice(1)}{' '}
+                    {row.creator.middle_name.charAt(0).toUpperCase() +
+                      row.creator.middle_name.slice(1)}{' '}
+                  </TableCell>
+                  <TableCell>{row.confirmed ? 'Да' : 'Нет'}</TableCell>
+                  <TableCell>
+                    <button
+                      style={{
+                        backgroundColor: row.defense ? 'green' : 'red',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '5px',
+                        padding: '5px 10px',
+                      }}
+                      onClick={() => {
+                        setOpen(true)
+                        setId(row.id)
+                        Defences.getMoreInfoSecretary(row.id).then((res) => {
+                          setMoreInfo(res.data)
+                        })
+                      }}
+                    >
+                      Назначить Комиссию
+                    </button>
+                  </TableCell>
+                  <TableCell>
+                    <button
+                      style={{
+                        backgroundColor: 'green',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '5px',
+                        padding: '5px 10px',
+                      }}
+                      onClick={() => {
+                        setId(row.id)
+                        navigate(`/moresec/${row.id}`)
+                      }}
+                    >
+                      Подробнее
+                    </button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+          <Pagination
+            paginationCount={paginationCount}
+            handlePage={handlePage}
+          />
+          <BasicModal
+            open={open}
+            handleClose={handleClose}
+            id={id || null}
+            formState={formState}
+            moreInfo={moreInfo}
+            setTeams={setTeams}
+          />
+        </TableContainer>
+      )}
     </div>
   )
 }
