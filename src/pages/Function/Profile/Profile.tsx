@@ -44,6 +44,7 @@ const Profile = () => {
       })
     }
   }, [])
+  console.log(register?.team?.confirmed)
 
   const navigate = useNavigate()
 
@@ -216,7 +217,7 @@ const Profile = () => {
                       )}
                     </div>
                     <div className="buttons d-flex justify-content-around ml-5">
-                      {register && (
+                      {register && register?.team?.confirmed === false && (
                         <Button
                           variant="contained"
                           style={{
