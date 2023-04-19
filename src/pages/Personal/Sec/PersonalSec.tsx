@@ -209,22 +209,22 @@ const PersonalSec = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {slicedPosts.map((row: Team, index: number) => (
+              {slicedPosts?.map((row: Team, index: number) => (
                 <TableRow key={row.id}>
                   <TableCell>
-                    {row.id}.{' '}
-                    {row.creator.first_name.charAt(0).toUpperCase() +
-                      row.creator.first_name.slice(1)}{' '}
-                    {row.creator.last_name.charAt(0).toUpperCase() +
-                      row.creator.last_name.slice(1)}{' '}
-                    {row.creator.middle_name.charAt(0).toUpperCase() +
-                      row.creator.middle_name.slice(1)}{' '}
+                    {row?.id}.{' '}
+                    {row?.creator?.first_name?.charAt(0).toUpperCase() +
+                      row?.creator?.first_name?.slice(1)}{' '}
+                    {row?.creator?.last_name?.charAt(0).toUpperCase() +
+                      row?.creator?.last_name?.slice(1)}{' '}
+                    {row?.creator?.middle_name?.charAt(0).toUpperCase() +
+                      row?.creator?.middle_name?.slice(1)}{' '}
                   </TableCell>
-                  <TableCell>{row.confirmed ? 'Да' : 'Нет'}</TableCell>
+                  <TableCell>{row?.confirmed ? 'Да' : 'Нет'}</TableCell>
                   <TableCell>
                     <button
                       style={{
-                        backgroundColor: row.defense ? 'green' : 'red',
+                        backgroundColor: row?.defense ? 'green' : 'red',
                         color: 'white',
                         border: 'none',
                         borderRadius: '5px',
@@ -251,8 +251,8 @@ const PersonalSec = () => {
                         padding: '5px 10px',
                       }}
                       onClick={() => {
-                        setId(row.id)
-                        navigate(`/moresec/${row.id}`)
+                        setId(row?.id)
+                        navigate(`/moresec/${row?.id}`)
                       }}
                     >
                       Подробнее
