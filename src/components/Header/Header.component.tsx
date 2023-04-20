@@ -111,7 +111,7 @@ function HeaderComponent() {
                     navigate('/com')
                   }}
                 >
-                  <b>My defences</b>
+                  <b>Работы участников</b>
                 </button>
               </div>
             )}
