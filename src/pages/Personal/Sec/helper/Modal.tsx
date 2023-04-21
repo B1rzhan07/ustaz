@@ -52,7 +52,7 @@ export default function BasicModal({
 
     if (
       !selectedCommissions.includes(newCommission) &&
-      selectedCommissions.length < 3
+      selectedCommissions.length < 5
     ) {
       setSelectedCommissions([...selectedCommissions, newCommission])
     } else if (selectedCommissions.includes(newCommission)) {
@@ -228,7 +228,7 @@ export default function BasicModal({
                     )
                     .map((commission) => (
                       <>
-                        {selectedCommissions.length === 3 ? (
+                        {selectedCommissions.length === 5 ? (
                           <option
                             key={commission.id}
                             value={commission.id}
