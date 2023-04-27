@@ -350,7 +350,7 @@ export default function BasicModal({
                 }
                 disabled={moreInfo?.team?.articleURL === null ? true : false}
               >
-                Мәтіндік Мақада
+                Мәтіндік Мақала
               </Button>
               <Button
                 variant="contained"
