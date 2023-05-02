@@ -163,5 +163,15 @@ class TournamentService {
       },
     });
   }
+
+  async getGrades(id: number): Promise<AxiosResponse<any>> {
+    return axios.get(API_URL + `/student/teams/getGradesDetailed/${id}`, {
+      headers: {
+        Authorization:
+          "Bearer " +
+          JSON.parse(localStorage.getItem("user") || "{}").authenticationToken,
+      },
+    });
+  }
 }
 export default new TournamentService();

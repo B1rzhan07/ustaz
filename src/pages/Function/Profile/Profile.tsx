@@ -24,10 +24,6 @@ const Profile = () => {
   const handleClose = () => setOpen(false)
 
   React.useEffect(() => {
-    AuthService.getGrade().then((res) => {
-      setGrade(res.data)
-      console.log(res.data)
-    })
     AuthService.getCurrentUser().then((res) => {
       setUserProfile(res)
       localStorage.setItem('data', JSON.stringify(res))
@@ -146,6 +142,20 @@ const Profile = () => {
                         {userProfile?.pedagogicalExperience === 0
                           ? ' '
                           : userProfile?.pedagogicalExperience}
+                      </p>
+                      <p className="fonts">
+                        <b>
+                          <Link
+                            style={{
+                              color: '#3E58E8',
+                              textDecoration: 'none',
+                              fontWeight: 'bold',
+                            }}
+                            to="/profile/total/1"
+                          >
+                            {t('total1')}
+                          </Link>
+                        </b>
                       </p>
                       <p
                         style={{

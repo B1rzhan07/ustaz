@@ -13,6 +13,7 @@ import PasswordReset from './PasswordReset'
 import More from '../pages/Personal/Sec/More'
 import HorizontalLinearStepper from '../components/Modal/Stepper'
 import BasicModal from '../pages/Personal/Com/modalCom'
+import ProfileGrades from '../pages/Function/Profile/ProfileGrades'
 
 function RoutesComponent() {
   return (
@@ -29,6 +30,7 @@ function RoutesComponent() {
         <Route path={`/moreSec/:id`} element={<More />} />
         <Route path={`/stepper`} element={<HorizontalLinearStepper />} />
         <Route path={`com/moreCom/:id`} element={<BasicModal />} />
+        <Route path={`profile/total/:id`} element={<ProfileGrades />} />
       </Routes>
     </div>
   )
