@@ -157,16 +157,9 @@ export default function CustomizedTables() {
                     Этап: <b>{row?.stage?.toString().match(/-(\d+)/)[1]}</b>
                   </StyledTableCell>
                   <TableCell>
-                    <button
-                      style={{
-                        backgroundColor: '#3f51b5',
-                        color: 'white',
-                        border: 'none',
-                        borderRadius: '5px',
-                        padding: '5px 10px',
-                        height: '50px',
-                        fontSize: '1.2rem',
-                      }}
+                    <Button
+                      disabled
+                      style={{}}
                       onClick={() => {
                         goEach(row.id)
                         const number = parseInt(
@@ -175,7 +168,7 @@ export default function CustomizedTables() {
                       }}
                     >
                       Бағалау
-                    </button>
+                    </Button>
                   </TableCell>
                   <StyledTableCell
                     style={{
