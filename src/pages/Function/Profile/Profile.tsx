@@ -143,7 +143,7 @@ const Profile = () => {
                           ? ' '
                           : userProfile?.pedagogicalExperience}
                       </p>
-                      {/* <p className="fonts">
+                      <p className="fonts">
                         <b>
                           <Link
                             style={{
@@ -156,7 +156,7 @@ const Profile = () => {
                             {t('total1')}
                           </Link>
                         </b>
-                      </p> */}
+                      </p>
                       <p
                         style={{
                           fontWeight: 'bold',

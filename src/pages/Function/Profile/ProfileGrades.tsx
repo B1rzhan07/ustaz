@@ -12,6 +12,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import TournamentService from '../../../services/TournamentService'
 import { useTranslation } from 'react-i18next'
 import Button from '@mui/material/Button'
+import AuthService from '../../../services/AuthService'
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -45,30 +46,64 @@ export default function CustomizedTables() {
       ],
     },
   ])
+  const [final, setFinal] = React.useState<any>([])
   const [criteria, setCriteria] = React.useState([])
+  const [sum, setSum] = React.useState<any>([])
+  const [avg, setAvg] = React.useState<any>([])
   React.useEffect(() => {
     TournamentService.getGrades(Number(url?.id)).then((res) => {
       setGrades(res.data)
       setCriteria(res.data[0]?.grades.map((item: any) => item.criteria))
     })
+    AuthService.getGrade().then((res) => {
+      console.log(res.data)
+      setFinal(res.data)
+    })
   }, [url.id])
+  React.useEffect(() => {
+    if (grades) {
+      setSum(
+        grades.map((item: any) => {
+          return item.grades.reduce((acc: any, curr: any) => {
+            return acc + curr.grade
+          }, 0)
+        }),
+      )
+    }
+  }, [grades])
+  console.log(final)
+
+  console.log(sum)
+
   const { t } = useTranslation()
   const navigate = useNavigate()
   return (
     <div>
       <HeaderComponent />
-
-      <Button
-        variant="contained"
-        style={{
-          marginLeft: '1rem',
-          marginTop: '1rem',
-          marginBottom: '1rem',
-        }}
-        onClick={() => navigate(-1)}
-      >
-        {t('back')}
-      </Button>
+      <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+        <Button
+          variant="contained"
+          style={{
+            marginLeft: '1rem',
+            marginTop: '1rem',
+            marginBottom: '1rem',
+          }}
+          onClick={() => navigate(-1)}
+        >
+          {t('back')}
+        </Button>
+        <span
+          style={{
+            textAlign: 'center',
+            fontSize: '1.5rem',
+            fontWeight: 'bold',
+            marginTop: '1rem',
+            marginBottom: '1rem',
+          }}
+        >
+          {t('finalGrade')}: {final[0]?.grade}
+        </span>
+      </div>
       <TableContainer component={Paper}>
         <Table
           sx={{ minWidth: 700, marginTop: 1, marginBottom: 1 }}
@@ -76,9 +111,25 @@ export default function CustomizedTables() {
         >
           <TableHead>
             <TableRow>
-              <StyledTableCell>{t('criteria')}</StyledTableCell>
+              <StyledTableCell
+                style={{
+                  textAlign: 'center',
+                }}
+              >
+                {t('criteria')}
+              </StyledTableCell>
               {grades.map((item: any, index: number) => (
-                <StyledTableCell>Комисисия {index + 1}</StyledTableCell>
+                <StyledTableCell
+                  style={{
+                    textAlign: 'center',
+                  }}
+                >
+                  Комисисия {index + 1}
+                  <br />
+                  <span>
+                    {t('sum')}: {sum[index]}
+                  </span>
+                </StyledTableCell>
               ))}
             </TableRow>
           </TableHead>
@@ -89,8 +140,7 @@ export default function CustomizedTables() {
                   <StyledTableCell
                     style={{
                       fontWeight: 'bold',
-
-                      width: '50%',
+                      width: '30%',
                     }}
                   >
                     {index + 1}. {criteria[index]}
@@ -99,9 +149,14 @@ export default function CustomizedTables() {
                     <StyledTableCell
                       style={{
                         fontWeight: 'bold',
+                        textAlign: 'center',
                       }}
                     >
-                      {item?.grades[index]?.grade}
+                      {
+                        grades[index]?.grades.find(
+                          (item: any) => item.criteria === row,
+                        )?.grade
+                      }
                     </StyledTableCell>
                   ))}
                 </StyledTableRow>
