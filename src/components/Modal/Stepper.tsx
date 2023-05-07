@@ -10,6 +10,7 @@ import ApplicationForm from './forms/ApplicationForm'
 import Presentation from './forms/Presentation'
 import Article from './forms/Article'
 import { useTranslation } from 'react-i18next'
+import NewForm from './forms/NewForm'
 
 export default function HorizontalLinearStepper() {
   const { t, i18n } = useTranslation()
@@ -19,6 +20,7 @@ export default function HorizontalLinearStepper() {
       ? 'Мультимедиялық мақаланы жүктеу'
       : 'Загрузка презентации',
     i18n.language === 'kz' ? 'Мәтіндік мақаланы жүктеу' : 'Загрузка статьи',
+    i18n.language === 'kz' ? 'Жаңа форманы жүктеу' : 'Загрузка новой формы',
   ]
   const data = JSON.parse(localStorage.getItem('register') || '{}')
 
@@ -110,7 +112,7 @@ export default function HorizontalLinearStepper() {
               )
             })}
           </Stepper>
-          {activeStep === 3 ? (
+          {activeStep === 4 ? (
             <React.Fragment>
               <Typography
                 style={{
@@ -174,6 +176,11 @@ export default function HorizontalLinearStepper() {
           {activeStep === 2 && (
             <div>
               <Article />
+            </div>
+          )}
+          {activeStep === 3 && (
+            <div>
+              <NewForm />
             </div>
           )}
         </Box>

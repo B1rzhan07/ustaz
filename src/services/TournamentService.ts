@@ -173,5 +173,19 @@ class TournamentService {
       },
     });
   }
+  async sendCur(formData: FormData): Promise<AxiosResponse<any>> {
+    return axios.post(
+      API_URL + "/student/team/uploadAndSetCurriculum",
+      formData,
+      {
+        headers: {
+          Authorization:
+            "Bearer " +
+            JSON.parse(localStorage.getItem("user") || "{}")
+              .authenticationToken,
+        },
+      }
+    );
+  }
 }
 export default new TournamentService();

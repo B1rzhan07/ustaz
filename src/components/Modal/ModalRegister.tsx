@@ -57,16 +57,16 @@ export default function ModalRegister({ handleClose, open }: Props) {
 
   const sendFirst = () => {
     setFormState('pending')
-    TournamentService.sendForm(formData1)
+    TournamentService.sendCur(formData1)
       .then((response) => {
         setFormState('submitted')
       })
       .finally(() => {
         handleClose()
         if (i18n.language == 'kz') {
-          alert('Өтінім жүктелді')
+          alert('ҚМЖ жүктелді')
         } else if (i18n.language == 'ru') {
-          alert('Успешно загружена')
+          alert('КСП загружена')
         }
         TournamentService.getRegister().then((res) => {
           setData(res.data)
@@ -88,62 +88,32 @@ export default function ModalRegister({ handleClose, open }: Props) {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style} style={{}}>
-          <Typography
-            id="modal-modal-title"
-            variant="h6"
-            component="h2"
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              fontSize: '20px',
-
-              color: '#000',
-            }}
-          >
-            <h3>{t('olymp')}</h3>
-          </Typography>
-
           <FormControl fullWidth>
-            <h5 style={{ marginTop: 40 }}>{t('form')}</h5>
             <Button
-              variant="contained"
-              style={{
-                marginTop: 20,
-                textDecoration: 'none',
-                color: 'white',
-              }}
+              variant="outlined"
+              style={{ marginTop: 10 }}
               onClick={() => {
-                window.open(
-                  'https://storage.googleapis.com/almatyustazy-profile-bucket/%D0%A4%D0%BE%D1%80%D0%BC%D0%B0%20%D0%B7%D0%B0%D1%8F%D0%B2%D0%BA%D0%B8%20%D0%BD%D0%B0%20%D0%BA%D0%BE%D0%BD%D0%BA%D1%83%D1%80%D1%81.DOCX',
-                )
+                document.getElementById('upload')?.click()
               }}
             >
-              {t('clickKaz')}
-            </Button>
-            <Button
-              variant="contained"
-              style={{
-                marginTop: 20,
-                textDecoration: 'none',
-                color: 'white',
-              }}
-              onClick={() => {
-                window.open(
-                  'https://storage.googleapis.com/almatyustazy-profile-bucket/Форма%20РУС.docx',
-                )
-              }}
-            >
-              {t('clickRus')}
-            </Button>
-            <h5 style={{ marginTop: 40 }}>{t('form1')}</h5>
-            <Button variant="outlined" style={{ marginTop: 10 }}>
               <input
+                hidden
                 type="file"
                 id="upload"
                 onChange={(e) => setSelectedFile(e.target.files)}
               />
+              {t('upload')}
             </Button>
+            <span
+              style={{
+                marginTop: 20,
+                textAlign: 'center',
+                fontSize: 15,
+                fontWeight: 'bold',
+              }}
+            >
+              {selectedFile?.item(0)?.name}
+            </span>
 
             <Button
               style={{

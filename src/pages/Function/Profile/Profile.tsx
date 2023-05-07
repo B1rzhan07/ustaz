@@ -40,7 +40,6 @@ const Profile = () => {
       })
     }
   }, [])
-  console.log(register?.team?.confirmed)
 
   const navigate = useNavigate()
 
@@ -156,6 +155,46 @@ const Profile = () => {
                             {t('total1')}
                           </Link>
                         </b>
+                      </p>
+                      <Button
+                        onClick={() => {
+                          handleOpen()
+                        }}
+                        variant="contained"
+                        style={{
+                          borderRadius: '40px',
+                          backgroundColor: '#3E58E8',
+                          padding: '10px 20px',
+                          color: 'white',
+                          fontWeight: 'bold',
+                          marginBottom: 20,
+                        }}
+                      >
+                        {t(`newOne`)}
+                      </Button>
+                      {open && (
+                        <ModalRegister handleClose={handleClose} open={open} />
+                      )}
+                      <p
+                        style={{
+                          fontWeight: 'bold',
+                        }}
+                      >
+                        {' '}
+                        {t('newCheck')}{' '}
+                        {data?.team?.curriculumURL ? t('yes') : t('no')}
+                        {data?.team?.curriculumURL && (
+                          <Button
+                            style={{ marginLeft: 10, borderRadius: 20 }}
+                            variant="contained"
+                            component="label"
+                            onClick={() => {
+                              window.open(data?.team?.applicationFormURL)
+                            }}
+                          >
+                            {t('click')}
+                          </Button>
+                        )}
                       </p>
                       <p
                         style={{
