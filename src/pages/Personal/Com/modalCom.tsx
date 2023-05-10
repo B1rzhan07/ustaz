@@ -106,6 +106,17 @@ export default function BasicModal() {
           Өтініш формасы
         </Button>
         <Button
+          disabled={data?.team?.team?.curriculumURL === null}
+          style={{
+            marginTop: '10px',
+          }}
+          onClick={() => window.open(data?.team?.team?.curriculumURL, '_blank')}
+          variant="contained"
+          sx={{ ml: 5 }}
+        >
+          ҚМЖ
+        </Button>
+        <Button
           style={{
             marginTop: '10px',
           }}

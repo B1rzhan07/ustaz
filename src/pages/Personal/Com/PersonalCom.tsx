@@ -158,7 +158,6 @@ export default function CustomizedTables() {
                   </StyledTableCell>
                   <TableCell>
                     <Button
-                      disabled
                       style={{}}
                       onClick={() => {
                         goEach(row.id)
