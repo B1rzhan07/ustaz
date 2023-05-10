@@ -169,9 +169,9 @@ const resources = {
       criteria: "Бағалау критерийлері",
       finalGrade: "Жалпы баға",
       sum: "Қосқандағы баға",
-      newOne: "ҚЖМ жіберу",
+      newOne: "ҚМЖ жіберу",
       upload: "файлды таңдау",
-      newCheck: "ҚЖМ жіберілген:",
+      newCheck: "ҚМЖ жіберілген:",
     },
   },
 

@@ -344,7 +344,7 @@ export default function BasicModal({
               <Button
                 variant="contained"
                 onClick={
-                  moreInfo?.team?.applicationFormURL
+                  moreInfo?.team?.articleURL
                     ? () => window.open(moreInfo?.team?.articleURL)
                     : () => {}
                 }
@@ -355,7 +355,20 @@ export default function BasicModal({
               <Button
                 variant="contained"
                 onClick={
-                  moreInfo?.team?.applicationFormURL
+                  moreInfo?.team?.curriculumURL
+                    ? () => window.open(moreInfo?.team?.curriculumURL)
+                    : () => {}
+                }
+                disabled={
+                  moreInfo?.team?.presentationURL === null ? true : false
+                }
+              >
+                ҚМЖ
+              </Button>
+              <Button
+                variant="contained"
+                onClick={
+                  moreInfo?.team?.presentationURL
                     ? () => window.open(moreInfo?.team?.presentationURL)
                     : () => {}
                 }

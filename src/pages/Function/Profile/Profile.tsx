@@ -189,7 +189,7 @@ const Profile = () => {
                             variant="contained"
                             component="label"
                             onClick={() => {
-                              window.open(data?.team?.applicationFormURL)
+                              window.open(data?.team?.curriculumURL)
                             }}
                           >
                             {t('click')}

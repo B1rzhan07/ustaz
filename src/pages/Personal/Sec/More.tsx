@@ -171,6 +171,14 @@ const More = () => {
             >
               ArticleURL
             </Button>
+            <Button
+              variant="contained"
+              style={{ flex: 1, margin: '0 10px', marginTop: '10px' }}
+              disabled={moreInfo?.team?.articleURL === null}
+              onClick={() => window.open(moreInfo?.team?.curriculumURL)}
+            >
+              ArticleURL
+            </Button>
           </div>
 
           <div
