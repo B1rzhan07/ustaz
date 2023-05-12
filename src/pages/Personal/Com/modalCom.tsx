@@ -190,6 +190,7 @@ export default function BasicModal() {
                       key={criterion.id}
                       criteria={criterion}
                       setGrades={setGrades}
+                      stage={data?.defence?.stage?.id}
                     />
                   ))}
                 </TableBody>
