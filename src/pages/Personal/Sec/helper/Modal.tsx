@@ -359,9 +359,7 @@ export default function BasicModal({
                     ? () => window.open(moreInfo?.team?.curriculumURL)
                     : () => {}
                 }
-                disabled={
-                  moreInfo?.team?.presentationURL === null ? true : false
-                }
+                disabled={moreInfo?.team?.curriculumURL === null ? true : false}
               >
                 ҚМЖ
               </Button>
