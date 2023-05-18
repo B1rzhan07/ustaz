@@ -9,6 +9,10 @@ import { BrowserView, MobileView, isMobile } from 'react-device-detect'
 import { useTranslation } from 'react-i18next'
 import { Link, useNavigate } from 'react-router-dom'
 
+type Props = {
+  ref: any
+}
+
 const All = () => {
   const { t } = useTranslation()
   const navigate = useNavigate()

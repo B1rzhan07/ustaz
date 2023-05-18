@@ -22,7 +22,7 @@ const Profile = () => {
 
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
-
+  const ref = React.useRef<any>()
   React.useEffect(() => {
     AuthService.getCurrentUser().then((res) => {
       setUserProfile(res)
@@ -52,11 +52,62 @@ const Profile = () => {
       {localStorage.getItem('user') ? (
         <div>
           <HeaderComponent />
-          <div className="container mt-5">
+          <div className="container mt-1">
             <div className="row d-flex justify-content-center">
               <div className="col-md-7">
                 <div className="card p-3 py-4">
-                  <Button
+                  <div className="text-center">
+                    <div className="px-4 mt-2">
+                      <span
+                        style={{
+                          fontWeight: 'bold',
+                          textAlign: 'center',
+                          fontSize: '1.5rem',
+                          marginBottom: '4rem',
+                        }}
+                      >
+                        <b>{t('results')}:</b>
+                      </span>
+                      <p className="fonts">
+                        <b>
+                          <Link
+                            style={{
+                              color: '#3E58E8',
+                              textDecoration: 'none',
+                              fontWeight: 'bold',
+                              marginTop: '4rem',
+                            }}
+                            to="/profile/total/1"
+                          >
+                            {t('total1')}
+                          </Link>
+                        </b>
+                      </p>
+                      <p className="fonts">
+                        <b>
+                          <Link
+                            style={{
+                              color: '#3E58E8',
+                              textDecoration: 'none',
+                              fontWeight: 'bold',
+                            }}
+                            to="/profile/total/2"
+                          >
+                            {t('total2')}
+                          </Link>
+                        </b>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="container mt-1">
+            <div className="row d-flex justify-content-center">
+              <div className="col-md-7">
+                <div className="card p-3 py-4">
+                  {/* <Button
                     style={{
                       textAlign: 'center',
                       backgroundColor: '#3E58E8',
@@ -71,7 +122,7 @@ const Profile = () => {
                     }}
                   >
                     {t('change')}
-                  </Button>
+                  </Button> */}
                   <div className="text-center">
                     <img
                       src={
@@ -142,21 +193,8 @@ const Profile = () => {
                           ? ' '
                           : userProfile?.pedagogicalExperience}
                       </p>
-                      <p className="fonts">
-                        <b>
-                          <Link
-                            style={{
-                              color: '#3E58E8',
-                              textDecoration: 'none',
-                              fontWeight: 'bold',
-                            }}
-                            to="/profile/total/1"
-                          >
-                            {t('total1')}
-                          </Link>
-                        </b>
-                      </p>
-                      <Button
+
+                      {/* <Button
                         onClick={() => {
                           handleOpen()
                         }}
@@ -171,13 +209,50 @@ const Profile = () => {
                         }}
                       >
                         {t(`newOne`)}
-                      </Button>
+                      </Button> */}
                       {open && (
                         <ModalRegister handleClose={handleClose} open={open} />
                       )}
+                      <Button
+                        variant="contained"
+                        style={{
+                          borderRadius: '40px',
+                          backgroundColor: '#3E58E8',
+                          padding: '10px 20px',
+                        }}
+                        onClick={() => {
+                          navigate('/register')
+                        }}
+                      >
+                        {t('more')}
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="container mt-1 mb-5">
+            <div className="row d-flex justify-content-center">
+              <div className="col-md-7">
+                <div className="card p-3 py-4">
+                  <div className="text-center">
+                    <div className="px-4 mt-2">
+                      <span
+                        style={{
+                          fontWeight: 'bold',
+                          textAlign: 'center',
+                          fontSize: '1.5rem',
+                          marginBottom: '4rem',
+                        }}
+                      >
+                        <b>{t('works')}:</b>
+                      </span>
                       <p
                         style={{
                           fontWeight: 'bold',
+                          marginTop: '2rem',
                         }}
                       >
                         {' '}
@@ -281,19 +356,6 @@ const Profile = () => {
                           {t('nysan')}
                         </Button>
                       )}{' '}
-                      <Button
-                        variant="contained"
-                        style={{
-                          borderRadius: '40px',
-                          backgroundColor: '#3E58E8',
-                          padding: '10px 20px',
-                        }}
-                        onClick={() => {
-                          navigate('/register')
-                        }}
-                      >
-                        {t('more')}
-                      </Button>
                     </div>
                   </div>
                 </div>

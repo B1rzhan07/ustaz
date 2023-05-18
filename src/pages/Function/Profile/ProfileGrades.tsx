@@ -101,7 +101,10 @@ export default function CustomizedTables() {
             marginBottom: '1rem',
           }}
         >
-          {t('finalGrade')}: {final[0]?.grade}
+          {t('finalGrade')}:
+          {Number(url.id) == 1 ? <span> {final[0]?.grade}</span> : null}
+          {Number(url.id) == 2 ? <span> {final[1]?.grade}</span> : null}
+          {Number(url.id) == 3 ? <span> {final[2]?.grade}</span> : null}
         </span>
       </div>
       <TableContainer component={Paper}>

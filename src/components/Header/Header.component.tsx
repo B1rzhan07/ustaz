@@ -67,6 +67,7 @@ function HeaderComponent() {
                 <b>{t('main')}</b>
               </button>
             </div>
+
             {!isMobile && (
               <div className="pages headerY" style={{ color: 'black' }}>
                 <button
@@ -115,6 +116,20 @@ function HeaderComponent() {
                 </button>
               </div>
             )}
+            {/* <div className="pages headerY" style={{ color: 'black' }}>
+              <button
+                style={{
+                  backgroundColor: 'white',
+                  border: 'none',
+                  outline: 'none',
+                }}
+                onClick={() => {
+                  navigate('/')
+                }}
+              >
+                <b>{t('results')}</b>
+              </button>
+            </div> */}
           </Box>
 
           <Box className="bet headerY">

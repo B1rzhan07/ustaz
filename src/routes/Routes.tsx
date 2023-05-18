@@ -16,6 +16,7 @@ import BasicModal from '../pages/Personal/Com/modalCom'
 import ProfileGrades from '../pages/Function/Profile/ProfileGrades'
 
 function RoutesComponent() {
+  const ref = React.useRef(null)
   return (
     <div>
       <Routes>
