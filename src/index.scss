@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Titan+One&display=swap');
 body {
     margin: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -35,6 +36,15 @@ body {
     margin-left: 5rem;
     margin-right: 5rem;
     align-items: center;
+}
+
+@media screen and (max-width: 1000px) {
+    .content {
+        flex-direction: column;
+        img {
+            display: none;
+        }
+    }
 }
 
 .contentLeft {
@@ -211,6 +221,19 @@ body {
         p {
             display: flex;
             align-items: center;
+        }
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    .now {
+        display: flex;
+        flex-direction: column;
+        margin-left: 0;
+        .nowLeft {
+            display: flex;
+            flex-direction: column;
+            flex-wrap: wrap;
         }
     }
 }

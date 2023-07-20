@@ -5,10 +5,16 @@ import ModalRegister from '../../components/Modal/ModalRegister'
 import { useTranslation } from 'react-i18next'
 import img from '../../../public/Img/kaz.png'
 import TelegramIcon from '@mui/icons-material/Telegram'
+import { Button } from '@mui/material'
+import { useNavigate } from 'react-router-dom'
 
 const main: React.FC = () => {
+  const navigate = useNavigate()
   const [open, setOpen] = React.useState(false)
-
+  console.log('main')
+  React.useEffect(() => {
+    console.log('useefeect')
+  }, [])
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
   const { t } = useTranslation()
@@ -65,6 +71,23 @@ const main: React.FC = () => {
               />
             </div>
           </div>
+          <p>
+            <Button
+              sx={{
+                backgroundColor: '#3E58E8',
+                color: 'white',
+                marginTop: 5,
+                padding: 2,
+                borderRadius: 5,
+              }}
+              onClick={() => {
+                navigate('/policy')
+              }}
+              variant="contained"
+            >
+              Политика конфиденциальности и обработки персональных данных
+            </Button>
+          </p>
         </div>
       </div>
     </>

@@ -4,7 +4,10 @@ import YouTubeIcon from '@mui/icons-material/YouTube'
 import Divider from '@mui/material/Divider'
 import { useTranslation } from 'react-i18next'
 import '../../index.scss'
+import { useNavigate } from 'react-router-dom'
+import Button from '@mui/material/Button'
 const Footer: React.FC = () => {
+  const navigate = useNavigate()
   const { t } = useTranslation()
   return (
     <div>

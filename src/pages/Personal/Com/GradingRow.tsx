@@ -15,34 +15,11 @@ import {
   TableHead,
   TableRow,
 } from '@mui/material'
-
-interface Criteria {
-  criteria: {
-    id: number
-    description: string
-  }
-  setGrades: (grades: any) => void
-  stage: string
-}
+import { useGrade } from '../../../hooks/useGrade'
+import { Criteria } from '../../../types/GradingRow'
 
 const GradingRow = ({ criteria, setGrades, stage }: Criteria) => {
-  console.log(stage)
-
-  const [grade, setGrade] = useState('')
-  const handleChange = (event: SelectChangeEvent) => {
-    setGrade(event.target.value as string)
-    setGrades((grades: any) => {
-      const newGrades = grades.filter(
-        (item: any) => item.criteria !== criteria.id,
-      )
-      newGrades.push({
-        criteria: Number(criteria.id),
-        grade: Number(event.target.value),
-      })
-      return newGrades
-    })
-  }
-
+  const { grade, handleChange } = useGrade('', criteria.id, setGrades)
   return (
     <>
       {Number(stage) === 1 && (

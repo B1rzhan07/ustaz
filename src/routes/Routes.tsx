@@ -14,6 +14,7 @@ import More from '../pages/Personal/Sec/More'
 import HorizontalLinearStepper from '../components/Modal/Stepper'
 import BasicModal from '../pages/Personal/Com/modalCom'
 import ProfileGrades from '../pages/Function/Profile/ProfileGrades'
+import Policy from '../pages/Policy/Policy'
 
 function RoutesComponent() {
   const ref = React.useRef(null)
@@ -32,6 +33,7 @@ function RoutesComponent() {
         <Route path={`/stepper`} element={<HorizontalLinearStepper />} />
         <Route path={`com/moreCom/:id`} element={<BasicModal />} />
         <Route path={`profile/total/:id`} element={<ProfileGrades />} />
+        <Route path="/policy" element={<Policy />} />
       </Routes>
     </div>
   )
