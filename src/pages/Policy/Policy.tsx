@@ -31,6 +31,7 @@ const Policy = () => {
         >
           Политика конфиденциальности и обработки персональных данных
         </h1>
+        <div>fetchDefenceData</div>
         <p
           style={{
             flexGrow: 1,
