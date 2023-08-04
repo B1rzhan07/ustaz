@@ -13,7 +13,7 @@ const CertificateDownloadButton: React.FC<{
   const handleDownloadCertificate = () => {
     const canvasResolution = 300
 
-    date = '4.08.2023'
+    date = '04.08.2023'
 
     const canvasWidth = 11 * canvasResolution
     const canvasHeight = 8.5 * canvasResolution
