@@ -7,13 +7,16 @@ import { I18nextProvider } from 'react-i18next'
 import i18n from './models/18n/18n'
 import { Provider } from 'react-redux'
 import store from './store/store'
+import ErrorBoundary from '../src/widgets/ErrorPage/ui/ErrorBoundary'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <Provider store={store}>
     <BrowserRouter>
-      <I18nextProvider i18n={i18n}>
-        <App />
-      </I18nextProvider>{' '}
+      <ErrorBoundary>
+        <I18nextProvider i18n={i18n}>
+          <App />
+        </I18nextProvider>{' '}
+      </ErrorBoundary>
     </BrowserRouter>
   </Provider>,
 )

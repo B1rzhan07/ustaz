@@ -15,6 +15,7 @@ const ColorButton = styled(Button)<ButtonProps>(({ theme }) => ({
   '&:hover': {
     backgroundColor: '#3E58E8',
   },
+  width: '50%',
 }))
 
 export default function ButtonComponent({ word, onClick }: ButtonProps) {
