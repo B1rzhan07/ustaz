@@ -15,6 +15,7 @@ import All from '..//pages/Function/All/All'
 import News from '..//pages/Function/News/News'
 import ProfileGrades from '../pages/Function/Profile/ProfileGrades'
 import Policy from '../pages/Policy/Policy'
+import { Page404 } from '../widgets/ErrorPage/ui/Page404'
 
 function RoutesComponent() {
   return (
@@ -32,6 +33,7 @@ function RoutesComponent() {
       <Route path={`com/moreCom/:id`} element={<BasicModal />} />
       <Route path={`profile/total/:id`} element={<ProfileGrades />} />
       <Route path="/policy" element={<Policy />} />
+      <Route path="*" element={<Page404 />} />
     </Routes>
   )
 }
