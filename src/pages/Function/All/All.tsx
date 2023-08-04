@@ -17,23 +17,17 @@ type Props = {
 const All = () => {
   const { t } = useTranslation()
   const navigate = useNavigate()
-  React.useEffect(() => {
-    if (isMobile) {
-      navigate('/login')
-    }
-  }, [])
+
   return (
     <div>
-      <BrowserView>
-        <HeaderComponent />
-        <Suspense fallback={<div>Loading...</div>}>
-          <OtherComponent />
-        </Suspense>
-        <Stages />
-        <Come />
-        <Now />
-        <Footer />
-      </BrowserView>
+      <HeaderComponent />
+      <Suspense fallback={<div>Loading...</div>}>
+        <OtherComponent />
+      </Suspense>
+      <Stages />
+      <Come />
+      <Now />
+      <Footer />
     </div>
   )
 }
