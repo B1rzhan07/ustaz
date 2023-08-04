@@ -48,9 +48,9 @@ const CertificateDownloadButton: React.FC<{
       const surnameY = 1350
       const dateX = canvasWidth / 3.6
       const dateY = canvasHeight - 330
-      const schoolX = canvasWidth / 1.55
+      const schoolX = canvasWidth / 1.47
       const schoolY = 1827
-      const subjectX = canvasWidth / 1.71
+      const subjectX = canvasWidth / 1.55
       const subjectY = 1913
 
       ctx.fillText(name, nameX, nameY)
