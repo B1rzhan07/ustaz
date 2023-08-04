@@ -10,6 +10,8 @@ const CertificateDownloadButton: React.FC<{
   subject: string
 }> = ({ name, surname, date, school, subject }) => {
   const { t } = useTranslation()
+  console.log(name)
+
   const handleDownloadCertificate = () => {
     const canvasResolution = 300
 
@@ -40,15 +42,15 @@ const CertificateDownloadButton: React.FC<{
       ctx.fillStyle = 'black'
       ctx.textAlign = 'center'
 
-      const nameX = canvasWidth / 1.8
+      const nameX = canvasWidth / 1.58
       const nameY = 1350
       const surnameX = canvasWidth / 2.2
       const surnameY = 1350
       const dateX = canvasWidth / 3.6
       const dateY = canvasHeight - 330
-      const schoolX = canvasWidth / 1.6
+      const schoolX = canvasWidth / 1.55
       const schoolY = 1827
-      const subjectX = canvasWidth / 1.78
+      const subjectX = canvasWidth / 1.71
       const subjectY = 1913
 
       ctx.fillText(name, nameX, nameY)

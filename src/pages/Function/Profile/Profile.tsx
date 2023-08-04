@@ -47,6 +47,7 @@ const Profile = () => {
   if (userProfile?.birthDate) {
     birthDateFormated = `${userProfile?.birthDate[0]}-${userProfile?.birthDate[1]}-${userProfile?.birthDate[2]}`
   }
+  console.log(userProfile)
 
   return (
     <>
@@ -100,7 +101,7 @@ const Profile = () => {
                       </p>
                       <p className="fonts">
                         <CertificateDownloadButton
-                          name={userProfile?.firsName}
+                          name={userProfile?.firstName}
                           surname={userProfile?.lastName}
                           date={birthDateFormated}
                           school={userProfile?.group?.nameRus}
