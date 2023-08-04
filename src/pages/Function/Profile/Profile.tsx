@@ -8,6 +8,7 @@ import { useAppSelector } from '../../../store/hook'
 import Input from '../../../components/Input/Input.component'
 import ModalRegister from '../../../components/Modal/ModalRegister'
 import Button from '@mui/material/Button'
+import CertificateDownloadButton from '../../..//components/generator/PngGenerator'
 const Profile = () => {
   const data = JSON.parse(localStorage.getItem('register') || '{}')
   const { t, i18n } = useTranslation()
@@ -96,6 +97,15 @@ const Profile = () => {
                             {t('total2')}
                           </Link>
                         </b>
+                      </p>
+                      <p className="fonts">
+                        <CertificateDownloadButton
+                          name={userProfile?.firsName}
+                          surname={userProfile?.lastName}
+                          date={birthDateFormated}
+                          school={userProfile?.group?.nameRus}
+                          subject={userProfile?.subject?.nameRus}
+                        />
                       </p>
                     </div>
                   </div>
