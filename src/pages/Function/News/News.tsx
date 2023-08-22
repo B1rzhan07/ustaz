@@ -42,12 +42,6 @@ const News = () => {
       <HeaderComponent />
 
       <div className={classes.news}>
-        <h1
-          style={{
-            textAlign: 'center',
-            color: '#0063cc',
-          }}
-        ></h1>
         {type === 'ROLE_SECRETARY' && (
           <>
             <Button variant="contained" onClick={handleOpen}>
@@ -73,8 +67,8 @@ const News = () => {
             {t('noNews')}
           </h1>
         )}
-        {currentPosts?.map((announcement: any) => (
-          <div className={classes.news__item}>
+        {currentPosts?.map((announcement: any, index: number) => (
+          <div className={classes.news__item} key={index}>
             <b>{announcement?.title}</b>
             <div className={classes.news__item__text}>
               <p>{announcement?.text}</p>

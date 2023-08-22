@@ -13,32 +13,30 @@ const Footer: React.FC = () => {
     <div>
       <div className="footer">
         <div>
-          <b>
-            <h2>{t('contact')}</h2>
-            <p
+          <h2>{t('contact')}</h2>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+              fontSize: 20,
+            }}
+          >
+            {t('readMore')}
+            <button
+              onClick={() => {
+                window.open('https://t.me/almaty_ustazy_support')
+              }}
               style={{
-                display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center',
-                fontSize: 20,
+                backgroundColor: 'transparent',
+                border: 'none',
+                outline: 'none',
+                textDecoration: 'underline',
               }}
             >
-              {t('readMore')}
-              <button
-                onClick={() => {
-                  window.open('https://t.me/almaty_ustazy_support')
-                }}
-                style={{
-                  backgroundColor: 'transparent',
-                  border: 'none',
-                  outline: 'none',
-                  textDecoration: 'underline',
-                }}
-              >
-                https://t.me/almaty_ustazy_support
-              </button>
-            </p>
-          </b>
+              https://t.me/almaty_ustazy_support
+            </button>
+          </div>
         </div>
         <div
           style={{

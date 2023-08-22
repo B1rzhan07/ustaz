@@ -414,15 +414,13 @@ const Login = () => {
                       classes.text2 + ' mt-4 d-flex flex-row align-items-center'
                     }
                   >
-                    <h3>
-                      <Link
-                        className={classes.register}
-                        onClick={switchAuthModeHandler}
-                        to={''}
-                      >
-                        {isLogin ? t('register') : t('login')}{' '}
-                      </Link>{' '}
-                    </h3>{' '}
+                    <Link
+                      className={classes.register}
+                      onClick={switchAuthModeHandler}
+                      to={''}
+                    >
+                      <h3>{isLogin ? t('register') : t('login')} </h3>
+                    </Link>{' '}
                   </div>{' '}
                   {isLogin && !open && (
                     <Button

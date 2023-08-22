@@ -32,14 +32,9 @@ function HeaderComponent() {
     >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            href="/"
-            sx={{
-              mr: 2,
-              display: { xs: 'none', md: 'flex' },
+          <div
+            style={{
+              marginRight: 2,
               fontFamily: 'monospace',
               fontWeight: 900,
               letterSpacing: '.3rem',
@@ -47,10 +42,8 @@ function HeaderComponent() {
               textDecoration: 'none',
             }}
           >
-            <Link to="/" className="nav-link">
-              <img src={img2} alt="almaty" height="70" width="90" />
-            </Link>
-          </Typography>
+            <img src={img2} alt="almaty" height="70" width="90" />
+          </div>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             <div className="pages headerY" style={{ color: 'black' }}>
@@ -132,7 +125,13 @@ function HeaderComponent() {
             </div> */}
           </Box>
 
-          <Box className="bet headerY">
+          <Box
+            className="bet headerY"
+            sx={{
+              display: { xs: 'none', md: 'flex' },
+              width: '40%',
+            }}
+          >
             {localStorage.getItem('user') ? (
               <>
                 <ButtonComponent
@@ -152,7 +151,6 @@ function HeaderComponent() {
                     localStorage.removeItem('criteria')
                     localStorage.removeItem('criteries')
                     localStorage.removeItem('commission')
-
                     window.location.href = '/'
                   }}
                 />

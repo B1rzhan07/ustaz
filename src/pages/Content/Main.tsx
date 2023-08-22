@@ -61,7 +61,18 @@ const main: React.FC = () => {
       </StyledTypography>
       <div className="now">
         <div className="nowLeft">
-          <h2 style={{ color: 'black' }}>{t('now')}</h2>
+          <h2
+            style={{
+              color: 'black',
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: 20,
+            }}
+          >
+            {t('now')}
+          </h2>
           <div
             style={{
               display: 'flex',
@@ -99,22 +110,21 @@ const main: React.FC = () => {
               />
             </div>
           </div>
-          <p>
-            <Button
-              sx={{
-                marginTop: 5,
-                padding: 1.5,
-                borderRadius: 1,
-              }}
-              onClick={() => {
-                navigate('/policy')
-              }}
-              variant="contained"
-              color="success"
-            >
-              Политика конфиденциальности и обработки персональных данных
-            </Button>
-          </p>
+
+          <Button
+            sx={{
+              marginTop: 5,
+              padding: 1.5,
+              borderRadius: 1,
+            }}
+            onClick={() => {
+              navigate('/policy')
+            }}
+            variant="contained"
+            color="success"
+          >
+            Политика конфиденциальности и обработки персональных данных
+          </Button>
         </div>
       </div>
     </Paper>

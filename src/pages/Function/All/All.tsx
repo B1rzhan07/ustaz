@@ -7,6 +7,7 @@ import Stages from '../../Content/Stages'
 import { BrowserView, MobileView, isMobile } from 'react-device-detect'
 import { useTranslation } from 'react-i18next'
 import { Link, useNavigate } from 'react-router-dom'
+import { useResponsive } from '../../../hooks/UseResponsive'
 
 const OtherComponent = React.lazy(() => import('../../Content/Main'))
 
@@ -15,6 +16,10 @@ type Props = {
 }
 
 const All = () => {
+  const isDesktop = useResponsive('up', 'sm')
+  console.log(isDesktop)
+  const isTablet = useResponsive('between', 'sm', 'md')
+  console.log(isTablet)
   const { t } = useTranslation()
   const navigate = useNavigate()
   React.useEffect(() => {

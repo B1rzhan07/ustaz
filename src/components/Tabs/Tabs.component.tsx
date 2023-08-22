@@ -14,7 +14,7 @@ function TabsComponent() {
   return (
     <Box
       sx={{ borderBottom: 5 }}
-      style={{ backgroundColor: 'white', marginLeft: 15 }}
+      style={{ backgroundColor: 'white', marginLeft: 10 }}
     >
       <Tabs
         value={value}

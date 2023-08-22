@@ -2,7 +2,7 @@ import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 
 import Login from '../pages/Function/Login/Login'
-import Profile from '../pages/Function/Profile/Profile'
+import Profile from '../pages/Function/Profile/Profile.component'
 import Register from '../pages/Function/Register/Register'
 
 import PersonalSec from '../pages/Personal/Sec/PersonalSec'

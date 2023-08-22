@@ -8,7 +8,7 @@ import { useAppSelector } from '../../../store/hook'
 import Input from '../../../components/Input/Input.component'
 import ModalRegister from '../../../components/Modal/ModalRegister'
 import Button from '@mui/material/Button'
-import CertificateDownloadButton from '../../..//components/generator/PngGenerator'
+import CertificateDownloadButton from '../../../components/generator/PngGenerator'
 const Profile = () => {
   const data = JSON.parse(localStorage.getItem('register') || '{}')
   const { t, i18n } = useTranslation()
@@ -70,7 +70,7 @@ const Profile = () => {
                       >
                         <b>{t('results')}:</b>
                       </span>
-                      <p className="fonts">
+                      <div>
                         <b>
                           <Link
                             style={{
@@ -84,8 +84,8 @@ const Profile = () => {
                             {t('total1')}
                           </Link>
                         </b>
-                      </p>
-                      <p className="fonts">
+                      </div>
+                      <div>
                         <b>
                           <Link
                             style={{
@@ -98,8 +98,8 @@ const Profile = () => {
                             {t('total2')}
                           </Link>
                         </b>
-                      </p>
-                      <p className="fonts">
+                      </div>
+                      <div className="fonts">
                         <CertificateDownloadButton
                           name={userProfile?.firstName}
                           surname={userProfile?.lastName}
@@ -107,7 +107,7 @@ const Profile = () => {
                           school={userProfile?.group?.nameRus}
                           subject={userProfile?.subject?.nameRus}
                         />
-                      </p>
+                      </div>
                     </div>
                   </div>
                 </div>

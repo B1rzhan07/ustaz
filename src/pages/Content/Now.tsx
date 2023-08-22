@@ -6,7 +6,7 @@ const Now: React.FC = () => {
   const { t } = useTranslation()
 
   return (
-    <>
+    <div>
       <h1 style={{ marginLeft: 300, marginTop: 20 }}>{t('create')}</h1>
       <div className="almaty">
         <img
@@ -19,11 +19,12 @@ const Now: React.FC = () => {
           height={100}
           width={100}
         />
-        <b>
-          <p>{t('almaty')}</p>
-        </b>
+
+        <p>
+          <b>{t('almaty')}</b>
+        </p>
       </div>
-    </>
+    </div>
   )
 }
 

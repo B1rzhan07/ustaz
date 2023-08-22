@@ -4,6 +4,7 @@ import Button from '@mui/material/Button'
 type ButtonProps = {
   word: string | false | null
   onClick: () => void
+  other?: string
 }
 
 const ColorButton = styled(Button)<ButtonProps>(({ theme }) => ({
@@ -18,10 +19,15 @@ const ColorButton = styled(Button)<ButtonProps>(({ theme }) => ({
   width: '50%',
 }))
 
-export default function ButtonComponent({ word, onClick }: ButtonProps) {
+export default function ButtonComponent({ word, onClick, other }: ButtonProps) {
   return (
     <>
-      <ColorButton variant="contained" word={''} onClick={onClick}>
+      <ColorButton
+        other={other}
+        variant="contained"
+        word={''}
+        onClick={onClick}
+      >
         {word}
       </ColorButton>
     </>

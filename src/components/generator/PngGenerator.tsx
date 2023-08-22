@@ -73,6 +73,7 @@ const CertificateDownloadButton: React.FC<{
       variant="contained"
       sx={{
         padding: 1.5,
+        backgroundColor: 'MuiButton.styleOverrides.root.containedPrimary',
       }}
       onClick={handleDownloadCertificate}
     >
