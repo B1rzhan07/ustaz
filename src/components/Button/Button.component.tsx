@@ -17,6 +17,8 @@ const ColorButton = styled(Button)<ButtonProps>(({ theme }) => ({
     backgroundColor: '#3E58E8',
   },
   width: '50%',
+
+  
 }))
 
 export default function ButtonComponent({ word, onClick, other }: ButtonProps) {

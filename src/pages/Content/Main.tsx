@@ -8,7 +8,7 @@ import TelegramIcon from '@mui/icons-material/Telegram'
 import { Button, Paper, Typography } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
-
+import Secretary from '~/services/Secretary'
 const StyledTypography = styled(Typography)`
   display: flex;
   align-items: center;
@@ -18,7 +18,11 @@ const StyledTypography = styled(Typography)`
 const main: React.FC = () => {
   const navigate = useNavigate()
   const [open, setOpen] = React.useState(false)
+  
+  
 
+
+    
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
   const { t } = useTranslation()

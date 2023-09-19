@@ -4,10 +4,17 @@ import Defences from '../../../services/Defences'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import HeaderComponent from '../../../components/Header/Header.component'
 import { Label, Select } from './helper/styless'
+import Secretary from '../../../services/Secretary'
 
 const More = () => {
   const url = useParams()
   const [moreInfo, setMoreInfo] = React.useState<any>(null)
+  React.useEffect(() => {
+    Secretary.getDefenceGradeByDefenceId(23).then((res) => {
+      console.log(res)
+    }
+    )
+  }, [])
   console.log(url.id)
   React.useEffect(() => {
     if (url.id) {

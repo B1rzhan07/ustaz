@@ -37,6 +37,11 @@ interface Team {
 }
 
 const PersonalSec = () => {
+  React.useEffect(() => {
+    Secretary.getDefenceGradeByDefenceId(23).then((res) => {
+      console.log(res.data)
+    })
+  }, [])
   const navigate = useNavigate()
   const [subjects, setSubjects] = React.useState<any>([])
   const [formState, setFormState] = React.useState<

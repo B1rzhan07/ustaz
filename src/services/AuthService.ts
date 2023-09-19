@@ -1,6 +1,5 @@
 import axios, { AxiosError } from 'axios'
 import { AxiosResponse } from 'axios'
-import { Dayjs } from 'dayjs'
 import { AuthResponse } from '../models/response/AuthResponse'
 
 export const API_URL = 'https://api.almatyustazy-2023.kz'

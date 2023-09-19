@@ -15,10 +15,8 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <BrowserRouter>
       <ErrorBoundary>
         <I18nextProvider i18n={i18n}>
-          <ThemeProvider>
             <App />
-          </ThemeProvider>
-        </I18nextProvider>{' '}
+        </I18nextProvider>
       </ErrorBoundary>
     </BrowserRouter>
   </Provider>,

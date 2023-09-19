@@ -32,6 +32,19 @@ class Secretary {
       },
     });
   }
+
+  async getDefenceGradeByDefenceId(defenceId: number): Promise<AxiosResponse<any>> {
+    return axios.get(`http://server-au.oblako.dev:30836/secretary/${defenceId}/grade`, {
+      headers: {
+        Authorization:
+          "Bearer " +
+          JSON.parse(localStorage.getItem("user") || "{}").authenticationToken,
+      },
+    });
+
+  }
+      
+  
 }
 
 export default new Secretary();
