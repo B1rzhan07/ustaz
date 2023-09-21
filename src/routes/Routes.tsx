@@ -16,6 +16,7 @@ import News from '..//pages/Function/News/News'
 import ProfileGrades from '../pages/Function/Profile/ProfileGrades'
 import Policy from '../pages/Policy/Policy'
 import { Page404 } from '../widgets/ErrorPage/ui/Page404'
+import Results from '../components/Results'
 
 function RoutesComponent() {
   return (
@@ -34,6 +35,7 @@ function RoutesComponent() {
       <Route path={`profile/total/:id`} element={<ProfileGrades />} />
       <Route path="/policy" element={<Policy />} />
       <Route path="*" element={<Page404 />} />
+      <Route path='/sec/results' element={<Results />} />
     </Routes>
   )
 }

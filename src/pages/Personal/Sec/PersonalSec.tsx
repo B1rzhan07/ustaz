@@ -38,7 +38,7 @@ interface Team {
 
 const PersonalSec = () => {
   React.useEffect(() => {
-    Secretary.getDefenceGradeByDefenceId(23).then((res) => {
+    Secretary.getDefenceGradeByDefenceId(2149).then((res) => {
       console.log(res.data)
     })
   }, [])

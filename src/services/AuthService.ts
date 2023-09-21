@@ -2,7 +2,7 @@ import axios, { AxiosError } from 'axios'
 import { AxiosResponse } from 'axios'
 import { AuthResponse } from '../models/response/AuthResponse'
 
-export const API_URL = 'https://api.almatyustazy-2023.kz'
+export const API_URL = 'https://c5q03ldc-8080.euw.devtunnels.ms'
 
 export type userType = {
   username: string

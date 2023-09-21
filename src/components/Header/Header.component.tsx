@@ -10,6 +10,7 @@ import TabsComponent from '../Tabs/Tabs.component'
 import { useTranslation } from 'react-i18next'
 import img2 from '../../../public/Img/index.png'
 import { isMobile } from 'react-device-detect'
+import { Button } from '@mui/material'
 
 function HeaderComponent() {
   const navigate = useNavigate()
@@ -156,12 +157,23 @@ function HeaderComponent() {
                 />
               </>
             ) : (
-              <ButtonComponent
-                word={t('login')}
+              <Button
+                sx={{
+                  color: 'white',
+                  backgroundColor: '#3E58E8',
+                  borderRadius: 50,
+                  padding: '10px 12px',
+                  marginLeft: '20px',
+                  '&:hover': {
+                    backgroundColor: '#3E58E8',
+                  },
+                  width: '20%',
+                  marginRight: '50px',
+                }}
                 onClick={() => {
                   window.location.href = '/login'
                 }}
-              />
+              >{t('login')}</Button>
             )}
             {!isMobile && <TabsComponent />}
           </Box>

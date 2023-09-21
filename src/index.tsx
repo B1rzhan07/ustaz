@@ -13,11 +13,13 @@ import ThemeProvider from './theme'
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <Provider store={store}>
     <BrowserRouter>
-      <ErrorBoundary>
+      
         <I18nextProvider i18n={i18n}>
+        <ErrorBoundary>
             <App />
+            </ErrorBoundary>
         </I18nextProvider>
-      </ErrorBoundary>
+      
     </BrowserRouter>
   </Provider>,
 )

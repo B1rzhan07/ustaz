@@ -16,7 +16,7 @@ const ColorButton = styled(Button)<ButtonProps>(({ theme }) => ({
   '&:hover': {
     backgroundColor: '#3E58E8',
   },
-  width: '50%',
+  width: '20%',
 
   
 }))

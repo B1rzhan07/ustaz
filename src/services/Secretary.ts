@@ -34,7 +34,7 @@ class Secretary {
   }
 
   async getDefenceGradeByDefenceId(defenceId: number): Promise<AxiosResponse<any>> {
-    return axios.get(`http://server-au.oblako.dev:30836/secretary/${defenceId}/grade`, {
+    return axios.get(API_URL+`/secretary/${defenceId}/grade`, {
       headers: {
         Authorization:
           "Bearer " +
@@ -42,6 +42,15 @@ class Secretary {
       },
     });
 
+  }
+  async getFinalists(): Promise<AxiosResponse<any>> {
+    return axios.get(API_URL + `/secretary/getFinalists`, {
+      headers: {
+        Authorization:
+          "Bearer " +
+          JSON.parse(localStorage.getItem("user") || "{}").authenticationToken,
+      },
+    });
   }
       
   

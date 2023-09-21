@@ -9,12 +9,7 @@ import Secretary from '../../../services/Secretary'
 const More = () => {
   const url = useParams()
   const [moreInfo, setMoreInfo] = React.useState<any>(null)
-  React.useEffect(() => {
-    Secretary.getDefenceGradeByDefenceId(23).then((res) => {
-      console.log(res)
-    }
-    )
-  }, [])
+  
   console.log(url.id)
   React.useEffect(() => {
     if (url.id) {

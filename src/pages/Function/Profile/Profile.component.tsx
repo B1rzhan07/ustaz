@@ -54,7 +54,9 @@ const Profile = () => {
       {localStorage.getItem('user') ? (
         <div>
           <HeaderComponent />
-          <div className="container mt-1">
+          {
+            type === 'ROLE_STUDENT' && (
+              <div className="container mt-1">
             <div className="row d-flex justify-content-center">
               <div className="col-md-7">
                 <div className="card p-3 py-4">
@@ -114,6 +116,8 @@ const Profile = () => {
               </div>
             </div>
           </div>
+            )
+          }
           <div className="container mt-1">
             <div className="row d-flex justify-content-center">
               <div className="col-md-7">
@@ -236,6 +240,20 @@ const Profile = () => {
                         }}
                       >
                         {t('more')}
+                      </Button>
+                      <Button
+                        variant="contained"
+                        style={{
+                          borderRadius: '40px',
+                          backgroundColor: '#3E58E8',
+                          padding: '10px 20px',
+                          marginLeft: 20,
+                        }}
+                        onClick={() => {
+                          navigate('/sec/results')
+                        }}
+                      >
+                        Бағаларды қарау
                       </Button>
                     </div>
                   </div>
